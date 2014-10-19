@@ -13,6 +13,8 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
 
     
     @IBOutlet var loginView: FBLoginView!
+    var user: FBGraphUser!
+    var counter = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +30,11 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-        
+        self.user = user
+        if (counter == 0) {
+            performSegueWithIdentifier("profilePage", sender: self)
+        }
+        counter++;
     }
     
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
@@ -44,8 +50,8 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        var profile: ProfileViewController = segue.destinationViewController as ProfileViewController
+        profile.user = self.user;
     }
 
 }
