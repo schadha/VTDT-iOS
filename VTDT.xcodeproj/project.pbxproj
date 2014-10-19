@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		83C9F71B19F41C81002CFA8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F71A19F41C81002CFA8A /* AppDelegate.swift */; };
+		83C9F72019F41C81002CFA8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83C9F71E19F41C81002CFA8A /* Main.storyboard */; };
+		83C9F72219F41C81002CFA8A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83C9F72119F41C81002CFA8A /* Images.xcassets */; };
+		83C9F72519F41C81002CFA8A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83C9F72319F41C81002CFA8A /* LaunchScreen.xib */; };
+		83C9F73119F41C81002CFA8A /* VTDTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73019F41C81002CFA8A /* VTDTTests.swift */; };
+		83C9F73B19F42106002CFA8A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73A19F42106002CFA8A /* ProfileViewController.swift */; };
+		83C9F73D19F421B5002CFA8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73C19F421B5002CFA8A /* LoginViewController.swift */; };
+		83C9F73F19F42410002CFA8A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C9F73E19F42410002CFA8A /* FacebookSDK.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		83C9F72B19F41C81002CFA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83C9F70D19F41C81002CFA8A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83C9F71419F41C81002CFA8A;
+			remoteInfo = VTDT;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		83C9F71519F41C81002CFA8A /* VTDT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VTDT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		83C9F71919F41C81002CFA8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83C9F71A19F41C81002CFA8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		83C9F71F19F41C81002CFA8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		83C9F72119F41C81002CFA8A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		83C9F72419F41C81002CFA8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		83C9F72A19F41C81002CFA8A /* VTDTTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VTDTTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		83C9F72F19F41C81002CFA8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83C9F73019F41C81002CFA8A /* VTDTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTDTTests.swift; sourceTree = "<group>"; };
+		83C9F73A19F42106002CFA8A /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		83C9F73C19F421B5002CFA8A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		83C9F73E19F42410002CFA8A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		83C9F74019F42609002CFA8A /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		83C9F71219F41C81002CFA8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83C9F73F19F42410002CFA8A /* FacebookSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83C9F72719F41C81002CFA8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		83C9F70C19F41C81002CFA8A = {
+			isa = PBXGroup;
+			children = (
+				83C9F73E19F42410002CFA8A /* FacebookSDK.framework */,
+				83C9F71719F41C81002CFA8A /* VTDT */,
+				83C9F72D19F41C81002CFA8A /* VTDTTests */,
+				83C9F71619F41C81002CFA8A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		83C9F71619F41C81002CFA8A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				83C9F71519F41C81002CFA8A /* VTDT.app */,
+				83C9F72A19F41C81002CFA8A /* VTDTTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		83C9F71719F41C81002CFA8A /* VTDT */ = {
+			isa = PBXGroup;
+			children = (
+				83C9F71A19F41C81002CFA8A /* AppDelegate.swift */,
+				83C9F71E19F41C81002CFA8A /* Main.storyboard */,
+				83C9F72119F41C81002CFA8A /* Images.xcassets */,
+				83C9F72319F41C81002CFA8A /* LaunchScreen.xib */,
+				83C9F71819F41C81002CFA8A /* Supporting Files */,
+				83C9F73A19F42106002CFA8A /* ProfileViewController.swift */,
+				83C9F73C19F421B5002CFA8A /* LoginViewController.swift */,
+				83C9F74019F42609002CFA8A /* Header.h */,
+			);
+			path = VTDT;
+			sourceTree = "<group>";
+		};
+		83C9F71819F41C81002CFA8A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				83C9F71919F41C81002CFA8A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		83C9F72D19F41C81002CFA8A /* VTDTTests */ = {
+			isa = PBXGroup;
+			children = (
+				83C9F73019F41C81002CFA8A /* VTDTTests.swift */,
+				83C9F72E19F41C81002CFA8A /* Supporting Files */,
+			);
+			path = VTDTTests;
+			sourceTree = "<group>";
+		};
+		83C9F72E19F41C81002CFA8A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				83C9F72F19F41C81002CFA8A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		83C9F71419F41C81002CFA8A /* VTDT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83C9F73419F41C81002CFA8A /* Build configuration list for PBXNativeTarget "VTDT" */;
+			buildPhases = (
+				83C9F71119F41C81002CFA8A /* Sources */,
+				83C9F71219F41C81002CFA8A /* Frameworks */,
+				83C9F71319F41C81002CFA8A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VTDT;
+			productName = VTDT;
+			productReference = 83C9F71519F41C81002CFA8A /* VTDT.app */;
+			productType = "com.apple.product-type.application";
+		};
+		83C9F72919F41C81002CFA8A /* VTDTTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83C9F73719F41C81002CFA8A /* Build configuration list for PBXNativeTarget "VTDTTests" */;
+			buildPhases = (
+				83C9F72619F41C81002CFA8A /* Sources */,
+				83C9F72719F41C81002CFA8A /* Frameworks */,
+				83C9F72819F41C81002CFA8A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				83C9F72C19F41C81002CFA8A /* PBXTargetDependency */,
+			);
+			name = VTDTTests;
+			productName = VTDTTests;
+			productReference = 83C9F72A19F41C81002CFA8A /* VTDTTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83C9F70D19F41C81002CFA8A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Sanchit Chadha";
+				TargetAttributes = {
+					83C9F71419F41C81002CFA8A = {
+						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 64PR3AJ7XW;
+					};
+					83C9F72919F41C81002CFA8A = {
+						CreatedOnToolsVersion = 6.0.1;
+						TestTargetID = 83C9F71419F41C81002CFA8A;
+					};
+				};
+			};
+			buildConfigurationList = 83C9F71019F41C81002CFA8A /* Build configuration list for PBXProject "VTDT" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 83C9F70C19F41C81002CFA8A;
+			productRefGroup = 83C9F71619F41C81002CFA8A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				83C9F71419F41C81002CFA8A /* VTDT */,
+				83C9F72919F41C81002CFA8A /* VTDTTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		83C9F71319F41C81002CFA8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83C9F72019F41C81002CFA8A /* Main.storyboard in Resources */,
+				83C9F72519F41C81002CFA8A /* LaunchScreen.xib in Resources */,
+				83C9F72219F41C81002CFA8A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83C9F72819F41C81002CFA8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		83C9F71119F41C81002CFA8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83C9F73D19F421B5002CFA8A /* LoginViewController.swift in Sources */,
+				83C9F73B19F42106002CFA8A /* ProfileViewController.swift in Sources */,
+				83C9F71B19F41C81002CFA8A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83C9F72619F41C81002CFA8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83C9F73119F41C81002CFA8A /* VTDTTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		83C9F72C19F41C81002CFA8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83C9F71419F41C81002CFA8A /* VTDT */;
+			targetProxy = 83C9F72B19F41C81002CFA8A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		83C9F71E19F41C81002CFA8A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83C9F71F19F41C81002CFA8A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		83C9F72319F41C81002CFA8A /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				83C9F72419F41C81002CFA8A /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		83C9F73219F41C81002CFA8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		83C9F73319F41C81002CFA8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		83C9F73519F41C81002CFA8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/sanchit/Documents/FacebookSDK,
+				);
+				INFOPLIST_FILE = VTDT/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = VTDT/Header.h;
+			};
+			name = Debug;
+		};
+		83C9F73619F41C81002CFA8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/sanchit/Documents/FacebookSDK,
+				);
+				INFOPLIST_FILE = VTDT/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = VTDT/Header.h;
+			};
+			name = Release;
+		};
+		83C9F73819F41C81002CFA8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = VTDTTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VTDT.app/VTDT";
+			};
+			name = Debug;
+		};
+		83C9F73919F41C81002CFA8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = VTDTTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VTDT.app/VTDT";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		83C9F71019F41C81002CFA8A /* Build configuration list for PBXProject "VTDT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83C9F73219F41C81002CFA8A /* Debug */,
+				83C9F73319F41C81002CFA8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83C9F73419F41C81002CFA8A /* Build configuration list for PBXNativeTarget "VTDT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83C9F73519F41C81002CFA8A /* Debug */,
+				83C9F73619F41C81002CFA8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		83C9F73719F41C81002CFA8A /* Build configuration list for PBXNativeTarget "VTDTTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83C9F73819F41C81002CFA8A /* Debug */,
+				83C9F73919F41C81002CFA8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83C9F70D19F41C81002CFA8A /* Project object */;
+}
