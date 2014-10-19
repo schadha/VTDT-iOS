@@ -14,8 +14,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var profileName: UILabel!
-    @IBOutlet var editProfileButton: UIButton!
     
+    
+    @IBOutlet var detail: UILabel!
     @IBOutlet var whoToDoButton: UIButton!
     @IBOutlet var whatToDoButton: UIButton!
     
@@ -26,10 +27,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.profileName.text = user.first_name + " " + user.last_name
+        self.detail.text = user.objectID //Store this in DB as username
         self.profileImage.profileID = user.objectID
-        
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func logout(sender: AnyObject) {
+        FBSession.activeSession().closeAndClearTokenInformation()
+        performSegueWithIdentifier("exit", sender: self)
+    }
+//    func editProfileButton(sender: AnyObject) {
+//        print("test")
+//        //        performSegueWithIdentifier("exit", sender: self)
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -42,6 +52,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+//        var vc = segue.destinationViewController as LoginViewController
     }
     
     
