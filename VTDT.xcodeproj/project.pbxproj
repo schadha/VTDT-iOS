@@ -14,7 +14,8 @@
 		83C9F73119F41C81002CFA8A /* VTDTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73019F41C81002CFA8A /* VTDTTests.swift */; };
 		83C9F73B19F42106002CFA8A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73A19F42106002CFA8A /* ProfileViewController.swift */; };
 		83C9F73D19F421B5002CFA8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73C19F421B5002CFA8A /* LoginViewController.swift */; };
-		83C9F73F19F42410002CFA8A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C9F73E19F42410002CFA8A /* FacebookSDK.framework */; };
+		9B1B2D6919F43119009BBB9F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D6819F43119009BBB9F /* TableViewController.swift */; };
+		9B1B2D6A19F4332F009BBB9F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C9F73E19F42410002CFA8A /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		83C9F73C19F421B5002CFA8A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		83C9F73E19F42410002CFA8A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		83C9F74019F42609002CFA8A /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		9B1B2D6819F43119009BBB9F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83C9F73F19F42410002CFA8A /* FacebookSDK.framework in Frameworks */,
+				9B1B2D6A19F4332F009BBB9F /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +67,7 @@
 		83C9F70C19F41C81002CFA8A = {
 			isa = PBXGroup;
 			children = (
+				9B1B2D6819F43119009BBB9F /* TableViewController.swift */,
 				83C9F73E19F42410002CFA8A /* FacebookSDK.framework */,
 				83C9F71719F41C81002CFA8A /* VTDT */,
 				83C9F72D19F41C81002CFA8A /* VTDTTests */,
@@ -225,6 +228,7 @@
 				83C9F73D19F421B5002CFA8A /* LoginViewController.swift in Sources */,
 				83C9F73B19F42106002CFA8A /* ProfileViewController.swift in Sources */,
 				83C9F71B19F41C81002CFA8A /* AppDelegate.swift in Sources */,
+				9B1B2D6919F43119009BBB9F /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +355,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/sanchit/Documents/FacebookSDK,
+					/Users/aragawalker/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = VTDT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -367,6 +372,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/sanchit/Documents/FacebookSDK,
+					/Users/aragawalker/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = VTDT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -428,6 +434,7 @@
 				83C9F73619F41C81002CFA8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		83C9F73719F41C81002CFA8A /* Build configuration list for PBXNativeTarget "VTDTTests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +443,7 @@
 				83C9F73919F41C81002CFA8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

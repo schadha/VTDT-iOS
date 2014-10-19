@@ -28,14 +28,21 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-        
+        //get prof pic and store in db
+        //get user first and last name and store in db
+        print ("here")
     }
     
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
         
+        //when logged in call to segue to profile screen
+        performSegueWithIdentifier("newsFeedCell", sender: self)
+        
     }
     
     func loginView(loginView: FBLoginView!, handleError error: NSError!) {
+        
+        //if error display message and ask user to log in again
         
     }
     
@@ -46,6 +53,9 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+//        if = "newsFeedCell" {
+            print ("segue complete")
+//        }
     }
 
 }
