@@ -20,8 +20,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
     @IBOutlet var whoToDoButton: UIButton!
     @IBOutlet var whatToDoButton: UIButton!
     
-    @IBOutlet var tableView: UITableView!
-    
     @IBOutlet var newsTableview: UITableView!
     var user: FBGraphUser!
     
@@ -44,6 +42,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
         
         newsTableview.registerClass(UITableViewCell.self, forCellReuseIdentifier: "newsFeedCell")
         newsTableview.layer.cornerRadius = 10;
+        
+        fetchNewsFeed()
 
         // Do any additional setup after loading the view.
     }
@@ -91,6 +91,38 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
         // Configure the cell...
         
         return cell
+    }
+    
+    func fetchNewsFeed () -> [String] {
+        
+        //create url for restful request
+        var url:NSURL = NSURL(string:"http://rest-service.guides.spring.io/greeting")
+        
+        //execute
+        var request = NSURLRequest(URL: url)
+        
+        //get jason
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        
+            /* Your code */
+            
+            if (data.length > 0 && error == nil)
+            {
+//                var greeting = NSJSONSerialization.JSONObjectWithData(data, options: 0, error: nil) as NSDictionary
+                
+                //parse json into array
+                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(data,
+                    options:NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
+                
+                print (jsonResult)
+//                greetingId.text = [[greeting objectForKey:@"id"] stringValue];
+//                self.greetingContent.text = [greeting objectForKey:@"content"];
+            }
+        })
+        
+        //return array
+    
+        return [String]()
     }
     
     
