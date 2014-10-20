@@ -30,23 +30,18 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-<<<<<<< HEAD
-        //get prof pic and store in db
-        //get user first and last name and store in db
-        print ("here")
-=======
+
         self.user = user
         if (counter == 0) {
             performSegueWithIdentifier("profilePage", sender: self)
         }
         counter++;
->>>>>>> FETCH_HEAD
     }
     
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
         
         //when logged in call to segue to profile screen
-        performSegueWithIdentifier("newsFeedCell", sender: self)
+//        performSegueWithIdentifier("newsFeedCell", sender: self)
         
     }
     
@@ -61,16 +56,10 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-<<<<<<< HEAD
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-//        if = "newsFeedCell" {
-            print ("segue complete")
-//        }
-=======
+
         var profile: ProfileViewController = segue.destinationViewController as ProfileViewController
         profile.user = self.user;
->>>>>>> FETCH_HEAD
+
     }
 
 }
