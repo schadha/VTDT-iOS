@@ -96,10 +96,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
     func fetchNewsFeed () -> [String] {
         
         //create url for restful request
-        var url:NSURL = NSURL(string:"http://rest-service.guides.spring.io/greeting")
-        
-        //execute
-        var request = NSURLRequest(URL: url)
+//        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed? ")
+        var url:NSURL = NSURL(string: "http://rest-service.guides.spring.io/greeting")
+
+        var request:NSURLRequest = NSURLRequest(URL: url)
         
         //get jason
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
