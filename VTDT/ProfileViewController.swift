@@ -93,11 +93,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
         return cell
     }
     
-    func fetchNewsFeed () -> [String] {
+    func fetchNewsFeed () -> [NSDictionary] {
+        
+        //array that stores all the dictionaries containing newsfeed data
+        var newsFeedDicts = [NSDictionary]()
         
         //create url for restful request
-//        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed? ")
-        var url:NSURL = NSURL(string: "http://rest-service.guides.spring.io/greeting")
+        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed")
+//        var url:NSURL = NSURL(string: "http://rest-service.guides.spring.io/greeting")
 
         var request:NSURLRequest = NSURLRequest(URL: url)
         
@@ -108,21 +111,27 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
             
             if (data.length > 0 && error == nil)
             {
-//                var greeting = NSJSONSerialization.JSONObjectWithData(data, options: 0, error: nil) as NSDictionary
-                
                 //parse json into array
-                var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(data,
-                    options:NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
+                var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
+                    options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
                 
-                print (jsonResult)
-//                greetingId.text = [[greeting objectForKey:@"id"] stringValue];
-//                self.greetingContent.text = [greeting objectForKey:@"content"];
+                if (jsonResult.count == 0) {
+                    print ("error parsing json file \n")
+                }
+                else {
+                    for item in jsonResult {
+                        
+                        var dict:NSDictionary = item as NSDictionary
+                        newsFeedDicts.append(dict)
+                        
+                    }
+                }
             }
         })
         
         //return array
-    
-        return [String]()
+
+        return newsFeedDicts
     }
     
     
