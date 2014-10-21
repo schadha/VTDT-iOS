@@ -118,7 +118,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         
         //create url for restful request
-        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed")
+        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
 
         var request:NSURLRequest = NSURLRequest(URL: url)
         

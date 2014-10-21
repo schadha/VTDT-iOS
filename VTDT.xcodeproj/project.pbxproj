@@ -14,8 +14,8 @@
 		83C9F73119F41C81002CFA8A /* VTDTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73019F41C81002CFA8A /* VTDTTests.swift */; };
 		83C9F73B19F42106002CFA8A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73A19F42106002CFA8A /* ProfileViewController.swift */; };
 		83C9F73D19F421B5002CFA8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73C19F421B5002CFA8A /* LoginViewController.swift */; };
+		83D0DD3A19F6ED06002CF2C2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C9F73E19F42410002CFA8A /* FacebookSDK.framework */; };
 		9B1B2D6919F43119009BBB9F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D6819F43119009BBB9F /* TableViewController.swift */; };
-		9B1B2D6A19F4332F009BBB9F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C9F73E19F42410002CFA8A /* FacebookSDK.framework */; };
 		9B1B2D6E19F67505009BBB9F /* RestfulHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D6D19F67505009BBB9F /* RestfulHandler.swift */; };
 		9B1B2D7019F6929D009BBB9F /* NewsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D6F19F6929D009BBB9F /* NewsFeedTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B1B2D6A19F4332F009BBB9F /* FacebookSDK.framework in Frameworks */,
+				83D0DD3A19F6ED06002CF2C2 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
