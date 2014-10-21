@@ -102,7 +102,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         //profile pic of user based on user id
         customCell.userProfPic.profileID = userID.objectID
-        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 4;
+        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         print ("\(userID)\n")
         
