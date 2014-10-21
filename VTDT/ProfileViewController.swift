@@ -93,13 +93,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
-        customCell.userName.text = "Ragan Walker"
+        
+        //name of user where userid --> newsFeedRow["user"]
+        var userID = user
+        customCell.userName.text = userID.first_name + " " + userID.last_name
         
         customCell.messageText.text = newsFeedRow["message"] as? String
-        customCell.userProfPic.profileID = user.objectID
-        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
+        
+        //profile pic of user based on user id
+        customCell.userProfPic.profileID = userID.objectID
+        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 4;
         customCell.userProfPic.clipsToBounds = true;
-        customCell.barLocation.text = "at Sharkey's ~ 23 seconds ago"
+        print ("\(userID)\n")
+        
+        var timeElement = newsFeedRow["timePosted"] as String
+        var timeArray:[String] = timeElement.componentsSeparatedByString("T")
+        customCell.barLocation.text = "at Sharkey's \(timeArray[1])"
 
         
         return customCell
@@ -138,8 +147,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                         
                             var dict:NSDictionary = item as NSDictionary
                             self.newsFeedItems.append(dict)
-                        
-                            
                         }
                         
                         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
