@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate{
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 //    @IBOutlet var profileImage: UIImageView!
     
@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
     
     @IBOutlet var newsTableview: UITableView!
     var user: FBGraphUser!
+    var newsFeedItems = [NSDictionary]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,11 +40,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
         let width:CGFloat = 3.0
         profileImage.layer.borderWidth = width
         profileImage.layer.borderColor = UIColor.whiteColor().CGColor
-        
+//        newsTableview.init(frame: self.view.bounds)
+//        newsTableview = UITableView().initWithFrame(self.view.bounds)
+        newsTableview.delegate = self;
+        newsTableview.dataSource = self;
         newsTableview.registerClass(UITableViewCell.self, forCellReuseIdentifier: "newsFeedCell")
         newsTableview.layer.cornerRadius = 10;
         
         fetchNewsFeed()
+        print (newsFeedItems)
 
         // Do any additional setup after loading the view.
     }
@@ -73,65 +78,84 @@ class ProfileViewController: UIViewController, UITableViewDelegate{
     
     //MARK: -Tableview methods
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return newsFeedItems.count
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell = tableView.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as UITableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        // Configure the cell...
+        let cell = newsTableview.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as UITableViewCell
+        
+        var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
+        cell.textLabel?.text = newsFeedRow["message"] as? String
+        cell.textLabel?.numberOfLines = 5
         
         return cell
     }
     
-    func fetchNewsFeed () -> [NSDictionary] {
-        
-        //array that stores all the dictionaries containing newsfeed data
-        var newsFeedDicts = [NSDictionary]()
+    func fetchNewsFeed () -> () {
+
         
         //create url for restful request
         var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed")
-//        var url:NSURL = NSURL(string: "http://rest-service.guides.spring.io/greeting")
 
         var request:NSURLRequest = NSURLRequest(URL: url)
         
         //get jason
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
         
-            /* Your code */
             
+            //success!
             if (data.length > 0 && error == nil)
             {
-                //parse json into array
-                var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
+                
+                //do this on main application thread
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    //parse json into array
+                    var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
                     options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
                 
-                if (jsonResult.count == 0) {
-                    print ("error parsing json file \n")
-                }
-                else {
-                    for item in jsonResult {
+                    if (jsonResult.count == 0) {
+                        //handle json error here
+                        print ("error parsing json file \n")
+                    }
+                    else {
+                        var x = 0
+                        for item in jsonResult {
                         
-                        var dict:NSDictionary = item as NSDictionary
-                        newsFeedDicts.append(dict)
+                            var dict:NSDictionary = item as NSDictionary
+                            self.newsFeedItems.append(dict)
                         
+                            
+                        }
+                        
+                        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+                        //will not populate until all news feed items have been fetched.
+                        //tableview methods will be called initially (when screen is loaded) but since method 
+                        //is asynchronious, global newFeedItems array will still be empty
+                        self.newsTableview.reloadData()
+
                     }
                 }
+                
             }
+                
+            //failure, process error
+            else {
+                print( "data was not fetched or error foundd\n")
+            }
+
         })
         
-        //return array
-
-        return newsFeedDicts
     }
     
     
