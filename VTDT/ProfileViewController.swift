@@ -14,9 +14,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var profileName: UILabel!
-    
-    
-    @IBOutlet var detail: UILabel!
+
     @IBOutlet var whoToDoButton: UIButton!
     @IBOutlet var whatToDoButton: UIButton!
     
@@ -40,11 +38,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let width:CGFloat = 3.0
         profileImage.layer.borderWidth = width
         profileImage.layer.borderColor = UIColor.whiteColor().CGColor
-//        newsTableview.init(frame: self.view.bounds)
-//        newsTableview = UITableView().initWithFrame(self.view.bounds)
+
         newsTableview.delegate = self;
         newsTableview.dataSource = self;
-        newsTableview.registerClass(UITableViewCell.self, forCellReuseIdentifier: "newsFeedCell")
+//        newsTableview.registerClass(NewsFeedTableViewCell.self, forCellReuseIdentifier: "newsFeedCell")
         newsTableview.layer.cornerRadius = 10;
         
         fetchNewsFeed()
@@ -92,13 +89,20 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = newsTableview.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as UITableViewCell
+        var customCell:NewsFeedTableViewCell = newsTableview.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as NewsFeedTableViewCell
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
-        cell.textLabel?.text = newsFeedRow["message"] as? String
-        cell.textLabel?.numberOfLines = 5
         
-        return cell
+        customCell.userName.text = "Ragan Walker"
+        
+        customCell.messageText.text = newsFeedRow["message"] as? String
+        customCell.userProfPic.profileID = user.objectID
+        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
+        customCell.userProfPic.clipsToBounds = true;
+        customCell.barLocation.text = "at Sharkey's ~ 23 seconds ago"
+
+        
+        return customCell
     }
     
     func fetchNewsFeed () -> () {
