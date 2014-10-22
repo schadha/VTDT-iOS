@@ -8,9 +8,13 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class InitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
 
-//    @IBOutlet var profileImage: UIImageView!
+    
+//    self.refreshControl = [[UIRefreshControl alloc] init];
+//    [self.refreshControl addTarget:self action:@selector(getConnections) forControlEvents:UIControlEventValueChanged];
+//    tableViewController.refreshControl = self.refreshControl;
     
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var profileName: UILabel!
@@ -19,6 +23,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var whatToDoButton: UIButton!
     
     @IBOutlet var newsTableview: UITableView!
+    
+    var refreshControl:UIRefreshControl!
+    
     var user: FBGraphUser!
     var newsFeedItems = [NSDictionary]()
     
@@ -28,8 +35,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         profileName.text = user.first_name + " " + user.last_name
         profileName.font = UIFont(name: "GillSans-Bold", size: 24)
         profileName.textColor = UIColor.whiteColor()
-        
-//        self.detail.text = user.objectID //Store this in DB as username
         
         profileImage.profileID = user.objectID
         profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
@@ -41,48 +46,36 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         newsTableview.delegate = self;
         newsTableview.dataSource = self;
-//        newsTableview.registerClass(NewsFeedTableViewCell.self, forCellReuseIdentifier: "newsFeedCell")
         newsTableview.layer.cornerRadius = 10;
         
+        //set up refresh controller
+        var tableViewController = UITableViewController()
+        tableViewController.tableView = newsTableview
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshInvoked", forControlEvents: UIControlEvents.ValueChanged)
+        tableViewController.refreshControl = self.refreshControl
+        
         fetchNewsFeed()
-        print (newsFeedItems)
-
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func logout(sender: AnyObject) {
         FBSession.activeSession().closeAndClearTokenInformation()
         performSegueWithIdentifier("exit", sender: self)
     }
-//    func editProfileButton(sender: AnyObject) {
-//        print("test")
-//        //        performSegueWithIdentifier("exit", sender: self)
-//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-//        var vc = segue.destinationViewController as LoginViewController
     }
     
     //MARK: -Tableview methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return newsFeedItems.count
     }
@@ -118,7 +111,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         }
         else {
-            customCell.barLocation.text = "at Sharkey's around \timeArray[0]:\timeArray[1] am"
+            customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
         }
         
         return customCell
@@ -154,7 +147,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     else {
                         var x = 0
                         for item in jsonResult {
-                        
+                            
+                            //need to make sure that we are only appending new items--
+                            //would it be worth it??
                             var dict:NSDictionary = item as NSDictionary
                             self.newsFeedItems.append(dict)
                         }
@@ -177,6 +172,40 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         })
         
+    }
+    
+    @IBAction func detailClicked(sender: AnyObject) {
+
+//        performSegueWithIdentifier("profileView", sender: self)
+        print("do something\n")
+
+    }
+    
+    func refreshInvoked() {
+        
+        refresh(viaPullToRefresh: true)
+    }
+    
+    func refresh(viaPullToRefresh: Bool = false) {
+        
+        //reset newsfeeditems
+        newsFeedItems = [NSDictionary]()
+        //reload news feed data
+        fetchNewsFeed()
+        
+        if (viaPullToRefresh) {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
+        
+        var homePage: ProfileViewController = segue.destinationViewController as ProfileViewController
+        homePage.user = self.user;
+
     }
     
     

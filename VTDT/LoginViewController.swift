@@ -33,7 +33,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
 
         self.user = user
         if (counter == 0) {
-            performSegueWithIdentifier("profilePage", sender: self)
+            performSegueWithIdentifier("initialPage", sender: self)
         }
         counter++;
     }
@@ -57,8 +57,8 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
 
-        var profile: ProfileViewController = segue.destinationViewController as ProfileViewController
-        profile.user = self.user;
+        var homePage: InitialViewController = segue.destinationViewController as InitialViewController
+        homePage.user = self.user;
 
     }
 
