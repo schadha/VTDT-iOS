@@ -10,12 +10,6 @@ import UIKit
 
 class InitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-
-    
-//    self.refreshControl = [[UIRefreshControl alloc] init];
-//    [self.refreshControl addTarget:self action:@selector(getConnections) forControlEvents:UIControlEventValueChanged];
-//    tableViewController.refreshControl = self.refreshControl;
-    
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var profileName: UILabel!
 
