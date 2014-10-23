@@ -55,7 +55,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eYw-x6-G5i">
-                                <rect key="frame" x="108" y="36" width="238" height="30"/>
+                                <rect key="frame" x="105" y="35" width="230" height="30"/>
                                 <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -67,9 +67,12 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="whatClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="eVo-Tz-xNM"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lsG-r1-3XE">
-                                <rect key="frame" x="169" y="60" width="72" height="30"/>
+                                <rect key="frame" x="165" y="60" width="72" height="25"/>
                                 <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="16"/>
                                 <state key="normal" title="Log Out">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -91,7 +94,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not you?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kc7-uO-wrz">
-                                <rect key="frame" x="108" y="64" width="70" height="21"/>
+                                <rect key="frame" x="105" y="60" width="70" height="25"/>
                                 <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -165,12 +168,136 @@
                         <outlet property="whatToDoButton" destination="3Cu-Nn-iRj" id="rnp-Kr-PAA"/>
                         <outlet property="whoToDoButton" destination="Zdi-8S-xPX" id="cby-Jq-Fmx"/>
                         <segue destination="kr6-a9-6a0" kind="show" identifier="exit" id="aP5-tb-4py"/>
-                        <segue destination="0ln-cA-bAY" kind="show" identifier="profileView" id="Pgm-4u-T3t"/>
+                        <segue destination="0ln-cA-bAY" kind="show" identifier="profileView" id="ucc-9S-8UO"/>
+                        <segue destination="Ald-7k-5d1" kind="show" identifier="whatView" id="flg-Mj-0Ox"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="494.5" y="404.5"/>
+            <point key="canvasLocation" x="394.5" y="404.5"/>
+        </scene>
+        <!--Bars View Controller-->
+        <scene sceneID="0Dc-5o-Cf1">
+            <objects>
+                <viewController id="Ald-7k-5d1" customClass="BarsViewController" customModule="VTDT" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3Q9-SA-nj5"/>
+                        <viewControllerLayoutGuide type="bottom" id="HaT-99-eQA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i5y-hb-AzR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlc-rZ-smE">
+                                <rect key="frame" x="17" y="146" width="170" height="21"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63c-3c-gf6">
+                                <rect key="frame" x="189" y="146" width="170" height="21"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="iYo-OO-fds">
+                                <rect key="frame" x="17" y="156" width="342" height="491"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsFeedCell" rowHeight="88" id="Gqr-Ne-fF5" customClass="NewsFeedTableViewCell" customModule="VTDT" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gqr-Ne-fF5" id="kHb-e8-WfP">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nl3-6y-oRR" customClass="FBProfilePictureView">
+                                                    <rect key="frame" x="8" y="14" width="60" height="60"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGs-9q-hef">
+                                                    <rect key="frame" x="77" y="2" width="158" height="18"/>
+                                                    <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Message" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXE-IE-iae">
+                                                    <rect key="frame" x="78" y="17" width="257" height="52"/>
+                                                    <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="13"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location and Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4S8-YF-mCF">
+                                                    <rect key="frame" x="77" y="68" width="151" height="15"/>
+                                                    <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="barLocation" destination="4S8-YF-mCF" id="Sfl-tI-0VM"/>
+                                            <outlet property="messageText" destination="uXE-IE-iae" id="f0n-Vj-PDJ"/>
+                                            <outlet property="userName" destination="AGs-9q-hef" id="Lqr-jU-D2p"/>
+                                            <outlet property="userProfPic" destination="Nl3-6y-oRR" id="Nka-2g-Add"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Ald-7k-5d1" id="hN9-hV-3py"/>
+                                    <outlet property="delegate" destination="Ald-7k-5d1" id="nh9-UC-3nt"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAj-ci-zBG">
+                                <rect key="frame" x="17" y="134" width="170" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="News Feed">
+                                    <color key="titleColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="newsClicked:" destination="Ald-7k-5d1" eventType="touchUpInside" id="zn7-No-CI7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qWk-VQ-emb">
+                                <rect key="frame" x="189" y="134" width="170" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Specials">
+                                    <color key="titleColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="specialsClicked:" destination="Ald-7k-5d1" eventType="touchUpInside" id="IZF-1J-M0n"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bar Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9pN-Nn-J9T">
+                                <rect key="frame" x="105" y="25" width="235" height="30"/>
+                                <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="btv-b2-y9S">
+                                <rect key="frame" x="16" y="16" width="76" height="76"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.50196081400000003" green="0.01916371528" blue="0.1707483702" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="iCg-Fa-bb1"/>
+                    <connections>
+                        <outlet property="barImage" destination="btv-b2-y9S" id="HXj-KK-Xyj"/>
+                        <outlet property="barName" destination="9pN-Nn-J9T" id="k6G-tr-8bd"/>
+                        <outlet property="newsButton" destination="LAj-ci-zBG" id="9gS-45-ySM"/>
+                        <outlet property="newsFeedTable" destination="iYo-OO-fds" id="aIQ-3S-rqw"/>
+                        <outlet property="newsLabel" destination="mlc-rZ-smE" id="QkI-pX-xsI"/>
+                        <outlet property="specialsButton" destination="qWk-VQ-emb" id="Cnr-ys-a0d"/>
+                        <outlet property="specialsLabel" destination="63c-3c-gf6" id="jry-pC-fZC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K6V-rM-Duh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="172.5" y="1225.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dM7-yW-O2S">
@@ -181,7 +308,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="YTw-u9-lBk" kind="relationship" relationship="rootViewController" id="drD-2A-0YE"/>
+                        <segue destination="YTw-u9-lBk" kind="relationship" relationship="rootViewController" id="a2y-8d-hU5"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MHf-EO-Vk7" userLabel="First Responder" sceneMemberID="firstResponder"/>

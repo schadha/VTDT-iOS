@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, FBLoginViewDelegate  {
+class ProfileViewController: UIViewController {
 
-    var user: FBGraphUser!
+//    var user: FBGraphUser!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print (user)
+//        print (user)
         // Do any additional setup after loading the view.
     }
 
@@ -22,8 +22,6 @@ class ProfileViewController: UIViewController, FBLoginViewDelegate  {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
     
 //    // MARK: - Navigation
 //
