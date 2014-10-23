@@ -21,6 +21,8 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         
         loginView.readPermissions = ["public_profile", "email", "user_friends"]
         
+        self.navigationController?.navigationBarHidden = true;
+        
         // Do any additional setup after loading the view.
     }
 
@@ -29,8 +31,11 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        counter = 0;
+    }
+    
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
-
         self.user = user
         if (counter == 0) {
             performSegueWithIdentifier("initialPage", sender: self)
@@ -56,9 +61,11 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-
-        var homePage: InitialViewController = segue.destinationViewController as InitialViewController
-        homePage.user = self.user;
+        
+        if (segue.identifier == "initialPage") {
+            var homePage: InitialViewController = segue.destinationViewController as InitialViewController
+            homePage.user = self.user;
+        }
 
     }
 
