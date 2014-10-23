@@ -55,7 +55,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func logout(sender: AnyObject) {
         FBSession.activeSession().closeAndClearTokenInformation()
-        performSegueWithIdentifier("exit", sender: self)
+        self.navigationController?.popViewControllerAnimated(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -198,7 +198,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
         
         if (segue.identifier == "profileView") {
-            var profilePage: ProfileViewController = (segue.destinationViewController as UINavigationController).topViewController as ProfileViewController
+            var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
             profilePage.user = self.user;
         }
 

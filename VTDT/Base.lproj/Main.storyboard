@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kr6-a9-6a0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2cn-Y7-Z0F">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -32,6 +32,8 @@
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="iuE-nT-x3Z"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="loginView" destination="dQU-A6-Scw" id="bHF-Tg-PRd"/>
@@ -40,7 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vkC-NT-uPn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-159.5" y="404.5"/>
+            <point key="canvasLocation" x="427.5" y="404.5"/>
         </scene>
         <!--Initial View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -156,6 +158,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.50196081399917603" green="0.019163715282387413" blue="0.17074837016924699" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -164,29 +167,12 @@
                         <outlet property="profileName" destination="eYw-x6-G5i" id="LPM-la-6aq"/>
                         <outlet property="whatToDoButton" destination="3Cu-Nn-iRj" id="rnp-Kr-PAA"/>
                         <outlet property="whoToDoButton" destination="Zdi-8S-xPX" id="cby-Jq-Fmx"/>
-                        <segue destination="kr6-a9-6a0" kind="show" identifier="exit" id="aP5-tb-4py"/>
-                        <segue destination="0ln-cA-bAY" kind="show" identifier="profileView" id="Pgm-4u-T3t"/>
+                        <segue destination="YTw-u9-lBk" kind="show" identifier="profileView" id="bO9-zz-ruk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="494.5" y="404.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="dM7-yW-O2S">
-            <objects>
-                <navigationController id="0ln-cA-bAY" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="syU-F9-pHE">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="YTw-u9-lBk" kind="relationship" relationship="rootViewController" id="drD-2A-0YE"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MHf-EO-Vk7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1128.5" y="404.5"/>
+            <point key="canvasLocation" x="1081.5" y="404.5"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="dsz-q0-viL">
@@ -202,10 +188,29 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="egh-xu-WoG"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gmi-0Y-WNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1652.5" y="404.5"/>
+            <point key="canvasLocation" x="1757.5" y="404.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="od0-4J-jDa">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2cn-Y7-Z0F" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iIm-ER-fgT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="kr6-a9-6a0" kind="relationship" relationship="rootViewController" id="tmV-rY-REQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="udA-Nf-Od4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-159.5" y="404.5"/>
         </scene>
     </scenes>
     <resources>
