@@ -139,7 +139,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func fetchNewsFeed () -> () {
-        print("calling restful function\n")
+
         //create url for restful request
         var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
         
@@ -195,30 +195,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             
         })
         
-    }
-    
-    @IBAction func detailClicked(sender: AnyObject) {
-
-        performSegueWithIdentifier("profileView", sender: self)
-        print("do something\n")
-
-    }
-    
-    func refreshInvoked() {
-        
-        refresh(viaPullToRefresh: true)
-    }
-    
-    func refresh(viaPullToRefresh: Bool = false) {
-        
-        //reset newsfeeditems
-        newsFeedItems = [NSDictionary]()
-        //reload news feed data
-        fetchNewsFeed()
-        
-        if (viaPullToRefresh) {
-            self.refreshControl?.endRefreshing()
-        }
     }
     
     // MARK: - Navigation

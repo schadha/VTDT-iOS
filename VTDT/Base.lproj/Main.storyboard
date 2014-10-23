@@ -153,7 +153,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="detailClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Yrp-HF-PVY"/>
+                                    <action selector="detailClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PtZ-JC-1Vr"/>
                                 </connections>
                             </button>
                         </subviews>
