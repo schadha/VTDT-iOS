@@ -27,7 +27,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         
         profileName.text = user.first_name + " " + user.last_name
-        
+        print(user.objectID)
         profileImage.profileID = user.objectID
         profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
         profileImage.clipsToBounds = true;
@@ -143,6 +143,15 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         //create url for restful request
         var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
         
+        /*
+        {
+        "username": "10152362398270868",
+        "id": 1,
+        "profile_picture": "NULL",
+        "checked_in_bar": 1,
+        "name": "Sanchit Chadha"
+        }
+        */
         var request:NSURLRequest = NSURLRequest(URL: url)
         
         //get jason
