@@ -8,16 +8,21 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, FBLoginViewDelegate  {
+class ProfileViewController: UIViewController {
 
-    var user: FBGraphUser!
+   var user: FBGraphUser!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+<<<<<<< HEAD
 //        print (user)
         self.navigationController?.navigationBarHidden = false;
+=======
+
+>>>>>>> FETCH_HEAD
         self.title = user.name;
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
+
         // Do any additional setup after loading the view.
     }
 
@@ -30,8 +35,6 @@ class ProfileViewController: UIViewController, FBLoginViewDelegate  {
         self.navigationController?.popViewControllerAnimated(true)
         self.navigationController?.navigationBarHidden = true;
     }
-    
-
     
 //    // MARK: - Navigation
 //

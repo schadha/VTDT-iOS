@@ -1,66 +1,61 @@
 //
-//  ProfileViewController.swift
+//  BarsViewController.swift
 //  VTDT
 //
-//  Created by Sanchit Chadha on 10/19/14.
+//  Created by Ragan Walker on 10/23/14.
 //  Copyright (c) 2014 Sanchit Chadha. All rights reserved.
 //
 
 import UIKit
 
-class InitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    @IBOutlet var profileImage: FBProfilePictureView!
-    @IBOutlet var profileName: UILabel!
+class BarsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet var whoToDoButton: UIButton!
-    @IBOutlet var whatToDoButton: UIButton!
-    
-    @IBOutlet var newsTableview: UITableView!
-    
     var refreshControl:UIRefreshControl!
+
+    @IBOutlet var newsFeedTable: UITableView!
+    @IBOutlet var barImage: UIImageView!
+    @IBOutlet var barName: UILabel!
     
-    var user: FBGraphUser!
-    var newsFeedItems = [NSDictionary]()
+    @IBOutlet var newsButton: UIButton!
+    @IBOutlet var specialsButton: UIButton!
+    
+    @IBOutlet var specialsLabel: UILabel!
+    @IBOutlet var newsLabel: UILabel!
+    var newsFeedItems = [NSDictionary]();
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileName.text = user.first_name + " " + user.last_name
-        
-        profileImage.profileID = user.objectID
-        profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
-        profileImage.clipsToBounds = true;
-        
+        barImage.layer.cornerRadius = barImage.frame.size.width / 2;
+        barImage.clipsToBounds = true;
         let width:CGFloat = 3.0
-        profileImage.layer.borderWidth = width
-        profileImage.layer.borderColor = UIColor.whiteColor().CGColor
-
-        newsTableview.delegate = self;
-        newsTableview.dataSource = self;
-        newsTableview.layer.cornerRadius = 10;
+        barImage.layer.borderWidth = width
+        barImage.layer.borderColor = UIColor.whiteColor().CGColor
         
-        //set up refresh controller
+        newsFeedTable.delegate = self;
+        newsFeedTable.dataSource = self;
+        newsFeedTable.layer.cornerRadius = 10;
+        
         var tableViewController = UITableViewController()
-        tableViewController.tableView = newsTableview
+        tableViewController.tableView = newsFeedTable
         
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refreshInvoked", forControlEvents: UIControlEvents.ValueChanged)
         tableViewController.refreshControl = self.refreshControl
         
+        //default table view settings
+        newsLabel.hidden = false;
+        specialsLabel.hidden = true;
+        newsButton.layer.cornerRadius = 10;
+        specialsButton.layer.cornerRadius = 10;
         fetchNewsFeed()
-    }
-    
-    @IBAction func logout(sender: AnyObject) {
-        FBSession.activeSession().closeAndClearTokenInformation()
-        self.navigationController?.popViewControllerAnimated(true)
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    
-    //MARK: -Tableview methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
@@ -74,22 +69,22 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var customCell:NewsFeedTableViewCell = newsTableview.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as NewsFeedTableViewCell
+        var customCell:NewsFeedTableViewCell = newsFeedTable.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as NewsFeedTableViewCell
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
         
         //name of user where userid --> newsFeedRow["user"]
         //use the userID to do a fetch to the user db table for first name, last name, profile picture
-        var userID = user
-        customCell.userName.text = userID.first_name + " " + userID.last_name
+//        var userID = user
+//        customCell.userName.text = userID.first_name + " " + userID.last_name
         
-//        customCell.messageText.text = newsFeedRow["message"] as? String
+        //        customCell.messageText.text = newsFeedRow["message"] as? String
         customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
         //profile pic of user based on user id
         
-        customCell.userProfPic.profileID = userID.objectID
+//        customCell.userProfPic.profileID = userID.objectID
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
@@ -100,7 +95,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         if intTime > 12 {
             let newTime:Int = intTime! - 12
             customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
-
+            
         }
         else {
             customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
@@ -109,37 +104,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         return customCell
     }
     
-        
-    @IBAction func detailClicked(sender: AnyObject) {
-
-        performSegueWithIdentifier("profileView", sender: self)
-        print("do something\n")
-
-    }
-    @IBAction func whatClicked(sender: AnyObject) {
-        
-        performSegueWithIdentifier("whatView", sender: self)
-    }
-    
-    func refreshInvoked() {
-        
-        refresh(viaPullToRefresh: true)
-    }
-    
-    func refresh(viaPullToRefresh: Bool = false) {
-        
-        //reset newsfeeditems
-        newsFeedItems = [NSDictionary]()
-        //reload news feed data
-        fetchNewsFeed()
-        
-        if (viaPullToRefresh) {
-            self.refreshControl?.endRefreshing()
-        }
-    }
-    
     func fetchNewsFeed () -> () {
-
+        print("calling restful function\n")
         //create url for restful request
         var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
         
@@ -168,20 +134,18 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
                         var x = 0
                         for item in jsonResult {
                             
-                            if x < 25 {
+                            //need to make sure that we are only appending new items--
+                            //would it be worth it??
                             var dict:NSDictionary = item as NSDictionary
                             self.newsFeedItems += [dict]
-                            }
-                            else {
-                                break
-                            }
                         }
                         
                         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
                         //will not populate until all news feed items have been fetched.
                         //tableview methods will be called initially (when screen is loaded) but since method
                         //is asynchronious, global newFeedItems array will still be empty
-                        self.newsTableview.reloadData()
+                        print (self.newsFeedItems)
+                        self.newsFeedTable.reloadData()
                         
                     }
                 }
@@ -197,29 +161,41 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
+    func refreshInvoked() {
         
-<<<<<<< HEAD
-        if (segue.identifier == "profileView") {
-            var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
-            profilePage.user = self.user;
-=======
-        if segue.identifier == "profileView" {
-//            var profPage: ProfileViewController = segue.destinationViewController as ProfileViewController
-            //        profPage.user = self.user;
-           
-            print("profile views\n")
->>>>>>> FETCH_HEAD
-        }
-        else if segue.identifier == "whatView" {
-            var barsPage: BarsViewController = segue.destinationViewController as BarsViewController
-            //        profPage.user = self.user;
-        }
-        
-
+        refresh(viaPullToRefresh: true)
     }
+    
+    func refresh(viaPullToRefresh: Bool = false) {
+        
+        //reset newsfeeditems
+        newsFeedItems = [NSDictionary]()
+        //reload news feed data
+        fetchNewsFeed()
+        
+        if (viaPullToRefresh) {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    @IBAction func newsClicked(sender: AnyObject) {
+        
+        newsLabel.hidden = false;
+        specialsLabel.hidden = true;
+    }
+    @IBAction func specialsClicked(sender: AnyObject) {
+        
+        newsLabel.hidden = true;
+        specialsLabel.hidden = false;
+    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
 
 }
