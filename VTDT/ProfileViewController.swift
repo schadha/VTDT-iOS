@@ -14,12 +14,8 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-<<<<<<< HEAD
-//        print (user)
         self.navigationController?.navigationBarHidden = false;
-=======
-
->>>>>>> FETCH_HEAD
+        
         self.title = user.name;
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
 

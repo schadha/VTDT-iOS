@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<<<<<<< HEAD
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2cn-Y7-Z0F">
-=======
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kr6-a9-6a0">
->>>>>>> FETCH_HEAD
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -61,7 +57,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eYw-x6-G5i">
-                                <rect key="frame" x="105" y="35" width="230" height="30"/>
+                                <rect key="frame" x="108" y="36" width="238" height="30"/>
                                 <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -74,11 +70,11 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="whatClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="eVo-Tz-xNM"/>
+                                    <action selector="whatClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wpx-tU-dH7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lsG-r1-3XE">
-                                <rect key="frame" x="165" y="60" width="72" height="25"/>
+                                <rect key="frame" x="169" y="60" width="72" height="30"/>
                                 <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="16"/>
                                 <state key="normal" title="Log Out">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -100,7 +96,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not you?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kc7-uO-wrz">
-                                <rect key="frame" x="105" y="60" width="70" height="25"/>
+                                <rect key="frame" x="108" y="64" width="70" height="21"/>
                                 <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -159,7 +155,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="detailClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PtZ-JC-1Vr"/>
+                                    <action selector="detailClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Yrp-HF-PVY"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -174,21 +170,33 @@
                         <outlet property="profileName" destination="eYw-x6-G5i" id="LPM-la-6aq"/>
                         <outlet property="whatToDoButton" destination="3Cu-Nn-iRj" id="rnp-Kr-PAA"/>
                         <outlet property="whoToDoButton" destination="Zdi-8S-xPX" id="cby-Jq-Fmx"/>
-<<<<<<< HEAD
                         <segue destination="YTw-u9-lBk" kind="show" identifier="profileView" id="bO9-zz-ruk"/>
-=======
-                        <segue destination="kr6-a9-6a0" kind="show" identifier="exit" id="aP5-tb-4py"/>
-                        <segue destination="0ln-cA-bAY" kind="show" identifier="profileView" id="ucc-9S-8UO"/>
-                        <segue destination="Ald-7k-5d1" kind="show" identifier="whatView" id="flg-Mj-0Ox"/>
->>>>>>> FETCH_HEAD
+                        <segue destination="Ald-7k-5d1" kind="show" identifier="whatView" id="ftz-ks-2ZB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-<<<<<<< HEAD
             <point key="canvasLocation" x="1081.5" y="404.5"/>
-=======
-            <point key="canvasLocation" x="394.5" y="404.5"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="dsz-q0-viL">
+            <objects>
+                <viewController id="YTw-u9-lBk" customClass="ProfileViewController" customModule="VTDT" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="D6Z-Vv-BOo"/>
+                        <viewControllerLayoutGuide type="bottom" id="xeO-ha-Tak"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wlV-vV-bfZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="egh-xu-WoG"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gmi-0Y-WNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1757.5" y="404.5"/>
         </scene>
         <!--Bars View Controller-->
         <scene sceneID="0Dc-5o-Cf1">
@@ -299,6 +307,7 @@
                         <color key="backgroundColor" red="0.50196081400000003" green="0.01916371528" blue="0.1707483702" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="iCg-Fa-bb1"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="barImage" destination="btv-b2-y9S" id="HXj-KK-Xyj"/>
                         <outlet property="barName" destination="9pN-Nn-J9T" id="k6G-tr-8bd"/>
@@ -311,44 +320,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K6V-rM-Duh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="172.5" y="1225.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="dM7-yW-O2S">
-            <objects>
-                <navigationController id="0ln-cA-bAY" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="syU-F9-pHE">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="YTw-u9-lBk" kind="relationship" relationship="rootViewController" id="a2y-8d-hU5"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MHf-EO-Vk7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1128.5" y="404.5"/>
->>>>>>> FETCH_HEAD
-        </scene>
-        <!--Profile View Controller-->
-        <scene sceneID="dsz-q0-viL">
-            <objects>
-                <viewController id="YTw-u9-lBk" customClass="ProfileViewController" customModule="VTDT" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="D6Z-Vv-BOo"/>
-                        <viewControllerLayoutGuide type="bottom" id="xeO-ha-Tak"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wlV-vV-bfZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="egh-xu-WoG"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gmi-0Y-WNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1757.5" y="404.5"/>
+            <point key="canvasLocation" x="1081.5" y="1213.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="od0-4J-jDa">

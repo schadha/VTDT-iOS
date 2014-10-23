@@ -202,17 +202,9 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
         
-<<<<<<< HEAD
         if (segue.identifier == "profileView") {
             var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
             profilePage.user = self.user;
-=======
-        if segue.identifier == "profileView" {
-//            var profPage: ProfileViewController = segue.destinationViewController as ProfileViewController
-            //        profPage.user = self.user;
-           
-            print("profile views\n")
->>>>>>> FETCH_HEAD
         }
         else if segue.identifier == "whatView" {
             var barsPage: BarsViewController = segue.destinationViewController as BarsViewController
