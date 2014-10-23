@@ -197,6 +197,30 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
+    @IBAction func detailClicked(sender: AnyObject) {
+
+        performSegueWithIdentifier("profileView", sender: self)
+        print("do something\n")
+
+    }
+    
+    func refreshInvoked() {
+        
+        refresh(viaPullToRefresh: true)
+    }
+    
+    func refresh(viaPullToRefresh: Bool = false) {
+        
+        //reset newsfeeditems
+        newsFeedItems = [NSDictionary]()
+        //reload news feed data
+        fetchNewsFeed()
+        
+        if (viaPullToRefresh) {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

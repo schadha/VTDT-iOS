@@ -15,7 +15,6 @@
 		83C9F73B19F42106002CFA8A /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73A19F42106002CFA8A /* InitialViewController.swift */; };
 		83C9F73D19F421B5002CFA8A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F73C19F421B5002CFA8A /* LoginViewController.swift */; };
 		83D0DD3A19F6ED06002CF2C2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C9F73E19F42410002CFA8A /* FacebookSDK.framework */; };
-		9B1B2D6919F43119009BBB9F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D6819F43119009BBB9F /* TableViewController.swift */; };
 		9B1B2D7019F6929D009BBB9F /* NewsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D6F19F6929D009BBB9F /* NewsFeedTableViewCell.swift */; };
 		9B1B2D7219F745B6009BBB9F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D7119F745B6009BBB9F /* ProfileViewController.swift */; };
 		9B2CA79219F92D4D00602726 /* BarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CA79119F92D4D00602726 /* BarsViewController.swift */; };
@@ -46,7 +45,6 @@
 		83C9F73C19F421B5002CFA8A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		83C9F73E19F42410002CFA8A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		83C9F74019F42609002CFA8A /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
-		9B1B2D6819F43119009BBB9F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		9B1B2D6F19F6929D009BBB9F /* NewsFeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsFeedTableViewCell.swift; sourceTree = "<group>"; };
 		9B1B2D7119F745B6009BBB9F /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9B2CA79119F92D4D00602726 /* BarsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarsViewController.swift; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 		83C9F70C19F41C81002CFA8A = {
 			isa = PBXGroup;
 			children = (
-				9B1B2D6819F43119009BBB9F /* TableViewController.swift */,
 				83C9F73E19F42410002CFA8A /* FacebookSDK.framework */,
 				83C9F71719F41C81002CFA8A /* VTDT */,
 				83C9F72D19F41C81002CFA8A /* VTDTTests */,
@@ -243,7 +240,6 @@
 				9B1B2D7019F6929D009BBB9F /* NewsFeedTableViewCell.swift in Sources */,
 				83C9F71B19F41C81002CFA8A /* AppDelegate.swift in Sources */,
 				9B1B2D7219F745B6009BBB9F /* ProfileViewController.swift in Sources */,
-				9B1B2D6919F43119009BBB9F /* TableViewController.swift in Sources */,
 				9B2CA79419F93C6B00602726 /* RestfulFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
