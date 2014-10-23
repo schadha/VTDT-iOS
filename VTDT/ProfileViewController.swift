@@ -14,13 +14,20 @@ class ProfileViewController: UIViewController, FBLoginViewDelegate  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print (user)
+//        print (user)
+        self.title = user.name;
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func popToRoot(sender:UIBarButtonItem){
+//        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
 

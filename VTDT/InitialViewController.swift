@@ -170,7 +170,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func detailClicked(sender: AnyObject) {
 
-//        performSegueWithIdentifier("profileView", sender: self)
+        performSegueWithIdentifier("profileView", sender: self)
         print("do something\n")
 
     }
@@ -197,8 +197,10 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
         
-        var homePage: ProfileViewController = segue.destinationViewController as ProfileViewController
-        homePage.user = self.user;
+        if (segue.identifier == "profileView") {
+            var profilePage: ProfileViewController = (segue.destinationViewController as UINavigationController).topViewController as ProfileViewController
+            profilePage.user = self.user;
+        }
 
     }
     
