@@ -48,6 +48,15 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         specialsLabel.hidden = true;
         newsButton.layer.cornerRadius = 10;
         specialsButton.layer.cornerRadius = 10;
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        
         fetchNewsFeed()
         
     }
@@ -85,8 +94,8 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         //profile pic of user based on user id
         
 //        customCell.userProfPic.profileID = userID.objectID
-        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
-        customCell.userProfPic.clipsToBounds = true;
+//        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
+//        customCell.userProfPic.clipsToBounds = true;
         
         var timeElement = newsFeedRow["timePosted"] as String
         var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
