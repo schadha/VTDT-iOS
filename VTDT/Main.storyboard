@@ -16,12 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="VTDT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dQ-gw-CxW">
-                                <rect key="frame" x="118" y="104" width="138" height="52"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
-                                <color key="textColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dQU-A6-Scw" customClass="FBLoginView">
                                 <rect key="frame" x="16" y="379" width="343" height="55"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -29,8 +23,14 @@
                                     <outlet property="delegate" destination="kr6-a9-6a0" id="ZCq-Jj-aid"/>
                                 </connections>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="VTDT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dQ-gw-CxW">
+                                <rect key="frame" x="102" y="103" width="170" height="52"/>
+                                <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="48"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="iuE-nT-x3Z"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -90,6 +90,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="whoClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cRj-ic-c7t"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCV-JA-UeE" customClass="FBProfilePictureView">
                                 <rect key="frame" x="16" y="24" width="76" height="76"/>
@@ -149,9 +152,9 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="S21-Rn-5ej"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EUk-9g-fgB">
-                                <rect key="frame" x="336" y="36" width="23" height="30"/>
-                                <state key="normal" image="whiteDisclosureArrow">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EUk-9g-fgB">
+                                <rect key="frame" x="286" y="36" width="83" height="54"/>
+                                <state key="normal" image="disclosure">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -168,10 +171,9 @@
                         <outlet property="newsTableview" destination="NPH-7G-udg" id="5A9-cq-oE3"/>
                         <outlet property="profileImage" destination="qCV-JA-UeE" id="14T-GG-jrA"/>
                         <outlet property="profileName" destination="eYw-x6-G5i" id="LPM-la-6aq"/>
-                        <outlet property="whatToDoButton" destination="3Cu-Nn-iRj" id="rnp-Kr-PAA"/>
-                        <outlet property="whoToDoButton" destination="Zdi-8S-xPX" id="cby-Jq-Fmx"/>
                         <segue destination="YTw-u9-lBk" kind="show" identifier="profileView" id="bO9-zz-ruk"/>
                         <segue destination="Ald-7k-5d1" kind="show" identifier="whatView" id="ftz-ks-2ZB"/>
+                        <segue destination="J7f-Rs-iND" kind="show" identifier="whoView" id="QXR-mM-naX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -192,7 +194,6 @@
                         <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="egh-xu-WoG"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gmi-0Y-WNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -312,7 +313,6 @@
                         <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="iCg-Fa-bb1"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="barImage" destination="btv-b2-y9S" id="HXj-KK-Xyj"/>
@@ -347,8 +347,81 @@
             </objects>
             <point key="canvasLocation" x="-159.5" y="404.5"/>
         </scene>
+        <!--Friends View Controller-->
+        <scene sceneID="OkB-OS-sAt">
+            <objects>
+                <viewController id="J7f-Rs-iND" customClass="FriendsViewController" customModule="VTDT" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ea1-t9-ips"/>
+                        <viewControllerLayoutGuide type="bottom" id="9Ax-hn-Bi1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="93T-LD-10J">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qVz-VJ-x8O">
+                                <rect key="frame" x="16" y="72" width="343" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="J7f-Rs-iND" id="5BE-iD-gVy"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="OBI-7p-RQY">
+                                <rect key="frame" x="16" y="132" width="343" height="494"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendFeedCell" rowHeight="88" id="DLQ-Sx-AJn" userLabel="friendFeedCell" customClass="FriendTableViewCell" customModule="VTDT" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DLQ-Sx-AJn" id="3se-jy-Ge4">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1IQ-AC-L7U" customClass="FBProfilePictureView">
+                                                    <rect key="frame" x="8" y="14" width="60" height="60"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="woi-hQ-QJv">
+                                                    <rect key="frame" x="77" y="2" width="158" height="18"/>
+                                                    <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location and Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="76g-zm-wyX">
+                                                    <rect key="frame" x="77" y="68" width="151" height="15"/>
+                                                    <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="barLocation" destination="76g-zm-wyX" id="iT3-7v-dAv"/>
+                                            <outlet property="userName" destination="woi-hQ-QJv" id="ebL-E1-LZs"/>
+                                            <outlet property="userProfPic" destination="1IQ-AC-L7U" id="3kg-Dl-HYr"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="J7f-Rs-iND" id="Km5-Ep-iQh"/>
+                                    <outlet property="delegate" destination="J7f-Rs-iND" id="Y9H-Wt-PCv"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="d1I-zM-qaU"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="friendsTableview" destination="OBI-7p-RQY" id="nZt-Xf-IQD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8wb-JG-LEh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1757.5" y="1213.5"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="whiteDisclosureArrow" width="17" height="30"/>
+        <image name="disclosure" width="64" height="64"/>
     </resources>
 </document>

@@ -1,55 +1,58 @@
 //
-//  BarsViewController.swift
+//  FriendsViewController.swift
 //  VTDT
 //
-//  Created by Ragan Walker on 10/23/14.
+//  Created by Sanchit Chadha on 10/23/14.
 //  Copyright (c) 2014 Sanchit Chadha. All rights reserved.
 //
 
 import UIKit
 
-class BarsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet var friendsTableview: UITableView!
+    
     var refreshControl:UIRefreshControl!
-
-    @IBOutlet var newsFeedTable: UITableView!
-    @IBOutlet var barImage: UIImageView!
-    @IBOutlet var barName: UILabel!
     
-    @IBOutlet var newsButton: UIButton!
-    @IBOutlet var specialsButton: UIButton!
+    var newsFeedItems = [NSDictionary]()
     
-    @IBOutlet var specialsLabel: UILabel!
-    @IBOutlet var newsLabel: UILabel!
-    var newsFeedItems = [NSDictionary]();
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        barImage.layer.cornerRadius = barImage.frame.size.width / 2;
-        barImage.clipsToBounds = true;
-        let width:CGFloat = 3.0
-        barImage.layer.borderWidth = width
-        barImage.layer.borderColor = UIColor.whiteColor().CGColor
         
-        newsFeedTable.delegate = self
-        newsFeedTable.dataSource = self
-        newsFeedTable.layer.cornerRadius = 10
+        friendsTableview.delegate = self;
+        friendsTableview.dataSource = self;
+        friendsTableview.layer.cornerRadius = 10;
+        
         
         var tableViewController = UITableViewController()
-        tableViewController.tableView = newsFeedTable
+        tableViewController.tableView = friendsTableview
         
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refreshInvoked", forControlEvents: UIControlEvents.ValueChanged)
         tableViewController.refreshControl = self.refreshControl
         
-        //default table view settings
-        newsLabel.hidden = false
-        specialsLabel.hidden = true
-        newsButton.layer.cornerRadius = 10
-        specialsButton.layer.cornerRadius = 10
+        setupNavBar()
         
-        self.navigationController?.navigationBarHidden = false
+        fetchNewsFeed()
+
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func popToRoot(sender:UIBarButtonItem){
+        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.navigationBarHidden = true;
+    }
+    
+    func setupNavBar() {
+        self.automaticallyAdjustsScrollViewInsets = false;
+        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBarHidden = false;
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
@@ -59,18 +62,13 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
-        fetchNewsFeed()
+        self.title = "Who To Do"
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
+        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
     }
     
-    func popToRoot(sender:UIBarButtonItem){
-        self.navigationController?.popViewControllerAnimated(true)
-        self.navigationController?.navigationBarHidden = true
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    //MARK: -Tableview methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
@@ -84,7 +82,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var customCell:NewsFeedTableViewCell = newsFeedTable.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as NewsFeedTableViewCell
+        var customCell:FriendTableViewCell = friendsTableview.dequeueReusableCellWithIdentifier("friendFeedCell", forIndexPath: indexPath) as FriendTableViewCell
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
@@ -94,16 +92,17 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        var userID = user
 //        customCell.userName.text = userID.first_name + " " + userID.last_name
         
-        //        customCell.messageText.text = newsFeedRow["message"] as? String
-        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
+//        customCell.messageText.text = newsFeedRow["message"] as? String
+        //        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
         //profile pic of user based on user id
         
-//        customCell.userProfPic.profileID = userID.objectID
-//        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
-//        customCell.userProfPic.clipsToBounds = true;
+        customCell.userProfPic.profileID = "10152362398270868"
+        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
+        customCell.userProfPic.clipsToBounds = true;
         
         var timeElement = newsFeedRow["timePosted"] as String
+        print(timeElement);
         var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
         
         let intTime = timeArray[0].toInt()
@@ -117,63 +116,6 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         return customCell
-    }
-    
-    func fetchNewsFeed () -> () {
-        print("calling restful function\n")
-        //create url for restful request
-        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
-        
-        var request:NSURLRequest = NSURLRequest(URL: url)
-        
-        //get jason
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            
-            
-            //success!
-            if (data.length > 0 && error == nil)
-            {
-                
-                //do this on main application thread
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    //parse json into array
-                    var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
-                        options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-                    
-                    if (jsonResult.count == 0) {
-                        //handle json error here
-                        print ("error parsing json file \n")
-                    }
-                    else {
-                        var x = 0
-                        for item in jsonResult {
-                            
-                            //need to make sure that we are only appending new items--
-                            //would it be worth it??
-                            var dict:NSDictionary = item as NSDictionary
-                            self.newsFeedItems += [dict]
-                        }
-                        
-                        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-                        //will not populate until all news feed items have been fetched.
-                        //tableview methods will be called initially (when screen is loaded) but since method
-                        //is asynchronious, global newFeedItems array will still be empty
-//                        print (self.newsFeedItems)
-                        self.newsFeedTable.reloadData()
-                        
-                    }
-                }
-                
-            }
-                
-                //failure, process error
-            else {
-                print( "data was not fetched or error foundd\n")
-            }
-            
-        })
-        
     }
     
     func refreshInvoked() {
@@ -192,16 +134,75 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.refreshControl?.endRefreshing()
         }
     }
-    @IBAction func newsClicked(sender: AnyObject) {
+    
+    func fetchNewsFeed () -> () {
         
-        newsLabel.hidden = false;
-        specialsLabel.hidden = true;
-    }
-    @IBAction func specialsClicked(sender: AnyObject) {
+        //create url for restful request
+        //        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users")
+        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends")
+        /*
+        {
+        "username": "10152362398270868",
+        "id": 1,
+        "profile_picture": "NULL",
+        "checked_in_bar": 1,
+        "name": "Sanchit Chadha"
+        }
+        */
+        var request:NSURLRequest = NSURLRequest(URL: url)
         
-        newsLabel.hidden = true;
-        specialsLabel.hidden = false;
+        //get jason
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+            
+            
+            //success!
+            if (data != nil && error == nil)
+            {
+                
+                //do this on main application thread
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    //parse json into array
+                    var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
+                        options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
+                    
+                    if (jsonResult.count == 0) {
+                        //handle json error here
+                        print ("error parsing json file \n")
+                    }
+                    else {
+                        var x = 0
+                        for item in jsonResult {
+                            
+                            if x < 25 {
+                                var dict:NSDictionary = item as NSDictionary
+                                self.newsFeedItems += [dict]
+                            }
+                            else {
+                                break
+                            }
+                        }
+                        
+                        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+                        //will not populate until all news feed items have been fetched.
+                        //tableview methods will be called initially (when screen is loaded) but since method
+                        //is asynchronious, global newFeedItems array will still be empty
+                        self.friendsTableview.reloadData()
+                        
+                    }
+                }
+                
+            }
+                
+                //failure, process error
+            else {
+                print( "data was not fetched or error foundddd\n")
+            }
+            
+        })
+        
     }
+    
 
     /*
     // MARK: - Navigation
