@@ -12,6 +12,9 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var profileName: UILabel!
+
+    @IBOutlet var whoToDoButton: UIButton!
+    @IBOutlet var whatToDoButton: UIButton!
     
     @IBOutlet var newsTableview: UITableView!
     
@@ -81,8 +84,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         var userID = user
         customCell.userName.text = userID.first_name + " " + userID.last_name
         
-        customCell.messageText.text = newsFeedRow["message"] as? String
-//        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
+//        customCell.messageText.text = newsFeedRow["message"] as? String
+        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
         //profile pic of user based on user id
         
@@ -91,7 +94,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         customCell.userProfPic.clipsToBounds = true;
         
         var timeElement = newsFeedRow["timePosted"] as String
-        print(timeElement);
         var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
         
         let intTime = timeArray[0].toInt()
@@ -119,11 +121,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         performSegueWithIdentifier("whatView", sender: self)
     }
     
-    @IBAction func whoClicked(sender: AnyObject) {
-        
-        performSegueWithIdentifier("whoView", sender: self)
-    }
-    
     func refreshInvoked() {
         
         refresh(viaPullToRefresh: true)
@@ -144,8 +141,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     func fetchNewsFeed () -> () {
 
         //create url for restful request
-//        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
-                var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed")
+        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
+        
         /*
         {
         "username": "10152362398270868",
@@ -162,7 +159,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             
             //success!
-            if (data != nil && error == nil)
+            if (data.length > 0 && error == nil)
             {
                 
                 //do this on main application thread
@@ -202,7 +199,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 //failure, process error
             else {
-                print( "data was not fetched or error foundddd\n")
+                print( "data was not fetched or error foundd\n")
             }
             
         })
@@ -221,10 +218,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         else if segue.identifier == "whatView" {
             var barsPage: BarsViewController = segue.destinationViewController as BarsViewController
             //        profPage.user = self.user;
-        }
-        else if segue.identifier == "whoView" {
-            var friendsPage: FriendsViewController = segue.destinationViewController as FriendsViewController
-            
         }
         
 

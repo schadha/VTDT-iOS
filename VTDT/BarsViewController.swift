@@ -32,9 +32,9 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         barImage.layer.borderWidth = width
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         
-        newsFeedTable.delegate = self
-        newsFeedTable.dataSource = self
-        newsFeedTable.layer.cornerRadius = 10
+        newsFeedTable.delegate = self;
+        newsFeedTable.dataSource = self;
+        newsFeedTable.layer.cornerRadius = 10;
         
         var tableViewController = UITableViewController()
         tableViewController.tableView = newsFeedTable
@@ -44,12 +44,10 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableViewController.refreshControl = self.refreshControl
         
         //default table view settings
-        newsLabel.hidden = false
-        specialsLabel.hidden = true
-        newsButton.layer.cornerRadius = 10
-        specialsButton.layer.cornerRadius = 10
-        
-        self.navigationController?.navigationBarHidden = false
+        newsLabel.hidden = false;
+        specialsLabel.hidden = true;
+        newsButton.layer.cornerRadius = 10;
+        specialsButton.layer.cornerRadius = 10;
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
@@ -60,11 +58,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
         fetchNewsFeed()
-    }
-    
-    func popToRoot(sender:UIBarButtonItem){
-        self.navigationController?.popViewControllerAnimated(true)
-        self.navigationController?.navigationBarHidden = true
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -159,7 +153,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
                         //will not populate until all news feed items have been fetched.
                         //tableview methods will be called initially (when screen is loaded) but since method
                         //is asynchronious, global newFeedItems array will still be empty
-//                        print (self.newsFeedItems)
+                        print (self.newsFeedItems)
                         self.newsFeedTable.reloadData()
                         
                     }
