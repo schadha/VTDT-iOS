@@ -19,8 +19,11 @@
 		83D0DD3A19F6ED06002CF2C2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C9F73E19F42410002CFA8A /* FacebookSDK.framework */; };
 		9B1B2D7019F6929D009BBB9F /* NewsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D6F19F6929D009BBB9F /* NewsFeedTableViewCell.swift */; };
 		9B1B2D7219F745B6009BBB9F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B1B2D7119F745B6009BBB9F /* ProfileViewController.swift */; };
-		9B2CA79219F92D4D00602726 /* BarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CA79119F92D4D00602726 /* BarsViewController.swift */; };
+		9B2CA79219F92D4D00602726 /* BarProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CA79119F92D4D00602726 /* BarProfileViewController.swift */; };
 		9B2CA79419F93C6B00602726 /* RestfulFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CA79319F93C6B00602726 /* RestfulFunctions.swift */; };
+		9B2CA79619F9E00400602726 /* BarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CA79519F9E00400602726 /* BarsViewController.swift */; };
+		9B326F041A026B8100A143AC /* BarProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B326F031A026B8100A143AC /* BarProfileCell.swift */; };
+		9B76469C1A0024C600FA7966 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76469B1A0024C600FA7966 /* PostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +54,11 @@
 		83C9F74019F42609002CFA8A /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		9B1B2D6F19F6929D009BBB9F /* NewsFeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsFeedTableViewCell.swift; sourceTree = "<group>"; };
 		9B1B2D7119F745B6009BBB9F /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		9B2CA79119F92D4D00602726 /* BarsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarsViewController.swift; sourceTree = "<group>"; };
+		9B2CA79119F92D4D00602726 /* BarProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileViewController.swift; sourceTree = "<group>"; };
 		9B2CA79319F93C6B00602726 /* RestfulFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestfulFunctions.swift; sourceTree = "<group>"; };
+		9B2CA79519F9E00400602726 /* BarsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarsViewController.swift; sourceTree = "<group>"; };
+		9B326F031A026B8100A143AC /* BarProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileCell.swift; sourceTree = "<group>"; };
+		9B76469B1A0024C600FA7966 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = ../PostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,8 +102,15 @@
 		83C9F71719F41C81002CFA8A /* VTDT */ = {
 			isa = PBXGroup;
 			children = (
+				9B76469B1A0024C600FA7966 /* PostViewController.swift */,
 				83C9F71A19F41C81002CFA8A /* AppDelegate.swift */,
 				9B1B2D6F19F6929D009BBB9F /* NewsFeedTableViewCell.swift */,
+<<<<<<< HEAD
+=======
+				9B326F031A026B8100A143AC /* BarProfileCell.swift */,
+				9B2CA79119F92D4D00602726 /* BarProfileViewController.swift */,
+				9B2CA79519F9E00400602726 /* BarsViewController.swift */,
+>>>>>>> ragan-3
 				83C9F73A19F42106002CFA8A /* InitialViewController.swift */,
 				8331C5C419F9A5E900D0F303 /* FriendsViewController.swift */,
 				8331C5C619F9C00A00D0F303 /* FriendTableViewCell.swift */,
@@ -106,10 +119,17 @@
 				9B1B2D7119F745B6009BBB9F /* ProfileViewController.swift */,
 				9B2CA79319F93C6B00602726 /* RestfulFunctions.swift */,
 				83C9F74019F42609002CFA8A /* Header.h */,
+<<<<<<< HEAD
 				83C9F72319F41C81002CFA8A /* LaunchScreen.xib */,
 				83C9F71819F41C81002CFA8A /* Supporting Files */,
 				8331C5C019F9687400D0F303 /* Main.storyboard */,
 				8331C5C219F9A40E00D0F303 /* Images.xcassets */,
+=======
+				8331C5C019F9687400D0F303 /* Main.storyboard */,
+				83C9F72119F41C81002CFA8A /* Images.xcassets */,
+				83C9F72319F41C81002CFA8A /* LaunchScreen.xib */,
+				83C9F71819F41C81002CFA8A /* Supporting Files */,
+>>>>>>> ragan-3
 			);
 			path = VTDT;
 			sourceTree = "<group>";
@@ -240,11 +260,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				8331C5C719F9C00A00D0F303 /* FriendTableViewCell.swift in Sources */,
 				8331C5C519F9A5E900D0F303 /* FriendsViewController.swift in Sources */,
+=======
+				9B76469C1A0024C600FA7966 /* PostViewController.swift in Sources */,
+>>>>>>> ragan-3
 				83C9F73D19F421B5002CFA8A /* LoginViewController.swift in Sources */,
-				9B2CA79219F92D4D00602726 /* BarsViewController.swift in Sources */,
+				9B2CA79219F92D4D00602726 /* BarProfileViewController.swift in Sources */,
+				9B2CA79619F9E00400602726 /* BarsViewController.swift in Sources */,
 				83C9F73B19F42106002CFA8A /* InitialViewController.swift in Sources */,
+				9B326F041A026B8100A143AC /* BarProfileCell.swift in Sources */,
 				9B1B2D7019F6929D009BBB9F /* NewsFeedTableViewCell.swift in Sources */,
 				83C9F71B19F41C81002CFA8A /* AppDelegate.swift in Sources */,
 				9B1B2D7219F745B6009BBB9F /* ProfileViewController.swift in Sources */,
