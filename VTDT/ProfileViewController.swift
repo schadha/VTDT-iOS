@@ -25,9 +25,9 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
-        NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
-        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+//        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+//        NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
+//        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
         // Do any additional setup after loading the view.
     }
 
