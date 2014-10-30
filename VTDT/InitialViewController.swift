@@ -26,27 +26,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileName.text = user.first_name + " " + user.last_name
-        print(user.objectID)
-        profileImage.profileID = user.objectID
-        profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
-        profileImage.clipsToBounds = true;
-        
-        let width:CGFloat = 3.0
-        profileImage.layer.borderWidth = width
-        profileImage.layer.borderColor = UIColor.whiteColor().CGColor
-
-        newsTableview.delegate = self;
-        newsTableview.dataSource = self;
-        newsTableview.layer.cornerRadius = 10;
-        
-        //set up refresh controller
-        var tableViewController = UITableViewController()
-        tableViewController.tableView = newsTableview
-        
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refreshInvoked", forControlEvents: UIControlEvents.ValueChanged)
-        tableViewController.refreshControl = self.refreshControl
+        setUpScreen()
         
         fetchNewsFeed()
     }
@@ -79,8 +59,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
         
-        //name of user where userid --> newsFeedRow["user"]
-        //use the userID to do a fetch to the user db table for first name, last name, profile picture
+        // userid --> newsFeedRow["user"]
+        //use the userID to do a fetch to the user db table for first name, last name
         var userID = user
         customCell.userName.text = userID.first_name + " " + userID.last_name
         
@@ -88,23 +68,14 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
         //profile pic of user based on user id
-        
+        //newsFeedRow["user"]
         customCell.userProfPic.profileID = userID.objectID
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
         var timeElement = newsFeedRow["timePosted"] as String
-        var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
-        
-        let intTime = timeArray[0].toInt()
-        if intTime > 12 {
-            let newTime:Int = intTime! - 12
-            customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
+        customCell.barLocation.text = getPostTime(timeElement)
 
-        }
-        else {
-            customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
-        }
         
         return customCell
     }
@@ -113,8 +84,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func detailClicked(sender: AnyObject) {
 
         performSegueWithIdentifier("profileView", sender: self)
-        print("do something\n")
-
     }
     @IBAction func whatClicked(sender: AnyObject) {
         
@@ -138,10 +107,12 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    // # RESTFUL CALLS ===========================================================
+    
     func fetchNewsFeed () -> () {
 
         //create url for restful request
-        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
+        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")!
         
         /*
         {
@@ -159,12 +130,9 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             
             //success!
-            if (data.length > 0 && error == nil)
+            if (data?.length > 0 && error == nil)
             {
                 
-                //do this on main application thread
-                dispatch_async(dispatch_get_main_queue()) {
-                    
                     //parse json into array
                     var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
                         options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
@@ -174,16 +142,21 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
                         print ("error parsing json file \n")
                     }
                     else {
-                        var x = 0
-                        for item in jsonResult {
+                        
+                        //do this on main application thread
+                        dispatch_async(dispatch_get_main_queue()) {
                             
-                            if x < 25 {
-                            var dict:NSDictionary = item as NSDictionary
-                            self.newsFeedItems += [dict]
-                            }
-                            else {
-                                break
-                            }
+                            var x = 0
+                            for item in jsonResult {
+                            
+                                if x < 25 {
+                                    var dict:NSDictionary = item as NSDictionary
+                                    self.newsFeedItems += [dict]
+                                }
+                                else {
+                                    break
+                                }
+                                x++
                         }
                         
                         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
@@ -191,9 +164,9 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
                         //tableview methods will be called initially (when screen is loaded) but since method
                         //is asynchronious, global newFeedItems array will still be empty
                         self.newsTableview.reloadData()
+                        }
                         
                     }
-                }
                 
             }
                 
@@ -203,6 +176,53 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             
         })
+        
+    }
+    
+    //get request to get user first and last name based on userid
+    
+    
+    //GET TIME FUNCTION
+    
+    func getPostTime(timeElement:String) -> String {
+        var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
+        
+        let intTime = timeArray[0].toInt()
+        if intTime > 12 {
+            let newTime:Int = intTime! - 12
+            return "at Sharkey's around \(newTime):\(timeArray[1]) pm"
+            
+        }
+        else {
+            return "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
+        }
+    }
+    
+    func setUpScreen() {
+        
+        profileName.text = user.first_name + " " + user.last_name
+        profileImage.profileID = user.objectID
+        profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
+        profileImage.clipsToBounds = true;
+        
+        let width:CGFloat = 3.0
+        profileImage.layer.borderWidth = width
+        profileImage.layer.borderColor = UIColor.whiteColor().CGColor
+        
+        whatToDoButton.layer.cornerRadius = 10;
+        whoToDoButton.layer.cornerRadius = 10;
+        
+        newsTableview.delegate = self;
+        newsTableview.dataSource = self;
+        newsTableview.layer.cornerRadius = 10;
+        
+        //set up refresh controller
+        var tableViewController = UITableViewController()
+        tableViewController.tableView = newsTableview
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshInvoked", forControlEvents: UIControlEvents.ValueChanged)
+        tableViewController.refreshControl = self.refreshControl
         
     }
     
@@ -217,7 +237,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         else if segue.identifier == "whatView" {
             var barsPage: BarsViewController = segue.destinationViewController as BarsViewController
-            //        profPage.user = self.user;
+            
+                barsPage.user = self.user;
         }
         
 
