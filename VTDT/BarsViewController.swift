@@ -55,13 +55,11 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         var cell:UITableViewCell = barTable.dequeueReusableCellWithIdentifier("barCell", forIndexPath: indexPath) as UITableViewCell
         var barItem = barDict[indexPath.row]
-        cell.textLabel?.text = barItem["name"] as? String
-        
-        if let imageView = cell.imageView {
-            imageView.image = barItem["logo"] as? UIImage
-            imageView.layer.cornerRadius = imageView.frame.width / 2
-            imageView.clipsToBounds = true
-        }
+        cell.textLabel.text = barItem["name"] as? String
+
+        cell.imageView.image = barItem["logo"] as? UIImage
+        cell.imageView.layer.cornerRadius = cell.imageView.frame.width / 2
+        cell.imageView.clipsToBounds = true
         
         return cell
     }
@@ -91,8 +89,8 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func getBarData() {
         
-//        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars")
-          var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.bars")
+       var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars")!
+//          var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.bars")!
         
         var request:NSURLRequest = NSURLRequest(URL: url)
         
@@ -104,9 +102,6 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
             if (data.length > 0 && error == nil)
             {
                 
-                //do this on main application thread
-                dispatch_async(dispatch_get_main_queue()) {
-                    
                     //parse json into array
                     var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
                         options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
@@ -116,13 +111,18 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
                         print ("error parsing json file \n")
                     }
                     else {
-                        for item in jsonResult {
+                        
+                        //do this on main application thread
+
+                        dispatch_async(dispatch_get_main_queue()) {
+
+                            for item in jsonResult {
                             
-                            //need to make sure that we are only appending new items--
-                            //would it be worth it??
-                            var dict:NSDictionary = item as NSDictionary
-                            self.barDict.append(dict)
-                        }
+                                //need to make sure that we are only appending new items--
+                                //would it be worth it??
+                                var dict:NSDictionary = item as NSDictionary
+                                self.barDict.append(dict)
+                            }
                         
                         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
                         //will not populate until all news feed items have been fetched.

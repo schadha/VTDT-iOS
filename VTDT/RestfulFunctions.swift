@@ -6,12 +6,11 @@
 //  Copyright (c) 2014 Sanchit Chadha. All rights reserved.
 //
 
-import UIKit
-
-class RestfulFunctions {
+import Foundation
     
-    class func postData (url:String, params:Dictionary<String, AnyObject>) -> Bool {
-        var request = NSMutableURLRequest(URL: NSURL(string: url))
+    
+    func postData (url:String, params:Dictionary<String, AnyObject>) -> Bool {
+        var request = NSMutableURLRequest(URL: NSURL(string: url)!)
         var err: NSError?
         
         request.HTTPMethod = "POST"
@@ -19,8 +18,9 @@ class RestfulFunctions {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
         
+       
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            
+        
             println("Response: \(response)")
             var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
 //            println("Body: \(strData)")
@@ -47,31 +47,26 @@ class RestfulFunctions {
                     println("Error could not parse JSON: \(jsonStr)")
                 }
             }
+//        }
         })
         return true
     }
     
-    class func getData (url: String) -> NSArray {
-        var jsonResult:NSArray = NSArray()
-        var url:NSURL = NSURL(string: url)
-        var request:NSURLRequest = NSURLRequest(URL: url)
+    func getData (url: String) -> NSArray {
         
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error:NSError!) -> Void in
-            //success!
-            if (data?.length > 0 && error == nil)
-            {
-                //parse json into array
-                jsonResult = NSJSONSerialization.JSONObjectWithData(data,
-                    options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-            }
-            //failure, process error
-            else {
-                print( "data was not fetched or error found\n")
-            }
-            
-        })
+        var jsonResult:NSArray = NSArray()
+        var requestUrl = NSURL(string: url)!
+//        var request:NSURLRequest = NSURLRequest(URL: url)
+        var jsonError:NSError?
+        
+        let jsonData:NSData? = NSData(contentsOfURL: requestUrl, options:NSDataReadingOptions.DataReadingMapped, error: &jsonError)
+        
+        if let jsonDataFromDB = jsonData {
+
+            //parse json into array
+            jsonResult = NSJSONSerialization.JSONObjectWithData(jsonDataFromDB,
+                options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
+        }
         
         return jsonResult
     }
-   
-}

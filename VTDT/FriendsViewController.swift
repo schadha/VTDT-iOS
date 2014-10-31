@@ -63,9 +63,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
         self.title = "Who To Do"
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
-        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+//        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+//            NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
+//        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
     }
     
     //MARK: -Tableview methods
@@ -139,7 +139,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         //create url for restful request
         //        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users")
-        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends")
+        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends")!
         /*
         {
         "username": "10152362398270868",

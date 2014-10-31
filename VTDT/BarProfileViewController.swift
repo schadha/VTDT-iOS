@@ -19,7 +19,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
 
     @IBOutlet var newsFeedTable: UITableView!
     @IBOutlet var barImage: UIImageView!
-//    @IBOutlet var barName: UILabel!
     
     @IBOutlet var newsButton: UIButton!
     @IBOutlet var specialsButton: UIButton!
@@ -31,10 +30,12 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet var postButton: UIButton!
     @IBOutlet var barAddress: UILabel!
     @IBOutlet var barWebsite: UILabel!
+    @IBOutlet var barPhone: UILabel!
     
     var switchTab = false
     
     var newsFeedItems = [NSDictionary]();
+    var specialItems = [NSDictionary]();
     var barInfo = NSDictionary();
     
     override func viewDidLoad() {
@@ -58,20 +59,25 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return newsFeedItems.count
+        if !switchTab {
+            return newsFeedItems.count
+        }
+        return 3
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        print ("called cell\n")
         var customCell:BarProfileCell = newsFeedTable.dequeueReusableCellWithIdentifier("barProfileCell", forIndexPath: indexPath) as BarProfileCell
-        
-        var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
-        
         
         if !switchTab {
             
-            print("switch false\n")
+            //hide unused elements
+            customCell.specialName.hidden = true
+            customCell.specialDetails.hidden = true
+            customCell.specialDuration.hidden = true
+            
+            var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
+            
             //name of user where userid --> newsFeedRow["user"]
             //use the userID to do a fetch to the user db table for first name, last name, profile picture
             //          var userID = user
@@ -102,8 +108,13 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         else {
+            
+            //hide unused cells
             //configure specials cell
-            print("here\n")
+            customCell.messageText.hidden = true
+            customCell.barLocation.hidden = true
+            customCell.userName.hidden = true
+            
             customCell.specialName.text = "Pizza"
             customCell.specialDetails.text = "2 for 1 deals"
             customCell.specialDuration.text = "2 more hours"
@@ -115,10 +126,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     func fetchNewsFeed () {
         //create url for restful request
         var barName:String = barInfo["name"] as String
-//        var barString:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
-        var barString:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
+       var barString:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
+//        var barString:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
         var fixedString = barString.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
-        var url:NSURL = NSURL(string:fixedString!)
+        var url:NSURL = NSURL(string:fixedString!)!
         
         var request:NSURLRequest = NSURLRequest(URL: url)
         
@@ -174,7 +185,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
                 //failure, process error
             else {
                 //show error pop up
-//                print( "no news feed data for bar")
+                var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+
             }
             
         })
@@ -262,8 +276,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         let phone:String = barInfo["phoneNumber"] as String
         
         //make website be a link that loads in a new web browser
-        barWebsite.text = "\(phone)\n\(web)"
+        barWebsite.text = "\(web)"
+        barPhone.text = "\(phone)"
         
+        //set as delegate
         newsFeedTable.delegate = self;
         newsFeedTable.dataSource = self;
         newsFeedTable.layer.cornerRadius = 10;
@@ -285,13 +301,13 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         specialsButton.layer.cornerRadius = 10;
         
         //navication stuff
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
-        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
+//        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
         
         //set up navigation controller
-        //        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
-        //            NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
-        //        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)!]
+        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
         
         self.title = barInfo["name"] as? String
         

@@ -14,21 +14,11 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBarHidden = false;
         
         self.title = user.name;
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
-        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.translucent = true
-        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
-        
-//        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
-//        NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
-//        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
-        // Do any additional setup after loading the view.
+        setUpScreen()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +38,25 @@ class ProfileViewController: UIViewController {
 //        // Get the new view controller using segue.destinationViewController.
 //        // Pass the selected object to the new view controller.
 //    }
+    
+    func setUpScreen () {
+        
+        self.title = user.name;
+
+        self.navigationController?.navigationBarHidden = false;
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)!]
+                self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+    }
 
 
 }
