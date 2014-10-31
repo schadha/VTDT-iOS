@@ -51,13 +51,43 @@ class RestfulFunctions {
         return true
     }
     
-    class func getData (url: String) -> NSArray {
-        var url: NSURL = NSURL(string: url)
+    class func getData (urlParam: String, param:AnyObject?=nil) -> NSArray {
+        
+        var url: NSURL = NSURL()
+        
+        if let parameter: AnyObject = param {
+            url = NSURL(string: urlParam + "\(parameter)")
+        } else {
+            url = NSURL(string: urlParam)
+        }
+        
         var request: NSURLRequest = NSURLRequest(URL: url)
         var response: AutoreleasingUnsafeMutablePointer <NSURLResponse?>=nil
         var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error:nil)!
-        var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-        return jsonResult
+
+        let jsonResult: AnyObject = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: nil)!
+        
+        if let nsDictionaryObject = jsonResult as? NSDictionary {
+            if (nsDictionaryObject.count == 0) {
+                //handle json error here
+                print ("error parsing json file \n")
+                return NSArray()
+            }
+            else {
+                return [nsDictionaryObject] as NSArray;
+            }
+        }
+        else if let nsArrayObject = jsonResult as? NSArray {
+            if (nsArrayObject.count == 0) {
+                //handle json error here
+                print ("error parsing json file \n")
+                return NSArray()
+            }
+            else {
+                return nsArrayObject as NSArray;
+            }
+        }
+        return NSArray()
     }
    
 }

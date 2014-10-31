@@ -16,6 +16,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var newsFeedItems = [NSDictionary]()
     
+    var user: FBGraphUser!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         setupNavBar()
         
-        fetchNewsFeed()
+        fetchOnlineFriends(self.user.objectID)
 
     }
 
@@ -96,26 +97,18 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         //        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
         //profile pic of user based on user id
+        var friendUserID = newsFeedRow["friend"] as? String
+        var friend:NSDictionary = RestfulFunctions.getData("http://localhost:8080/VTDT/webresources/com.group2.vtdt.users/findByUsername/",param: friendUserID!).firstObject as NSDictionary
         
-        customCell.userProfPic.profileID = "10152362398270868"
+        customCell.userProfPic.profileID = friend["username"] as? String
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
-        customCell.userName.text = newsFeedRow["friend"] as? String;
-        customCell.barLocation.text = "Sharkey's"
-//        var timeElement = newsFeedRow["timePosted"] as String
-//        print(timeElement);
-//        var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
-        
-//        let intTime = timeArray[0].toInt()
-//        if intTime > 12 {
-//            let newTime:Int = intTime! - 12
-//            customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
-        
-//        }
-//        else {
-//            customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
-//        }
+        customCell.userName.text = friend["name"] as? String;
+        var barID: Int = friend["checkedInBar"] as Int
+        var bar: NSDictionary = RestfulFunctions.getData("http://localhost:8080/VTDT/webresources/com.group2.vtdt.bars/", param: barID).firstObject as NSDictionary
+        var barLocation = bar["name"] as? String
+        customCell.barLocation.text = barLocation
         
         return customCell
     }
@@ -130,81 +123,37 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         //reset newsfeeditems
         newsFeedItems = [NSDictionary]()
         //reload news feed data
-        fetchNewsFeed()
+        fetchOnlineFriends(self.user.objectID)
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
         }
     }
     
-    func fetchNewsFeed () -> () {
+    func fetchOnlineFriends (userID: String) -> () {
+        var local = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends/findOnline/"
+        var jupiter = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findOnline/"
         
-        //create url for restful request
-        //        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users")
-        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends/findOnline/10152362398270868")
-        /*
-        {
-        "username": "10152362398270868",
-        "id": 1,
-        "profile_picture": "NULL",
-        "checked_in_bar": 1,
-        "name": "Sanchit Chadha"
+        var jsonResult: NSArray = RestfulFunctions.getData(local, param: userID)
+        
+        if (jsonResult.count == 0) {
+            //handle json error here
+            print ("error parsing json file \n")
         }
-        */
-        var request:NSURLRequest = NSURLRequest(URL: url)
-        
-        //get jason
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        else {
             
-            
-            //success!
-            if (data != nil && error == nil)
-            {
-                
-                //do this on main application thread
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    //parse json into array
-                    var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
-                        options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-                    
-                    if (jsonResult.count == 0) {
-                        //handle json error here
-                        print ("error parsing json file \n")
-                    }
-                    else {
-                        var x = 0
-                        for item in jsonResult {
-                            
-//                            if x < 25 {
-                                var dict:NSDictionary = item as NSDictionary
-                                self.newsFeedItems += [dict]
-//                            }
-//                            els/e {
-//                                break
-//                            }
-                        }
-                        
-                        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-                        //will not populate until all news feed items have been fetched.
-                        //tableview methods will be called initially (when screen is loaded) but since method
-                        //is asynchronious, global newFeedItems array will still be empty
-                        self.friendsTableview.reloadData()
-                        
-                    }
-                }
-                
-            }
-                
-                //failure, process error
-            else {
-                print( "data was not fetched or error found\n")
+            for item in jsonResult {
+                    var dict:NSDictionary = item as NSDictionary
+                    self.newsFeedItems += [dict]
             }
             
-        })
-        
+            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+            //will not populate until all news feed items have been fetched.
+            //tableview methods will be called initially (when screen is loaded) but since method
+            //is asynchronious, global newFeedItems array will still be empty
+            self.friendsTableview.reloadData()
+        }
     }
-    
 
     /*
     // MARK: - Navigation

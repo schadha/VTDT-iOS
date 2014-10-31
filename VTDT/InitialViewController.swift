@@ -59,7 +59,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
         var userID = newsFeedRow["username"] as? String
-        var user:NSDictionary = fetchUser(userID!)
+        var user:NSDictionary = RestfulFunctions.getData("http://localhost:8080/VTDT/webresources/com.group2.vtdt.users/findByUsername/",param: userID!)[0] as NSDictionary
         
         customCell.userName.text = user["name"] as? String
         customCell.messageText.text = newsFeedRow["message"] as? String
@@ -113,6 +113,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         var jupiter = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/sorted"
         
         var jsonResult: NSArray = RestfulFunctions.getData(local)
+//        self.newsFeedItems = [jsonResult];
         
         if (jsonResult.count == 0) {
             //handle json error here
@@ -139,22 +140,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             //is asynchronious, global newFeedItems array will still be empty
             self.newsTableview.reloadData()
             
-        }
-    }
-    
-    func fetchUser(userID: String) -> NSDictionary {
-        var local = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.users/findByUsername/\(userID)"
-        var jupiter = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID)"
-        
-        var jsonResult: NSArray = RestfulFunctions.getData(local)
-        
-        if (jsonResult.count == 0) {
-            //handle json error here
-            print ("error parsing json file \n")
-            return NSDictionary()
-        }
-        else {
-            return jsonResult[0] as NSDictionary;
         }
     }
     
@@ -218,6 +203,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         else if segue.identifier == "whoView" {
             var friendsPage: FriendsViewController = segue.destinationViewController as FriendsViewController
+            friendsPage.user = self.user;
             
         }
         

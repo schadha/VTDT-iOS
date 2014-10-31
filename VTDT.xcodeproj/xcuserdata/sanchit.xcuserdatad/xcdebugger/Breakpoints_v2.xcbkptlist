@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VTDT/InitialViewController.swift"
-            timestampString = "436417931.772615"
+            timestampString = "436418335.82843"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "refresh(viaPullToRefresh:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VTDT/InitialViewController.swift"
-            timestampString = "436417860.539603"
+            timestampString = "436420899.015824"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "fetchNewsFeed()"
             landmarkType = "5">
          </BreakpointContent>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VTDT/RestfulFunctions.swift"
-            timestampString = "436417947.062723"
+            filePath = "VTDT/FriendsViewController.swift"
+            timestampString = "436423348.616453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "getData(_:)"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "fetchOnlineFriends(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
