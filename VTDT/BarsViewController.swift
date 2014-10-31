@@ -69,8 +69,6 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         performSegueWithIdentifier("barPage", sender: self)
     }
     
-
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

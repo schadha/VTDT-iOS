@@ -21,6 +21,7 @@ class PostViewController: UIViewController, UITextViewDelegate {
         //if post field is empty, post button is invisible
         super.viewDidLoad()
         setUpScreen()
+        println(barInfo)
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,23 +56,16 @@ class PostViewController: UIViewController, UITextViewDelegate {
             //post data
             
             //get the current time
-            let date = NSDate()
-            let formatter = NSDateFormatter()
-            formatter.timeStyle = .ShortStyle
-            formatter.dateStyle = .ShortStyle
-            let finalDate = formatter.stringFromDate(date)
 
-//            var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
-//            var url:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
-//            var input:Dictionary<String, AnyObject> = ["username":userID, "message":postMessage, "timePosted":"2014-10-30T10:19:02", "bar":2]
-//            RestfulFunctions.postData(url, params:input)
+           var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
+//        var url:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
+        var input:Dictionary<String, AnyObject> = ["username":userID, "message":postMessage, "bar":barInfo["id"]]
+        postData(url, input)
             
             self.navigationController?.popViewControllerAnimated(true)
 
         }
-    }
-    @IBOutlet var textFieldTapped: [UITextView]!
-    
+    }    
     func setUpScreen () {
         
         self.postButton.hidden = true

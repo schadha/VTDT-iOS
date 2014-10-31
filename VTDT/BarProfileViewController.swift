@@ -78,19 +78,13 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             
             var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
             
-            //name of user where userid --> newsFeedRow["user"]
-            //use the userID to do a fetch to the user db table for first name, last name, profile picture
-            //          var userID = user
-            //        customCell.userName.text = userID.first_name + " " + userID.last_name
-        
             customCell.messageText.text = newsFeedRow["message"] as? String
-            customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
             //profile pic of user based on user id
         
-            //        customCell.userProfPic.profileID = userID.objectID
-            //        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
-            //        customCell.userProfPic.clipsToBounds = true;
+            customCell.userProfPic.profileID = newsFeedRow["userName"] as? String
+            customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
+            customCell.userProfPic.clipsToBounds = true;
         
             var timeElement = newsFeedRow["timePosted"] as String
             var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")

@@ -31,7 +31,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         
         setUpScreen()
-        startFetch()
+        startFetchNews()
             
 //      let local = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
 //      var jupiter =
@@ -64,18 +64,11 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
-        
-        // userid --> newsFeedRow["user"]
-        //use the userID to do a fetch to the user db table for first name, last name
-        var userID = user
-//        customCell.userName.text = userID.first_name + " " + userID.last_name
         customCell.userName.text = newsFeedRow["name"] as? String
         customCell.messageText.text = newsFeedRow["message"] as? String
-//        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
-        
         //profile pic of user based on user id
         //newsFeedRow["user"]
-        customCell.userProfPic.profileID = userID.objectID
+        customCell.userProfPic.profileID = newsFeedRow["username"] as? String
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
@@ -111,7 +104,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         //reset newsfeeditems
         newsFeedItems = [NSDictionary]()
         //reload news feed data
-        startFetch()
+        startFetchNews()
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
@@ -120,9 +113,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // # RESTFUL CALLS ===========================================================
     
-    func fetchNewsFeed (jsonResult: NSArray) -> () {
-        
-//        var jsonResult: NSArray = RestfulFunctions.getData(jupiter)
+    func parseNewsFeed (jsonResult: NSArray) -> () {
         
         if (jsonResult.count == 0) {
             //handle json error here
@@ -151,15 +142,14 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    
-    func startFetch () {
+    func startFetchNews () {
         
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
         
         dispatch_async(queue) {
             let result = getData(jupiter)
             dispatch_async(dispatch_get_main_queue()) {
-                self.fetchNewsFeed(result)
+                self.parseNewsFeed(result)
             }
             
         }
