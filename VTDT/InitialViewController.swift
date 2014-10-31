@@ -111,7 +111,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         //reset newsfeeditems
         newsFeedItems = [NSDictionary]()
         //reload news feed data
-//        fetchNewsFeed()
+        startFetch()
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
