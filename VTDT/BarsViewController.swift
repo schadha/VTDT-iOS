@@ -55,10 +55,14 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         var cell:UITableViewCell = barTable.dequeueReusableCellWithIdentifier("barCell", forIndexPath: indexPath) as UITableViewCell
         var barItem = barDict[indexPath.row]
-        cell.textLabel.text = barItem["name"] as? String
-        //cell.imageView.image = barItem["logo"] as UIImage
-        cell.imageView.layer.cornerRadius = cell.imageView.frame.size.width / 2;
-        cell.imageView.clipsToBounds = true;
+        cell.textLabel?.text = barItem["name"] as? String
+        
+        if let imageView = cell.imageView {
+            imageView.image = barItem["logo"] as? UIImage
+            imageView.layer.cornerRadius = imageView.frame.width / 2
+            imageView.clipsToBounds = true
+        }
+        
         return cell
     }
     
@@ -87,7 +91,8 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func getBarData() {
         
-        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars")!
+//        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars")
+          var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.bars")
         
         var request:NSURLRequest = NSURLRequest(URL: url)
         

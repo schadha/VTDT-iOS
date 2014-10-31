@@ -53,7 +53,8 @@ class PostViewController: UIViewController, UITextViewDelegate {
             
             //get the current time
             
-            var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
+//            var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
+            var url:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
             var input:Dictionary<String, AnyObject> = ["username":"10152362398270868", "message":postMessage, "timePosted":"2014-10-30T10:19:02", "bar":2]
             RestfulFunctions.postData(url, params:input)
             

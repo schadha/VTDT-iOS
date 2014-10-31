@@ -115,9 +115,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     func fetchNewsFeed () {
         //create url for restful request
         var barName:String = barInfo["name"] as String
-        var barString:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
+//        var barString:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
+        var barString:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
         var fixedString = barString.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
-        var url:NSURL = NSURL(string:fixedString!)!
+        var url:NSURL = NSURL(string:fixedString!)
         
         var request:NSURLRequest = NSURLRequest(URL: url)
         
