@@ -101,19 +101,21 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
-        var timeElement = newsFeedRow["timePosted"] as String
-        print(timeElement);
-        var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
+        customCell.userName.text = newsFeedRow["friend"] as? String;
+        customCell.barLocation.text = "Sharkey's"
+//        var timeElement = newsFeedRow["timePosted"] as String
+//        print(timeElement);
+//        var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
         
-        let intTime = timeArray[0].toInt()
-        if intTime > 12 {
-            let newTime:Int = intTime! - 12
-            customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
-            
-        }
-        else {
-            customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
-        }
+//        let intTime = timeArray[0].toInt()
+//        if intTime > 12 {
+//            let newTime:Int = intTime! - 12
+//            customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
+        
+//        }
+//        else {
+//            customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
+//        }
         
         return customCell
     }
@@ -139,7 +141,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         //create url for restful request
         //        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users")
-        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends")
+        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends/findOnline/10152362398270868")
         /*
         {
         "username": "10152362398270868",
@@ -174,13 +176,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                         var x = 0
                         for item in jsonResult {
                             
-                            if x < 25 {
+//                            if x < 25 {
                                 var dict:NSDictionary = item as NSDictionary
                                 self.newsFeedItems += [dict]
-                            }
-                            else {
-                                break
-                            }
+//                            }
+//                            els/e {
+//                                break
+//                            }
                         }
                         
                         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
@@ -196,7 +198,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 //failure, process error
             else {
-                print( "data was not fetched or error foundddd\n")
+                print( "data was not fetched or error found\n")
             }
             
         })

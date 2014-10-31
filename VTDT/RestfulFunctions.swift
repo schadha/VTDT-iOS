@@ -52,25 +52,11 @@ class RestfulFunctions {
     }
     
     class func getData (url: String) -> NSArray {
-        var jsonResult:NSArray = NSArray()
-        var url:NSURL = NSURL(string: url)
-        var request:NSURLRequest = NSURLRequest(URL: url)
-        
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error:NSError!) -> Void in
-            //success!
-            if (data?.length > 0 && error == nil)
-            {
-                //parse json into array
-                jsonResult = NSJSONSerialization.JSONObjectWithData(data,
-                    options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-            }
-            //failure, process error
-            else {
-                print( "data was not fetched or error found\n")
-            }
-            
-        })
-        
+        var url: NSURL = NSURL(string: url)
+        var request: NSURLRequest = NSURLRequest(URL: url)
+        var response: AutoreleasingUnsafeMutablePointer <NSURLResponse?>=nil
+        var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error:nil)!
+        var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
         return jsonResult
     }
    

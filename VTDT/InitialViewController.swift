@@ -12,7 +12,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var profileName: UILabel!
-
+    
     @IBOutlet var whoToDoButton: UIButton!
     @IBOutlet var whatToDoButton: UIButton!
     
@@ -35,7 +35,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         FBSession.activeSession().closeAndClearTokenInformation()
         self.navigationController?.popViewControllerAnimated(true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -58,31 +58,26 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
+        var userID = newsFeedRow["username"] as? String
+        var user:NSDictionary = fetchUser(userID!)
         
-        // userid --> newsFeedRow["user"]
-        //use the userID to do a fetch to the user db table for first name, last name
-        var userID = user
-//        customCell.userName.text = userID.first_name + " " + userID.last_name
-        customCell.userName.text = newsFeedRow["name"] as? String
+        customCell.userName.text = user["name"] as? String
         customCell.messageText.text = newsFeedRow["message"] as? String
-//        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
-        //profile pic of user based on user id
-        //newsFeedRow["user"]
-        customCell.userProfPic.profileID = userID.objectID
+        customCell.userProfPic.profileID = userID
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
         var timeElement = newsFeedRow["timePosted"] as String
         customCell.barLocation.text = getPostTime(timeElement)
-
+        
         
         return customCell
     }
     
-        
+    
     @IBAction func detailClicked(sender: AnyObject) {
-
+        
         performSegueWithIdentifier("profileView", sender: self)
     }
     @IBAction func whatClicked(sender: AnyObject) {
@@ -111,10 +106,11 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.refreshControl?.endRefreshing()
         }
     }
+    // # RESTFUL CALLS ===========================================================
     
     func fetchNewsFeed () -> () {
-        var local = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
-        var jupiter = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
+        var local = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed/sorted"
+        var jupiter = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/sorted"
         
         var jsonResult: NSArray = RestfulFunctions.getData(local)
         
@@ -124,107 +120,43 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         else {
             
-            //do this on main application thread
-            dispatch_async(dispatch_get_main_queue()) {
+            var x = 0
+            for item in jsonResult {
                 
-                var x = 0
-                for item in jsonResult {
-                    
-                    if x < 25 {
-                        var dict:NSDictionary = item as NSDictionary
-                        self.newsFeedItems += [dict]
-                    }
-                    else {
-                        break
-                    }
-                    x++
+                if x < 25 {
+                    var dict:NSDictionary = item as NSDictionary
+                    self.newsFeedItems += [dict]
                 }
-                
-                //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-                //will not populate until all news feed items have been fetched.
-                //tableview methods will be called initially (when screen is loaded) but since method
-                //is asynchronious, global newFeedItems array will still be empty
-                self.newsTableview.reloadData()
+                else {
+                    break
+                }
+                x++
             }
+            
+            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+            //will not populate until all news feed items have been fetched.
+            //tableview methods will be called initially (when screen is loaded) but since method
+            //is asynchronious, global newFeedItems array will still be empty
+            self.newsTableview.reloadData()
             
         }
     }
     
-    // # RESTFUL CALLS ===========================================================
-    
-//    func fetchNewsFeed () -> () {
-//
-//        //create url for restful request
-////        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed")
-//        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed")
-//        
-//        /*
-//        {
-//        "username": "10152362398270868",
-//        "id": 1,
-//        "profile_picture": "NULL",
-//        "checked_in_bar": 1,
-//        "name": "Sanchit Chadha"
-//        }
-//        */
-//        var request:NSURLRequest = NSURLRequest(URL: url)
-//        
-//        //get jason
-//        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-//            
-//            
-//            //success!
-//            if (data?.length > 0 && error == nil)
-//            {
-//                
-//                    //parse json into array
-//                    var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
-//                        options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-//                    
-//                    if (jsonResult.count == 0) {
-//                        //handle json error here
-//                        print ("error parsing json file \n")
-//                    }
-//                    else {
-//                        
-//                        //do this on main application thread
-//                        dispatch_async(dispatch_get_main_queue()) {
-//                            
-//                            var x = 0
-//                            for item in jsonResult {
-//                            
-//                                if x < 25 {
-//                                    var dict:NSDictionary = item as NSDictionary
-//                                    self.newsFeedItems += [dict]
-//                                }
-//                                else {
-//                                    break
-//                                }
-//                                x++
-//                        }
-//                        
-//                        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-//                        //will not populate until all news feed items have been fetched.
-//                        //tableview methods will be called initially (when screen is loaded) but since method
-//                        //is asynchronious, global newFeedItems array will still be empty
-//                        self.newsTableview.reloadData()
-//                        }
-//                        
-//                    }
-//                
-//            }
-//                
-//                //failure, process error
-//            else {
-//                print( "data was not fetched or error found\n")
-//            }
-//            
-//        })
-//        
-//    }
-    
-    //get request to get user first and last name based on userid
-    
+    func fetchUser(userID: String) -> NSDictionary {
+        var local = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.users/findByUsername/\(userID)"
+        var jupiter = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID)"
+        
+        var jsonResult: NSArray = RestfulFunctions.getData(local)
+        
+        if (jsonResult.count == 0) {
+            //handle json error here
+            print ("error parsing json file \n")
+            return NSDictionary()
+        }
+        else {
+            return jsonResult[0] as NSDictionary;
+        }
+    }
     
     //GET TIME FUNCTION
     
@@ -282,14 +214,14 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         else if segue.identifier == "whatView" {
             var barsPage: BarsViewController = segue.destinationViewController as BarsViewController
             
-                barsPage.user = self.user;
+            barsPage.user = self.user;
         }
         else if segue.identifier == "whoView" {
             var friendsPage: FriendsViewController = segue.destinationViewController as FriendsViewController
             
         }
         
-
+        
     }
-
+    
 }
