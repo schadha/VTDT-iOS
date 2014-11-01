@@ -71,14 +71,15 @@ class PostViewController: UIViewController, UITextViewDelegate {
         }
     }    
     func setUpScreen () {
-        
+        self.title = "Post to Newsfeed"
         self.postButton.hidden = true
         self.postField.delegate = self
         self.postButton.layer.cornerRadius = 10;
         self.postField.layer.cornerRadius = 10;
         self.automaticallyAdjustsScrollViewInsets = false
         
-//        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()

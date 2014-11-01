@@ -40,7 +40,11 @@ class ProfileViewController: UIViewController {
     
     func setUpScreen () {
         
-        self.title = name;
+        if user != nil {
+            self.title = user.name
+        } else {
+            self.title = name;   
+        }
         
         self.navigationController?.navigationBarHidden = false;
         

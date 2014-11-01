@@ -59,7 +59,6 @@
 		9B2CA79319F93C6B00602726 /* RestfulFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestfulFunctions.swift; sourceTree = "<group>"; };
 		9B2CA79519F9E00400602726 /* BarsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarsViewController.swift; sourceTree = "<group>"; };
 		9B326F031A026B8100A143AC /* BarProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarProfileCell.swift; sourceTree = "<group>"; };
-		9B4525171A03317B007AE580 /* FacebookSDK */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FacebookSDK; path = ../../FacebookSDK; sourceTree = "<group>"; };
 		9B76469B1A0024C600FA7966 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = ../PostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,7 +84,6 @@
 		83C9F70C19F41C81002CFA8A = {
 			isa = PBXGroup;
 			children = (
-				9B4525171A03317B007AE580 /* FacebookSDK */,
 				83A48DA71A031E9C008DC5AB /* FacebookSDK.framework */,
 				83C9F71719F41C81002CFA8A /* VTDT */,
 				83C9F72D19F41C81002CFA8A /* VTDTTests */,
