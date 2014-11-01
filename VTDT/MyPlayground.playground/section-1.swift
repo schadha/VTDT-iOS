@@ -2,11 +2,24 @@
 
 import UIKit
 
-var str = "Hello, playground"
-
-var today:NSDate = NSDate()
-var dateFormatter:NSDateFormatter = NSDateFormatter()
-
-dateFormatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss"
+//var today:NSDate = NSDate()
 //"2014-10-30T10:19:02"
-var timePosted:String = dateFormatter.stringFromDate(today)
+
+var timeElement = "2014-10-30T10:19:02"
+
+var dateFormatter:NSDateFormatter = NSDateFormatter()
+dateFormatter.dateFormat = "HH:mm:ss"
+var timeArray:[String] = timeElement.componentsSeparatedByString("T")
+var time = dateFormatter.dateFromString(timeArray[1])
+dateFormatter.dateFormat = "h:mm a"
+var timePosted = dateFormatter.stringFromDate(time!)
+"at Sharkey's around \(timePosted)"
+
+//var dateFormatter2:NSDateFormatter = NSDateFormatter()
+//dateFormatter2.dateStyle = NSDateFormatterStyle.ShortStyle
+//dateFormatter2.dateFormat = "YYYY-MM-DD HH:mma"
+//timeArray[0]
+//var date:NSDate = dateFormatter2.dateFromString(timeElement)!
+//var date2 = dateFormatter2.stringFromDate(date)
+
+

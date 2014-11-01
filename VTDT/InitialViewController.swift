@@ -78,8 +78,12 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
+        var barID: Int = newsFeedRow["bar"] as Int
+        var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
+        var barLocation = bar["name"] as? String
+        
         var timeElement = newsFeedRow["timePosted"] as String
-        customCell.barLocation.text = getPostTime(timeElement)
+        customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
 
         
         return customCell
@@ -152,13 +156,13 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/sorted"
         
-        dispatch_async(queue) {
+//        dispatch_async(queue) {
             let result = getData(jupiter)
-            dispatch_async(dispatch_get_main_queue()) {
+//            dispatch_async(dispatch_get_main_queue()) {
                 self.parseNewsFeed(result)
-            }
-            
-        }
+//            }
+        
+//        }
     }
 
     
@@ -167,18 +171,17 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //GET TIME FUNCTION
     
-    func getPostTime(timeElement:String) -> String {
-        var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
+    func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
+        var dateFormatter:NSDateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
         
-        let intTime = timeArray[0].toInt()
-        if intTime > 12 {
-            let newTime:Int = intTime! - 12
-            return "at Sharkey's around \(newTime):\(timeArray[1]) pm"
-            
-        }
-        else {
-            return "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
-        }
+        var timeArray:[String] = timeElement.componentsSeparatedByString("T")
+        var time = dateFormatter.dateFromString(timeArray[1])
+        
+        dateFormatter.dateFormat = "h:mm a"
+        var timePosted = dateFormatter.stringFromDate(time!)
+        
+        return "at \(barLocation) around \(timePosted)"
     }
     
     func setUpScreen() {

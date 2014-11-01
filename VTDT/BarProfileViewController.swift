@@ -174,13 +174,13 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barId)"
         
-        dispatch_async(queue) {
+//        dispatch_async(queue) {
             let result = getData(jupiter)
-            dispatch_async(dispatch_get_main_queue()) {
+//            dispatch_async(dispatch_get_main_queue()) {
                 self.parseNewsFeed(result)
-            }
-            
-        }
+//            }
+        
+//        }
     }
     
     func refreshInvoked() {
