@@ -9,13 +9,21 @@
 import UIKit
 
 class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet var friendsTableview: UITableView!
     
     var refreshControl:UIRefreshControl!
     
     var newsFeedItems = [NSDictionary]()
     
+    var bars = [NSDictionary]()
+    var currBar = NSDictionary()
+    
+    var friends = [NSDictionary]()
+    var currFriend = NSDictionary()
+    var user: FBGraphUser!
+    
+    private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,10 +43,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         setupNavBar()
         
-        fetchNewsFeed()
-
+        startFetchOnlineFriends(self.user.objectID)
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -63,9 +71,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
         self.title = "Who To Do"
-//        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
-//            NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)]
-//        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)!]
+        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
     }
     
     //MARK: -Tableview methods
@@ -89,31 +97,28 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         //name of user where userid --> newsFeedRow["user"]
         //use the userID to do a fetch to the user db table for first name, last name, profile picture
-//        var userID = user
-//        customCell.userName.text = userID.first_name + " " + userID.last_name
+        //        var userID = user
+        //        customCell.userName.text = userID.first_name + " " + userID.last_name
         
-//        customCell.messageText.text = newsFeedRow["message"] as? String
+        //        customCell.messageText.text = newsFeedRow["message"] as? String
         //        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
         
         //profile pic of user based on user id
+        var friendUserID = newsFeedRow["friend"] as? String
+        var friend:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendUserID!)").firstObject as NSDictionary
         
-        customCell.userProfPic.profileID = "10152362398270868"
+        customCell.userProfPic.profileID = friend["username"] as? String
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
-        var timeElement = newsFeedRow["timePosted"] as String
-        print(timeElement);
-        var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
+        customCell.userName.text = friend["name"] as? String;
+        var barID: Int = friend["checkedInBar"] as Int
+        var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
+        var barLocation = bar["name"] as? String
+        customCell.barLocation.text = barLocation
         
-        let intTime = timeArray[0].toInt()
-        if intTime > 12 {
-            let newTime:Int = intTime! - 12
-            customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
-            
-        }
-        else {
-            customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
-        }
+        friends.append(friend)
+        bars.append(bar)
         
         return customCell
     }
@@ -128,90 +133,85 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         //reset newsfeeditems
         newsFeedItems = [NSDictionary]()
         //reload news feed data
-        fetchNewsFeed()
+        startFetchOnlineFriends(self.user.objectID)
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
         }
     }
     
-    func fetchNewsFeed () -> () {
+    func startFetchOnlineFriends (userID: String){
         
-        //create url for restful request
-        //        var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users")
-        var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.friends")!
-        /*
-        {
-        "username": "10152362398270868",
-        "id": 1,
-        "profile_picture": "NULL",
-        "checked_in_bar": 1,
-        "name": "Sanchit Chadha"
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findOnline/\(userID)"
+        
+        dispatch_async(queue) {
+            let result = getData(jupiter)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.parseOnlineFriends(result)
+            }
+            
         }
-        */
-        var request:NSURLRequest = NSURLRequest(URL: url)
+    }
+    
+    func parseOnlineFriends(jsonResult:NSArray) {
         
-        //get jason
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        if (jsonResult.count == 0) {
+            //handle json error here
+            var alert = UIAlertController(title: "Oops!", message: "We had trouble fetching your data.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else {
             
+            //do this on main application thread
             
-            //success!
-            if (data != nil && error == nil)
-            {
+            for item in jsonResult {
                 
-                //do this on main application thread
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    //parse json into array
-                    var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
-                        options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-                    
-                    if (jsonResult.count == 0) {
-                        //handle json error here
-                        print ("error parsing json file \n")
-                    }
-                    else {
-                        var x = 0
-                        for item in jsonResult {
-                            
-                            if x < 25 {
-                                var dict:NSDictionary = item as NSDictionary
-                                self.newsFeedItems += [dict]
-                            }
-                            else {
-                                break
-                            }
-                        }
-                        
-                        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-                        //will not populate until all news feed items have been fetched.
-                        //tableview methods will be called initially (when screen is loaded) but since method
-                        //is asynchronious, global newFeedItems array will still be empty
-                        self.friendsTableview.reloadData()
-                        
-                    }
-                }
-                
+                //need to make sure that we are only appending new items--
+                //would it be worth it??
+                var dict:NSDictionary = item as NSDictionary
+                self.newsFeedItems.append(dict)
             }
-                
-                //failure, process error
-            else {
-                print( "data was not fetched or error foundddd\n")
-            }
-            
-        })
+        }
+        
+        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+        //will not populate until all news feed items have been fetched.
+        //tableview methods will be called initially (when screen is loaded) but since method
+        //is asynchronious, global newFeedItems array will still be empty
+        self.friendsTableview.reloadData()
         
     }
     
-
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        currFriend = friends[indexPath.row]
+        performSegueWithIdentifier("profileView", sender: self)
+        
+    }
+    
+    func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        currBar = bars[indexPath.row]
+        performSegueWithIdentifier("barView", sender: self)
+    }
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "profileView" {
+            var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
+            profilePage.name = currFriend["name"] as String;
+        }
+        else if segue.identifier == "barView" {
+            var barPage: BarProfileViewController = segue.destinationViewController  as BarProfileViewController
+            barPage.barInfo = currBar
+            barPage.user = user
+        }
+    }
+    
 }

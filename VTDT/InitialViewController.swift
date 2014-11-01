@@ -31,9 +31,10 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         setUpScreen()
         startFetchNews()
-            
-//      let local = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
-//      var jupiter =
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true;
     }
     
     @IBAction func logout(sender: AnyObject) {
@@ -63,7 +64,13 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
-        customCell.userName.text = newsFeedRow["name"] as? String
+        var userID = newsFeedRow["username"] as? String
+        var user:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")[0] as NSDictionary
+        
+        customCell.userName.text = user["name"] as? String
+        
+        
+//        customCell.userName.text = newsFeedRow["name"] as? String
         customCell.messageText.text = newsFeedRow["message"] as? String
         //profile pic of user based on user id
         //newsFeedRow["user"]
@@ -143,7 +150,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func startFetchNews () {
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/sorted"
         
         dispatch_async(queue) {
             let result = getData(jupiter)
@@ -209,15 +216,15 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if (segue.identifier == "profileView") {
             var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
-            profilePage.user = self.user;
+            profilePage.user = self.user
         }
         else if segue.identifier == "whatView" {
             var barsPage: BarsViewController = segue.destinationViewController as BarsViewController
-            
-                barsPage.user = self.user;
+            barsPage.user = self.user
         }
         else if segue.identifier == "whoView" {
             var friendsPage: FriendsViewController = segue.destinationViewController as FriendsViewController
+            friendsPage.user = self.user
             
         }
     }

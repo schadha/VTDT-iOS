@@ -48,6 +48,11 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         startFetchNews()
         
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        newsFeedItems = [NSDictionary]()
+        startFetchNews()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -235,12 +240,12 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         
         var postPage: PostViewController = segue.destinationViewController  as PostViewController
         postPage.barInfo = self.barInfo
+        postPage.user = self.user
         
     }
     
     func popToRoot(sender: UIBarButtonItem) {
         self.navigationController?.popViewControllerAnimated(true)
-        self.navigationController?.navigationBarHidden = true
     }
     
     func setUpScreen () {
@@ -282,9 +287,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         newsButton.layer.cornerRadius = 10;
         specialsButton.layer.cornerRadius = 10;
         
-        //navication stuff
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
-//        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
         
         //set up navigation controller
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
@@ -297,6 +299,9 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
     }
 
 

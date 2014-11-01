@@ -11,7 +11,7 @@ import UIKit
 class PostViewController: UIViewController, UITextViewDelegate {
     
     var barInfo = NSDictionary()
-    var userID = -1
+    var user: FBGraphUser!
 
     @IBOutlet var postButton: UIButton!
     @IBOutlet var postField: UITextView!
@@ -56,8 +56,14 @@ class PostViewController: UIViewController, UITextViewDelegate {
             //post data
            var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
             let barID:Int = barInfo["id"] as Int
-//        var url:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
-        var input:Dictionary<String, AnyObject> = ["username":userID, "message":postMessage, "bar":barID]
+            
+            var dateFormatter:NSDateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss"
+            var timePosted:String = dateFormatter.stringFromDate(NSDate())
+            
+
+        var input:Dictionary<String, AnyObject> = ["username":user.objectID, "message":postMessage, "bar":barID, "id":1, "timePosted":timePosted]
+
         postData(url, input)
             
             self.navigationController?.popViewControllerAnimated(true)
