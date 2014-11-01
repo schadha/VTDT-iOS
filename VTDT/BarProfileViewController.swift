@@ -38,12 +38,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     var specialItems = [NSDictionary]();
     var barInfo = NSDictionary();
     
+    private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpScreen()
                 
-        fetchNewsFeed()
+        startFetchNews()
         
     }
 
@@ -76,13 +78,17 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.specialDetails.hidden = true
             customCell.specialDuration.hidden = true
             
+            customCell.messageText.hidden = false
+            customCell.barLocation.hidden = false
+            customCell.userName.hidden = false
+            customCell.userProfPic.hidden = false
+            
             var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
             
             customCell.messageText.text = newsFeedRow["message"] as? String
         
             //profile pic of user based on user id
-        
-            customCell.userProfPic.profileID = newsFeedRow["userName"] as? String
+            customCell.userProfPic.profileID = newsFeedRow["username"] as? String
             customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
             customCell.userProfPic.clipsToBounds = true;
         
@@ -108,6 +114,13 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.messageText.hidden = true
             customCell.barLocation.hidden = true
             customCell.userName.hidden = true
+            customCell.userProfPic.hidden = true
+            
+            customCell.specialName.hidden = false
+            customCell.specialDetails.hidden = false
+            customCell.specialDuration.hidden = false
+            
+            //get specials data here
             
             customCell.specialName.text = "Pizza"
             customCell.specialDetails.text = "2 for 1 deals"
@@ -117,77 +130,52 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         return customCell
     }
     
-    func fetchNewsFeed () {
-        //create url for restful request
-        var barName:String = barInfo["name"] as String
-       var barString:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
-//        var barString:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed/findByBar/" + barName
-        var fixedString = barString.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
-        var url:NSURL = NSURL(string:fixedString!)!
+    func parseNewsFeed (jsonResult: NSArray) -> () {
         
-        var request:NSURLRequest = NSURLRequest(URL: url)
-        
-        //get jason
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            
-            
-            //success!
-            //add better error checking
-            //set optional and if not do not reload data
-            if (data?.length > 0 && error == nil)
-            {
-                
-                //do this on main application thread
-               // dispatch_async(dispatch_get_main_queue()) {
-                    
-                    //parse json into array
-                    var jsonResult:NSArray = NSJSONSerialization.JSONObjectWithData(data,
-                        options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-                    
-                        if (jsonResult.count == 0) {
-                            //handle json error here
-                            print ("error parsing json file \n")
-                        }
-                        else {
-                            
-                            dispatch_async(dispatch_get_main_queue()) {
-                                var x = 0
-                                for item in jsonResult {
-                                    
-                                    if x < 25 {
-                                        var dict:NSDictionary = item as NSDictionary
-                                        self.newsFeedItems += [dict]
-                                    }
-                                    else {
-                                        break
-                                    }
-                                    x++
-                                }
-                            
-                            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-                            //will not populate until all news feed items have been fetched.
-                            //tableview methods will be called initially (when screen is loaded) but since method
-                            //is asynchronious, global newFeedItems array will still be empty
-                            self.newsFeedTable.reloadData()
-                            }
-                        
-                        }
-               // }
-                
-            }
-                
-                //failure, process error
-            else {
-                //show error pop up
-                var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+        if (jsonResult.count == 0) {
 
+            //show error pop up
+            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+
+        }
+        else {
+            
+            var x = 0
+            for item in jsonResult {
+                
+                if x < 25 {
+                    var dict:NSDictionary = item as NSDictionary
+                    self.newsFeedItems += [dict]
+                }
+                else {
+                    break
+                }
+                x++
             }
             
-        })
+            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+            //will not populate until all news feed items have been fetched.
+            //tableview methods will be called initially (when screen is loaded) but since method
+            //is asynchronious, global newFeedItems array will still be empty
+            self.newsFeedTable.reloadData()
+        }
+    }
     
+    func startFetchNews () {
         
+        let barId = barInfo["id"] as Int
+        
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barId)"
+        
+        dispatch_async(queue) {
+            let result = getData(jupiter)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.parseNewsFeed(result)
+            }
+            
+        }
     }
     
     func refreshInvoked() {
@@ -200,7 +188,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         //reset newsfeeditems
         newsFeedItems = [NSDictionary]()
         //reload news feed data
-        fetchNewsFeed()
+        startFetchNews()
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
@@ -239,7 +227,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
         }
     }
-
     
     // MARK: - Navigation
 
@@ -248,6 +235,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         
         var postPage: PostViewController = segue.destinationViewController  as PostViewController
         postPage.barInfo = self.barInfo
+        
     }
     
     func popToRoot(sender: UIBarButtonItem) {

@@ -26,7 +26,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

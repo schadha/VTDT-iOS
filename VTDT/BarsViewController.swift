@@ -14,7 +14,8 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet var barTable: UITableView!
     var barDict = [NSDictionary]()
-    var currBar = NSDictionary()    
+    var currBar = NSDictionary()
+    private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         
-        getBarData()
+        startFetchBars()
         barTable.delegate = self;
         barTable.dataSource = self;
         barTable.layer.cornerRadius = 10;
@@ -84,61 +85,47 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.navigationBarHidden = true
     }
 
+    func startFetchBars () {
+        
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars"
+        
+        dispatch_async(queue) {
+            let result = getData(jupiter)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.parseBarInfo(result)
+            }
+            
+        }
+    }
     
-    func getBarData() {
-        
-       var url:NSURL = NSURL(string:"http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars")!
-//          var url:NSURL = NSURL(string:"http://localhost:8080/VTDT/webresources/com.group2.vtdt.bars")!
-        
-        var request:NSURLRequest = NSURLRequest(URL: url)
-        
-        //get jason
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            
-            
-            //success!
-            if (data.length > 0 && error == nil)
-            {
-                
-                    //parse json into array
-                    var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(data,
-                        options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
+    func parseBarInfo(jsonResult:NSArray) {
                     
-                    if (jsonResult.count == 0) {
-                        //handle json error here
-                        print ("error parsing json file \n")
-                    }
-                    else {
+        if (jsonResult.count == 0) {
+            //handle json error here
+            var alert = UIAlertController(title: "Oops!", message: "We had trouble fetching your data.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            self.barTable.reloadData()
+        }
+        else {
                         
-                        //do this on main application thread
+            //do this on main application thread
 
-                        dispatch_async(dispatch_get_main_queue()) {
-
-                            for item in jsonResult {
+            for item in jsonResult {
                             
-                                //need to make sure that we are only appending new items--
-                                //would it be worth it??
-                                var dict:NSDictionary = item as NSDictionary
-                                self.barDict.append(dict)
-                            }
-                        
-                        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-                        //will not populate until all news feed items have been fetched.
-                        //tableview methods will be called initially (when screen is loaded) but since method
-                        //is asynchronious, global newFeedItems array will still be empty
-                        self.barTable.reloadData()
-                        
-                    }
-                }
-                
+            //need to make sure that we are only appending new items--
+            //would it be worth it??
+                var dict:NSDictionary = item as NSDictionary
+                self.barDict.append(dict)
             }
-                
-                //failure, process error
-            else {
-                print( "data was not fetched or error foundd\n")
-            }
-            
-        })
+                        
+            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+            //will not populate until all news feed items have been fetched.
+            //tableview methods will be called initially (when screen is loaded) but since method
+            //is asynchronious, global newFeedItems array will still be empty
+            self.barTable.reloadData()
+                        
+        }
         
     }
 

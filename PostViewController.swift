@@ -54,12 +54,10 @@ class PostViewController: UIViewController, UITextViewDelegate {
         }
         else {
             //post data
-            
-            //get the current time
-
            var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
+            let barID:Int = barInfo["id"] as Int
 //        var url:String = "http://localhost:8080/VTDT/webresources/com.group2.vtdt.newsfeed"
-        var input:Dictionary<String, AnyObject> = ["username":userID, "message":postMessage, "bar":barInfo["id"]]
+        var input:Dictionary<String, AnyObject> = ["username":userID, "message":postMessage, "bar":barID]
         postData(url, input)
             
             self.navigationController?.popViewControllerAnimated(true)
