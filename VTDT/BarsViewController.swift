@@ -34,7 +34,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         barTable.delegate = self;
         barTable.dataSource = self;
         barTable.layer.cornerRadius = 10;
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {

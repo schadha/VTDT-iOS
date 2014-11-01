@@ -71,6 +71,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         
         var customCell:BarProfileCell = newsFeedTable.dequeueReusableCellWithIdentifier("barProfileCell", forIndexPath: indexPath) as BarProfileCell
         
+        var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
+        
         if !switchTab {
             
             //hide unused elements
@@ -83,8 +85,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.userName.hidden = false
             customCell.userProfPic.hidden = false
             
-            var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
-            
             customCell.messageText.text = newsFeedRow["message"] as? String
         
             //profile pic of user based on user id
@@ -93,17 +93,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.userProfPic.clipsToBounds = true;
         
             var timeElement = newsFeedRow["timePosted"] as String
+            var timeString = getTime (timeElement)
             var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
         
-            let intTime = timeArray[0].toInt()
-            if intTime > 12 {
-                let newTime:Int = intTime! - 12
-                customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
-            
-            }
-            else {
-                customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
-            }
+            customCell.barLocation.text = "at Sharkeys around \(timeString)"
         
         }
         
@@ -121,10 +114,27 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.specialDuration.hidden = false
             
             //get specials data here
+            //get current day here
+            let today:String = "Mon"
             
-            customCell.specialName.text = "Pizza"
-            customCell.specialDetails.text = "2 for 1 deals"
-            customCell.specialDuration.text = "2 more hours"
+            var days:NSArray = (newsFeedRow["days"] as String).componentsSeparatedByString(",")
+            var price = newsFeedRow["price"] as Double
+            var priceString = NSString(format: "Price:  $%1.2f", price) as String
+            
+            for day in days {
+                println(day)
+                if (day as String) == today {
+                    
+                    customCell.specialName.text = newsFeedRow["menuItem"] as? String
+                    customCell.specialDetails.text = priceString
+                    var startTime = getTime(newsFeedRow["startTime"] as String)
+                    var endTime = getTime(newsFeedRow["endTime"] as String)
+                    
+                    customCell.specialDuration.text = "from \(startTime) to \(endTime) today"
+                    
+                }
+            }
+            
         }
         
         return customCell
@@ -159,15 +169,31 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             //will not populate until all news feed items have been fetched.
             //tableview methods will be called initially (when screen is loaded) but since method
             //is asynchronious, global newFeedItems array will still be empty
+            
+            println (newsFeedItems)
             self.newsFeedTable.reloadData()
         }
     }
     
-    func startFetchNews () {
-        
+   func startFetchNews () {
+    
+       let barId = barInfo["id"] as Int
+    
+       var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barId)"
+    
+       dispatch_async(queue) {
+            let result = getData(jupiter)
+           dispatch_async(dispatch_get_main_queue()) {
+               self.parseNewsFeed(result)
+           }
+    
+       }
+   }
+    
+    func startFetchSpecials () {
         let barId = barInfo["id"] as Int
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barId)"
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.specials/findByBar/\(barId)"
         
         dispatch_async(queue) {
             let result = getData(jupiter)
@@ -188,7 +214,11 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         //reset newsfeeditems
         newsFeedItems = [NSDictionary]()
         //reload news feed data
-        startFetchNews()
+        if !switchTab {
+            startFetchNews()
+        } else {
+            startFetchSpecials()
+        }
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
@@ -199,14 +229,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         newsLabel.hidden = false;
         specialsLabel.hidden = true;
         switchTab = false
-        newsFeedTable.reloadData()
+        refresh()
     }
     @IBAction func specialsClicked(sender: AnyObject) {
         
         newsLabel.hidden = true;
         specialsLabel.hidden = false;
         switchTab = true
-        newsFeedTable.reloadData()
+        refresh()
     }
     @IBAction func postClicked(sender: AnyObject) {
         
@@ -226,6 +256,21 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             //json post to user table with null check out value
             checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
         }
+    }
+    
+    func getTime(time:String) -> String {
+        var timeArray:[String] = time.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
+        
+        let intTime = timeArray[0].toInt()
+        if intTime > 12 {
+            let newTime:Int = intTime! - 12
+            return "\(newTime):\(timeArray[1]) pm"
+            
+        }
+        else {
+            return "\(timeArray[0]):\(timeArray[1]) am"
+        }
+
     }
     
     // MARK: - Navigation
