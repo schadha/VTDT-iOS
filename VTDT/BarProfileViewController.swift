@@ -12,11 +12,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var user: FBGraphUser!
     
-    //get user json object for check in update
-//    var jsonUser = NSDictionary[String]()
-
     var refreshControl:UIRefreshControl!
-
+    
     @IBOutlet var newsFeedTable: UITableView!
     @IBOutlet var barImage: UIImageView!
     
@@ -42,18 +39,18 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpScreen()
-                
+        
         startFetchNews()
         
     }
     
     override func viewDidAppear(animated: Bool) {
+        newsButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
         newsFeedItems = [NSDictionary]()
         startFetchNews()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -68,8 +65,9 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         // Return the number of rows in the section.
         if !switchTab {
             return newsFeedItems.count
+        } else {
+            return specialItems.count
         }
-        return 3
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -91,27 +89,19 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
             
             customCell.messageText.text = newsFeedRow["message"] as? String
-        
+            
             //profile pic of user based on user id
             customCell.userProfPic.profileID = newsFeedRow["username"] as? String
             customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
             customCell.userProfPic.clipsToBounds = true;
-        
-            var timeElement = newsFeedRow["timePosted"] as String
-            var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
-        
-            let intTime = timeArray[0].toInt()
-            if intTime > 12 {
-                let newTime:Int = intTime! - 12
-                customCell.barLocation.text = "at Sharkey's around \(newTime):\(timeArray[1]) pm"
             
-            }
-            else {
-                customCell.barLocation.text = "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
-            }
-        
+            var barLocation = barInfo["name"] as? String
+            
+            var timeElement = newsFeedRow["timePosted"] as String
+            customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
+            
         }
-        
+            
         else {
             
             //hide unused cells
@@ -125,25 +115,60 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.specialDetails.hidden = false
             customCell.specialDuration.hidden = false
             
-            //get specials data here
+            var specialsRow:NSDictionary = specialItems[indexPath.row]
             
-            customCell.specialName.text = "Pizza"
-            customCell.specialDetails.text = "2 for 1 deals"
-            customCell.specialDuration.text = "2 more hours"
+            var price = specialsRow["price"] as Double
+            var priceString = NSString(format: "Price:  $%1.2f", price) as String
+            
+            
+            customCell.specialName.text = specialsRow["menuItem"] as? String
+            customCell.specialDetails.text = priceString
+            var startTime = getTime(specialsRow["startTime"] as String)
+            var endTime = getTime(specialsRow["endTime"] as String)
+            
+            customCell.specialDuration.text = "from \(startTime) to \(endTime) today"
         }
         
         return customCell
     }
     
+    func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
+        var dateFormatter:NSDateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        
+        var timeArray:[String] = timeElement.componentsSeparatedByString("T")
+        var time = dateFormatter.dateFromString(timeArray[1])
+        
+        dateFormatter.dateFormat = "h:mm a"
+        var timePosted = dateFormatter.stringFromDate(time!)
+        
+        return "at \(barLocation) around \(timePosted)"
+    }
+    
+    func getTime(time:String) -> String {
+        var timeArray:[String] = time.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
+        
+        let intTime = timeArray[0].toInt()
+        if intTime > 12 {
+            let newTime:Int = intTime! - 12
+            return "\(newTime):\(timeArray[1]) pm"
+            
+        }
+        else {
+            return "\(timeArray[0]):\(timeArray[1]) am"
+        }
+        
+    }
+    
     func parseNewsFeed (jsonResult: NSArray) -> () {
         
         if (jsonResult.count == 0) {
-
+            
             //show error pop up
             var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
-
+            
         }
         else {
             
@@ -168,19 +193,62 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    func parseSpecials (jsonResult: NSArray) -> () {
+        
+        if (jsonResult.count == 0) {
+            
+            //show error pop up
+            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any specials data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
+        else {
+            
+            var dateFormatter:NSDateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "E"
+            let today:String = dateFormatter.stringFromDate(NSDate())
+            
+            for item in jsonResult {
+                var dict:NSDictionary = item as NSDictionary
+                
+                var days: String = dict["days"] as String
+                
+                if (days.rangeOfString(today) != nil) {
+                    self.specialItems += [dict]
+                }
+                
+            }
+            
+            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+            //will not populate until all news feed items have been fetched.
+            //tableview methods will be called initially (when screen is loaded) but since method
+            //is asynchronious, global newFeedItems array will still be empty
+            self.newsFeedTable.reloadData()
+        }
+    }
+    
     func startFetchNews () {
         
         let barId = barInfo["id"] as Int
         
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barId)"
+        let result = getData(jupiter)
+        self.parseNewsFeed(result)
+    }
+    
+    func startFetchSpecials () {
+        let barId = barInfo["id"] as Int
         
-//        dispatch_async(queue) {
-            let result = getData(jupiter)
-//            dispatch_async(dispatch_get_main_queue()) {
-                self.parseNewsFeed(result)
-//            }
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.specials/findByBar/\(barId)"
         
-//        }
+        //        dispatch_async(queue) {
+        let result = getData(jupiter)
+        //            dispatch_async(dispatch_get_main_queue()) {
+        self.parseSpecials(result)
+        //            }
+        
+        //        }
     }
     
     func refreshInvoked() {
@@ -190,10 +258,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func refresh(viaPullToRefresh: Bool = false) {
         
-        //reset newsfeeditems
-        newsFeedItems = [NSDictionary]()
         //reload news feed data
-        startFetchNews()
+        if !switchTab {
+            newsFeedItems = [NSDictionary]()
+            startFetchNews()
+        } else {
+            specialItems = [NSDictionary]()
+            startFetchSpecials()
+        }
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
@@ -204,14 +276,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         newsLabel.hidden = false;
         specialsLabel.hidden = true;
         switchTab = false
-        newsFeedTable.reloadData()
+        refresh()
     }
     @IBAction func specialsClicked(sender: AnyObject) {
         
         newsLabel.hidden = true;
         specialsLabel.hidden = false;
         switchTab = true
-        newsFeedTable.reloadData()
+        refresh()
     }
     @IBAction func postClicked(sender: AnyObject) {
         
@@ -234,7 +306,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
@@ -303,6 +375,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
     }
-
-
+    
+    
 }

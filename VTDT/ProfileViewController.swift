@@ -293,17 +293,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         profileImage.layer.borderColor = UIColor.whiteColor().CGColor
         profileImage.profileID = userID
         
-        //set bar labels
-//        barAddress.text = barInfo["address"] as? String
-        
-        //check to make sure they exist**
-//        let web:String = barInfo["website"] as String
-//        let phone:String = barInfo["phoneNumber"] as String
-        
-        //make website be a link that loads in a new web browser
-//        barWebsite.text = "\(web)"
-//        barPhone.text = "\(phone)"
-        
         //set as delegate
         newsFeedTable.delegate = self;
         newsFeedTable.dataSource = self;

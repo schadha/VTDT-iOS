@@ -94,15 +94,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
-        
-        //name of user where userid --> newsFeedRow["user"]
-        //use the userID to do a fetch to the user db table for first name, last name, profile picture
-        //        var userID = user
-        //        customCell.userName.text = userID.first_name + " " + userID.last_name
-        
-        //        customCell.messageText.text = newsFeedRow["message"] as? String
-        //        customCell.messageText.text = "hello this is a very long message about what i was doing at sharkey's last night.  it must be less than 140 characters or else it wont post."
-        
         //profile pic of user based on user id
         var friendUserID = newsFeedRow["friend"] as? String
         var friend:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendUserID!)").firstObject as NSDictionary
