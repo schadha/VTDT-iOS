@@ -69,11 +69,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         customCell.userName.text = user["name"] as? String
         
-        
-//        customCell.userName.text = newsFeedRow["name"] as? String
         customCell.messageText.text = newsFeedRow["message"] as? String
-        //profile pic of user based on user id
-        //newsFeedRow["user"]
         customCell.userProfPic.profileID = newsFeedRow["username"] as? String
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
@@ -188,6 +184,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         profileName.text = user.first_name + " " + user.last_name
         profileImage.profileID = user.objectID
+        println(user.objectID)
         profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
         profileImage.clipsToBounds = true;
         

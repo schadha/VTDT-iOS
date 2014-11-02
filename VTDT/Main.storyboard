@@ -110,7 +110,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OaB-x1-XD9">
-                                                    <rect key="frame" x="77" y="2" width="225" height="18"/>
+                                                    <rect key="frame" x="77" y="4" width="225" height="18"/>
                                                     <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -670,7 +670,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpL-ZU-6yN">
-                                                    <rect key="frame" x="77" y="14" width="158" height="18"/>
+                                                    <rect key="frame" x="77" y="14" width="350" height="18"/>
                                                     <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -722,7 +722,7 @@
         <image name="disclosure" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bO9-zz-ruk"/>
-        <segue reference="Szm-ky-gUR"/>
+        <segue reference="ery-YO-Jcx"/>
+        <segue reference="Vbj-hx-uFi"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -319,7 +319,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     //    }
     
     func setUpScreen () {
-        var userID = userInfo["username"] as? String
+        var userID = userInfo["username"] as String
+        println(userID)
         
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         profileImage.clipsToBounds = true
