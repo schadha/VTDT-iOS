@@ -353,12 +353,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var barDict: NSDictionary = NSDictionary()
         
         if bar.count != 0 {
-            var barDict: NSDictionary = bar.firstObject as NSDictionary
+            barDict = bar.firstObject as NSDictionary
         }
         var barLocation = barDict["name"] as? String
         
         if barLocation != nil {
-            checkedInBar.text = "Currently at \(barLocation)";
+            checkedInBar.text = "Currently at \(barLocation!)";
         } else {
             checkedInBar.hidden = true
             checkOutButton.hidden = true

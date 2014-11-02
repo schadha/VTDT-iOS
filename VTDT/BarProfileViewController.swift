@@ -40,6 +40,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        newsFeedItems = [NSDictionary]()
+        specialItems = [NSDictionary]()
         userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
         
         setUpScreen()
@@ -300,6 +302,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     @IBAction func checkInClicked(sender: AnyObject){
         viewDidLoad()
+        refresh()
         var checkedIn = userInfo["checkedInBar"] as? Int
         var id = userInfo["id"] as? Int
         var barID = barInfo["id"] as? Int
