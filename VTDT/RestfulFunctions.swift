@@ -54,7 +54,7 @@ import Foundation
     
     func getData (url: String) -> NSArray {
         
-        var jsonResult:NSArray = NSArray()
+        var jsonResult:AnyObject
         var requestUrl = NSURL(string: url)!
 //        var request:NSURLRequest = NSURLRequest(URL: url)
         var jsonError:NSError?
@@ -66,16 +66,29 @@ import Foundation
             //parse json into array
             
             jsonResult = NSJSONSerialization.JSONObjectWithData(jsonDataFromDB,
-                options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
-//            if jsonResult.lowercaseString.rangeOfString("(") {
-//                return jsonResult as NSArray
-//            }
-//            else {
-//                var makeArray:NsArray = NSArray[Dictionary]()
-//                makeArray += [jsonResult]
-//                return makeArray
-//            }
+                options:NSJSONReadingOptions.MutableContainers, error: nil)!
+            
+            if let nsDictionaryObject = jsonResult as? NSDictionary {
+                if (nsDictionaryObject.count == 0) {
+                    //handle json error here
+                    print ("error parsing json file \n")
+                }
+                else {
+                    return [nsDictionaryObject] as NSArray;
+                }
+            }
+            else if let nsArrayObject = jsonResult as? NSArray {
+                if (nsArrayObject.count == 0) {
+                    //handle json error here
+                    print ("error parsing json file \n")
+                }
+                else {
+                    return nsArrayObject as NSArray;
+                }
+            }
+
         }
         
-        return jsonResult
+        return NSArray()
+        
     }

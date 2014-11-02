@@ -22,6 +22,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var user: FBGraphUser!
     var newsFeedItems = [NSDictionary]()
+    var globalBarName = ""
     
     private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
     
@@ -74,8 +75,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         var timeElement = newsFeedRow["timePosted"] as String
         var timeString = getPostTime(timeElement)
 //        println(newsFeedRow["bar"] as Int)
-        startBarFetch(newsFeedRow["bar"] as Int)
-//        customCell.barLocation.text = "at \(barName) around \(timeString)"
+//        startBarFetch(newsFeedRow["bar"] as Int)
+        customCell.barLocation.text = "at \(self.globalBarName) around \(timeString)"
 
         
         return customCell
@@ -135,6 +136,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 x++
             }
+//            self.startBarFetch(<#barID: Int#>)
             
             //populate tableview here with newFeeditems that get set asynchroniously above ^^^
             //will not populate until all news feed items have been fetched.
@@ -162,13 +164,14 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)"
         dispatch_async(queue) {
             let result = getData(jupiter)
-            println(result)
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self.parseBarName(result)
-//                return "string"
-//            }
+//            println(result)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.parseBarName(result)
+            }
             
         }
+        
+//        return ""
         
     }
     
@@ -176,14 +179,14 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if(jsonResult.count == 0) {
             //action sheet here
+//            return ""
         }
-        else {
             
-//            println(jsonResult)
-            
-//            return jsonResult["name"] as String
-            
-        }
+//        return
+//        println(jsonResult[0]["name"] as String)
+//        println(jsonResult)
+        self.globalBarName = jsonResult[0]["name"] as String
+//        self.newsTableview.reloadData()
         
     }
 
