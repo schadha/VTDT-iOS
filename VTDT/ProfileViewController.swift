@@ -332,9 +332,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var barLocation = barDict["name"] as? String
         
         if barLocation != nil {
-            checkedInBar.text = barLocation;
+            checkedInBar.text = "Currently at \(barLocation)";
         } else {
-            checkedInBar.text = "No Bar"
+            checkedInBar.hidden = true
         }
         
         self.title = userInfo["name"] as? String;
