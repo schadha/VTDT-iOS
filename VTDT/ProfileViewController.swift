@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var newsLabel: UILabel!
     @IBOutlet var friendsLabel: UILabel!
 
+    @IBOutlet var checkOutButton: UIButton!
     var switchTab = false
     
     var userInfo = NSDictionary()
@@ -277,6 +278,30 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    @IBAction func checkOutClicked(sender: AnyObject) {
+        
+        //check out
+        var checkedIn = userInfo["checkedInBar"] as? Int
+        var id = userInfo["id"] as? Int
+//        var barID = barInfo["id"] as? Int
+        var params:Dictionary<String, AnyObject>
+        var admin = userInfo["admin"] as? Int
+        if admin == nil {
+            admin = 0
+        }
+        var name = userInfo["name"] as String
+        var username = userInfo["username"] as String
+        
+        params = ["admin":admin!,"id":id!, "checkedInBar":100, "name":name, "username":username]
+        
+        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
+        
+        checkOutButton.hidden = true
+        checkedInBar.hidden = true
+        
+    }
+    
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var cell: UserProfileCell = tableView.cellForRowAtIndexPath(indexPath) as UserProfileCell
         name = cell.userName.text!;
@@ -335,7 +360,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             checkedInBar.text = "Currently at \(barLocation)";
         } else {
             checkedInBar.hidden = true
+            checkOutButton.hidden = true
         }
+        
+        self.checkedInBar.layer.cornerRadius = 10
         
         self.title = userInfo["name"] as? String;
         

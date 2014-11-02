@@ -196,7 +196,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="G7G-8T-77o">
-                                <rect key="frame" x="16" y="231" width="343" height="415"/>
+                                <rect key="frame" x="16" y="229" width="343" height="415"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -300,16 +300,28 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Currently at &quot;Bar Name&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T37-9z-cVe">
-                                <rect key="frame" x="77" y="169" width="220" height="21"/>
+                                <rect key="frame" x="17" y="169" width="220" height="21"/>
                                 <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="18"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K7q-Ta-NV8">
+                                <rect key="frame" x="249" y="165" width="110" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="CHECK OUT">
+                                    <color key="titleColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="checkOutClicked:" destination="YTw-u9-lBk" eventType="touchUpInside" id="AY2-um-8IZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="egh-xu-WoG"/>
                     <connections>
+                        <outlet property="checkOutButton" destination="K7q-Ta-NV8" id="nhC-Ru-pvP"/>
                         <outlet property="checkedInBar" destination="T37-9z-cVe" id="u2e-6x-yKx"/>
                         <outlet property="friendsButton" destination="0dM-gg-ZyB" id="8ho-14-2kM"/>
                         <outlet property="friendsLabel" destination="zbg-SH-I4n" id="Uyx-e7-pwH"/>
