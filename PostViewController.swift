@@ -63,7 +63,7 @@ class PostViewController: UIViewController, UITextViewDelegate {
 
         var input:Dictionary<String, AnyObject> = ["username":user.objectID, "message":postMessage, "bar":barID, "id":1, "timePosted":timePosted]
 
-        postData(url, input)
+            sendData(url, input, "POST")
             
             self.navigationController?.popViewControllerAnimated(true)
 
@@ -72,7 +72,6 @@ class PostViewController: UIViewController, UITextViewDelegate {
     
     func popToRoot(sender: UIBarButtonItem) {
         self.navigationController?.popViewControllerAnimated(true)
-//        self.navigationController?.navigationBarHidden = true
     }
     
     func setUpScreen () {

@@ -31,14 +31,17 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var switchTab = false
     
-    var newsFeedItems = [NSDictionary]();
-    var specialItems = [NSDictionary]();
-    var barInfo = NSDictionary();
+    var newsFeedItems = [NSDictionary]()
+    var specialItems = [NSDictionary]()
+    var barInfo = NSDictionary()
+    var userInfo = NSDictionary()
     
     private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
+        
         setUpScreen()
         
         startFetchNews()
@@ -86,12 +89,18 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.userName.hidden = false
             customCell.userProfPic.hidden = false
             
+            
             var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
+            
+            var userID = newsFeedRow["username"] as? String
+            var user:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")[0] as NSDictionary
+            
+            customCell.userName.text = user["name"] as? String
             
             customCell.messageText.text = newsFeedRow["message"] as? String
             
             //profile pic of user based on user id
-            customCell.userProfPic.profileID = newsFeedRow["username"] as? String
+            customCell.userProfPic.profileID = userID
             customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
             customCell.userProfPic.clipsToBounds = true;
             
@@ -290,19 +299,37 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         performSegueWithIdentifier("postPage", sender: self)
     }
     @IBAction func checkInClicked(sender: AnyObject){
+        viewDidLoad()
+        var checkedIn = userInfo["checkedInBar"] as? Int
+        var id = userInfo["id"] as? Int
+        var barID = barInfo["id"] as? Int
+        var params:Dictionary<String, AnyObject>
+        var admin = userInfo["admin"] as? Int
+        if admin == nil {
+            admin = 0
+        }
         
-        if checkInButton.titleLabel!.text == "CHECK IN" {
-            
-            //add the bar to user check in value and check text lable to check out
-            //json post to user table with new check in value
+        if checkedIn == barID {
+            params = ["admin":admin!,"id":id!, "checkedInBar":100, "name":user.name, "username":user.objectID]
+            checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
+        } else {
+            params = ["admin":admin!,"id":id!, "checkedInBar":barID!, "name":user.name, "username":user.objectID]
             checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
         }
-        else {
-            
-            //remove the bar from user check in value and change text to check in
-            //json post to user table with null check out value
-            checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
-        }
+        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
+        
+//        if checkInButton.titleLabel!.text == "CHECK IN" {
+//            //add the bar to user check in value and check text lable to check out
+//            //json post to user table with new check in value
+//            checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
+//            
+//        }
+//        else {
+//            
+//            //remove the bar from user check in value and change text to check in
+//            //json post to user table with null check out value
+//            checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
+//        }
     }
     
     // MARK: - Navigation
@@ -326,6 +353,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         let width:CGFloat = 3.0
         barImage.layer.borderWidth = width
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
+        barImage.image = UIImage(named: (barInfo["name"] as String)+".png")
         
         //set bar labels
         barAddress.text = barInfo["address"] as? String
@@ -342,6 +370,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         newsFeedTable.delegate = self;
         newsFeedTable.dataSource = self;
         newsFeedTable.layer.cornerRadius = 10;
+        
+        var checkedIn = userInfo["checkedInBar"] as? Int
+        var barID = barInfo["id"] as? Int
+        if checkedIn == barID {
+            checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
+        } else {
+            checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
+        }
         
         checkInButton.layer.cornerRadius = 10;
         postButton.layer.cornerRadius = 10;

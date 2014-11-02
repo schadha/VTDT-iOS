@@ -103,13 +103,25 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         customCell.userProfPic.clipsToBounds = true;
         
         customCell.userName.text = friend["name"] as? String;
+        
         var barID: Int = friend["checkedInBar"] as Int
-        var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
-        var barLocation = bar["name"] as? String
-        customCell.barLocation.text = barLocation
+        var bar: NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
+        
+        var barDict: NSDictionary = NSDictionary()
+        
+        if bar.count != 0 {
+            var barDict: NSDictionary = bar.firstObject as NSDictionary
+        }
+        var barLocation = barDict["name"] as? String
+        
+        if barLocation != nil {
+            customCell.barLocation.text = barLocation
+        } else {
+            customCell.barLocation.text = "No Bar"
+        }
         
         friends.append(friend)
-        bars.append(bar)
+        bars.append(barDict)
         
         return customCell
     }

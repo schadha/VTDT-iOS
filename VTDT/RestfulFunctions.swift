@@ -9,11 +9,11 @@
 import Foundation
 
 
-func postData (url:String, params:Dictionary<String, AnyObject>) -> Bool {
+func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) -> Bool {
     var request = NSMutableURLRequest(URL: NSURL(string: url)!)
     var err: NSError?
     
-    request.HTTPMethod = "POST"
+    request.HTTPMethod = type
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     request.addValue("application/json", forHTTPHeaderField: "Accept")
     request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)

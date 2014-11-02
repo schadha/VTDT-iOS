@@ -65,7 +65,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var customCell:UserProfileCell = newsFeedTable.dequeueReusableCellWithIdentifier("barProfileCell", forIndexPath: indexPath) as UserProfileCell
         
         if !switchTab {
-            
+            customCell.userInteractionEnabled = false;
             //hide unused elements
             customCell.atLabel.hidden = true
             customCell.friendLocation.hidden = true
@@ -92,7 +92,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
         }
         else {
-            
+            customCell.userInteractionEnabled = true;
             //hide unused cells
             //configure specials cell
             customCell.messageText.hidden = true
@@ -151,7 +151,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         if (jsonResult.count == 0) {
             
             //show error pop up
-            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this user.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
             
@@ -249,8 +249,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         //reset newsfeeditems
         newsFeedItems = [NSDictionary]()
+        friendsItems = [NSDictionary]()
         //reload news feed data
         startFetchNews()
+        startFetchFriends()
         
         if (viaPullToRefresh) {
             self.refreshControl?.endRefreshing()
@@ -273,6 +275,14 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func popToRoot(sender:UIBarButtonItem){
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var cell: UserProfileCell = tableView.cellForRowAtIndexPath(indexPath) as UserProfileCell
+        name = cell.userName.text!;
+        self.viewDidLoad()
+        newsButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+        refresh()
     }
     
     //    // MARK: - Navigation
@@ -312,10 +322,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         friendsButton.layer.cornerRadius = 10;
         
         var barID: Int = userInfo["checkedInBar"] as Int
-        var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
-        var barLocation = bar["name"] as? String
+        var bar: NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
         
-        if barLocation != "" {
+        var barDict: NSDictionary = NSDictionary()
+        
+        if bar.count != 0 {
+            var barDict: NSDictionary = bar.firstObject as NSDictionary
+        }
+        var barLocation = barDict["name"] as? String
+        
+        if barLocation != nil {
             checkedInBar.text = barLocation;
         } else {
             checkedInBar.text = "No Bar"
