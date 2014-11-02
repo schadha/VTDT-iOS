@@ -184,7 +184,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         profileName.text = user.first_name + " " + user.last_name
         profileImage.profileID = user.objectID
-        println(user.objectID)
         profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2;
         profileImage.clipsToBounds = true;
         

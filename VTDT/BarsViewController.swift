@@ -57,7 +57,6 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         var cell:UITableViewCell = barTable.dequeueReusableCellWithIdentifier("barCell", forIndexPath: indexPath) as UITableViewCell
         var barItem = barDict[indexPath.row]
         cell.textLabel.text = barItem["name"] as? String
-        println(barItem)
         cell.imageView.image = UIImage(named: (barItem["name"] as String)+".png")
         cell.imageView.layer.cornerRadius = cell.imageView.frame.width / 2
         cell.imageView.clipsToBounds = true
