@@ -64,8 +64,17 @@ import Foundation
         if let jsonDataFromDB = jsonData {
 
             //parse json into array
+            
             jsonResult = NSJSONSerialization.JSONObjectWithData(jsonDataFromDB,
                 options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
+//            if jsonResult.lowercaseString.rangeOfString("(") {
+//                return jsonResult as NSArray
+//            }
+//            else {
+//                var makeArray:NsArray = NSArray[Dictionary]()
+//                makeArray += [jsonResult]
+//                return makeArray
+//            }
         }
         
         return jsonResult

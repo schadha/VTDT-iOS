@@ -22,7 +22,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var user: FBGraphUser!
     var newsFeedItems = [NSDictionary]()
-    var dummyarray:NSArray = NSArray()
     
     private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
     
@@ -63,7 +62,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
-        customCell.userName.text = newsFeedRow["name"] as? String
+        customCell.userName.text = "Ragan Walker"
+//        customCell.userName.text = newsFeedRow["name"] as? String
         customCell.messageText.text = newsFeedRow["message"] as? String
         //profile pic of user based on user id
         //newsFeedRow["user"]
@@ -72,7 +72,10 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         customCell.userProfPic.clipsToBounds = true;
         
         var timeElement = newsFeedRow["timePosted"] as String
-        customCell.barLocation.text = getPostTime(timeElement)
+        var timeString = getPostTime(timeElement)
+//        println(newsFeedRow["bar"] as Int)
+        startBarFetch(newsFeedRow["bar"] as Int)
+//        customCell.barLocation.text = "at \(barName) around \(timeString)"
 
         
         return customCell
@@ -153,6 +156,36 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             
         }
     }
+    
+    func startBarFetch (barID:Int) {
+        
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)"
+        dispatch_async(queue) {
+            let result = getData(jupiter)
+            println(result)
+//            dispatch_async(dispatch_get_main_queue()) {
+//                self.parseBarName(result)
+//                return "string"
+//            }
+            
+        }
+        
+    }
+    
+    func parseBarName (jsonResult:NSArray) {
+        
+        if(jsonResult.count == 0) {
+            //action sheet here
+        }
+        else {
+            
+//            println(jsonResult)
+            
+//            return jsonResult["name"] as String
+            
+        }
+        
+    }
 
     
     //get request to get user first and last name based on userid
@@ -161,16 +194,17 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     //GET TIME FUNCTION
     
     func getPostTime(timeElement:String) -> String {
+        
         var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
         
         let intTime = timeArray[0].toInt()
         if intTime > 12 {
             let newTime:Int = intTime! - 12
-            return "at Sharkey's around \(newTime):\(timeArray[1]) pm"
+            return "\(newTime):\(timeArray[1]) pm"
             
         }
         else {
-            return "at Sharkey's around \(timeArray[0]):\(timeArray[1]) am"
+            return "\(timeArray[0]):\(timeArray[1]) am"
         }
     }
     
