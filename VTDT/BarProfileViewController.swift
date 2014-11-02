@@ -85,6 +85,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.userName.hidden = false
             customCell.userProfPic.hidden = false
             
+            var id = newsFeedRow["username"] as String
+            var user = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(id)")
+            customCell.userName.text = user[0]["name"] as? String
+            
             customCell.messageText.text = newsFeedRow["message"] as? String
         
             //profile pic of user based on user id
@@ -94,9 +98,11 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         
             var timeElement = newsFeedRow["timePosted"] as String
             var timeString = getTime (timeElement)
-            var timeArray:[String] = timeElement.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
         
-            customCell.barLocation.text = "at Sharkeys around \(timeString)"
+            var barID = newsFeedRow["bar"] as Int
+            var bar = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
+            var barName = bar[0]["name"] as String
+            customCell.barLocation.text = "at \(barName) around \(timeString)"
         
         }
         

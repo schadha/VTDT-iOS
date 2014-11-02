@@ -63,20 +63,23 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
-        customCell.userName.text = "Ragan Walker"
-//        customCell.userName.text = newsFeedRow["name"] as? String
+        var id = newsFeedRow["username"] as String
+        var user = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(id)")
+        customCell.userName.text = user[0]["name"] as? String
+        
         customCell.messageText.text = newsFeedRow["message"] as? String
-        //profile pic of user based on user id
-        //newsFeedRow["user"]
+
         customCell.userProfPic.profileID = newsFeedRow["username"] as? String
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
         customCell.userProfPic.clipsToBounds = true;
         
         var timeElement = newsFeedRow["timePosted"] as String
         var timeString = getPostTime(timeElement)
-//        println(newsFeedRow["bar"] as Int)
-//        startBarFetch(newsFeedRow["bar"] as Int)
-        customCell.barLocation.text = "at \(self.globalBarName) around \(timeString)"
+        
+        var barID = newsFeedRow["bar"] as Int
+        var bar = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
+        var barName = bar[0]["name"] as String
+        customCell.barLocation.text = "at \(barName) around \(timeString)"
 
         
         return customCell
