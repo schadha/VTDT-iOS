@@ -63,6 +63,9 @@ func getData (url: String) -> NSArray {
     
     if let jsonDataFromDB = jsonData {
         
+        if (jsonDataFromDB.length == 0) {
+            return NSArray()
+        }
         //parse json into array
         //            jsonResult = NSJSONSerialization.JSONObjectWithData(jsonDataFromDB,
         //                options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
@@ -71,8 +74,6 @@ func getData (url: String) -> NSArray {
         
         if let nsDictionaryObject = jsonResult as? NSDictionary {
             if (nsDictionaryObject.count == 0) {
-                //handle json error here
-                print ("error parsing json file \n")
                 return NSArray()
             }
             else {
@@ -81,8 +82,6 @@ func getData (url: String) -> NSArray {
         }
         else if let nsArrayObject = jsonResult as? NSArray {
             if (nsArrayObject.count == 0) {
-                //handle json error here
-                print ("error parsing json file \n")
                 return NSArray()
             }
             else {

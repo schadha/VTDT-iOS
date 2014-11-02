@@ -219,7 +219,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if (segue.identifier == "profileView") {
             var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
-            profilePage.user = self.user
+            profilePage.name = self.user.name
         }
         else if segue.identifier == "whatView" {
             var barsPage: BarsViewController = segue.destinationViewController as BarsViewController

@@ -21,7 +21,6 @@ class PostViewController: UIViewController, UITextViewDelegate {
         //if post field is empty, post button is invisible
         super.viewDidLoad()
         setUpScreen()
-        println(barInfo)
     }
 
     override func didReceiveMemoryWarning() {
@@ -69,7 +68,13 @@ class PostViewController: UIViewController, UITextViewDelegate {
             self.navigationController?.popViewControllerAnimated(true)
 
         }
-    }    
+    }
+    
+    func popToRoot(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
+//        self.navigationController?.navigationBarHidden = true
+    }
+    
     func setUpScreen () {
         self.title = "Post to Newsfeed"
         self.postButton.hidden = true

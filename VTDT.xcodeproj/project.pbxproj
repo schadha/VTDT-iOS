@@ -10,6 +10,7 @@
 		8331C5C119F9687400D0F303 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8331C5C019F9687400D0F303 /* Main.storyboard */; };
 		83A48DA41A0318A3008DC5AB /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A48DA31A0318A3008DC5AB /* FriendsViewController.swift */; };
 		83A48DA61A0318AF008DC5AB /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A48DA51A0318AF008DC5AB /* FriendTableViewCell.swift */; };
+		83C1724D1A058DB8000847A2 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C1724C1A058DB8000847A2 /* UserProfileCell.swift */; };
 		83C9F71B19F41C81002CFA8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9F71A19F41C81002CFA8A /* AppDelegate.swift */; };
 		83C9F72219F41C81002CFA8A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83C9F72119F41C81002CFA8A /* Images.xcassets */; };
 		83C9F72519F41C81002CFA8A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83C9F72319F41C81002CFA8A /* LaunchScreen.xib */; };
@@ -41,6 +42,7 @@
 		83A48DA31A0318A3008DC5AB /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		83A48DA51A0318AF008DC5AB /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		83A48DA71A031E9C008DC5AB /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		83C1724C1A058DB8000847A2 /* UserProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
 		83C9F71519F41C81002CFA8A /* VTDT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VTDT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83C9F71919F41C81002CFA8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83C9F71A19F41C81002CFA8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,13 +107,13 @@
 			children = (
 				9B4525231A03B1A5007AE580 /* Custom Cells */,
 				83A48DA31A0318A3008DC5AB /* FriendsViewController.swift */,
+				9B1B2D7119F745B6009BBB9F /* ProfileViewController.swift */,
 				9B76469B1A0024C600FA7966 /* PostViewController.swift */,
 				83C9F71A19F41C81002CFA8A /* AppDelegate.swift */,
 				9B2CA79119F92D4D00602726 /* BarProfileViewController.swift */,
 				9B2CA79519F9E00400602726 /* BarsViewController.swift */,
 				83C9F73A19F42106002CFA8A /* InitialViewController.swift */,
 				83C9F73C19F421B5002CFA8A /* LoginViewController.swift */,
-				9B1B2D7119F745B6009BBB9F /* ProfileViewController.swift */,
 				9B2CA79319F93C6B00602726 /* RestfulFunctions.swift */,
 				83C9F74019F42609002CFA8A /* Header.h */,
 				8331C5C019F9687400D0F303 /* Main.storyboard */,
@@ -154,6 +156,7 @@
 				83A48DA51A0318AF008DC5AB /* FriendTableViewCell.swift */,
 				9B326F031A026B8100A143AC /* BarProfileCell.swift */,
 				9B1B2D6F19F6929D009BBB9F /* NewsFeedTableViewCell.swift */,
+				83C1724C1A058DB8000847A2 /* UserProfileCell.swift */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				9B2CA79619F9E00400602726 /* BarsViewController.swift in Sources */,
 				83C9F73B19F42106002CFA8A /* InitialViewController.swift in Sources */,
 				9B326F041A026B8100A143AC /* BarProfileCell.swift in Sources */,
+				83C1724D1A058DB8000847A2 /* UserProfileCell.swift in Sources */,
 				83A48DA41A0318A3008DC5AB /* FriendsViewController.swift in Sources */,
 				9B1B2D7019F6929D009BBB9F /* NewsFeedTableViewCell.swift in Sources */,
 				83C9F71B19F41C81002CFA8A /* AppDelegate.swift in Sources */,
