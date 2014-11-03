@@ -200,16 +200,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func parseNewsFeed (jsonResult: NSArray) -> () {
-        
-        if (jsonResult.count == 0) {
-            
-            //show error pop up
-//            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
-//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
-            
-        }
-        else {
             
             var x = 0
             for item in jsonResult {
@@ -228,9 +218,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             //will not populate until all news feed items have been fetched.
             //tableview methods will be called initially (when screen is loaded) but since method
             //is asynchronious, global newFeedItems array will still be empty
-            println("reloading news feed data")
             self.newsFeedTable.reloadData()
-        }
     }
     
     func parseSpecials (jsonResult: NSArray) -> () {
@@ -288,7 +276,9 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         newsLabel.hidden = false;
         specialsLabel.hidden = true;
         switchTab = false
-        refresh()
+        
+        newsFeedItems = [NSDictionary]()
+        startFetchNews()
         
     }
     @IBAction func specialsClicked(sender: AnyObject) {
