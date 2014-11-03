@@ -82,6 +82,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             customCell.atLabel.hidden = true
             customCell.friendLocation.hidden = true
             
+            customCell.userProfPic.hidden = false
             customCell.messageText.hidden = false
             customCell.barLocation.hidden = false
             var newsFeedRow:NSDictionary = NSDictionary()
@@ -120,6 +121,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             
             customCell.atLabel.hidden = false
             customCell.friendLocation.hidden = false
+            customCell.userProfPic.hidden = false
             
             var friendRow:NSDictionary = NSDictionary()
             
@@ -346,6 +348,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         friendButton.layer.cornerRadius = 10
         
+        if user.name != userInfo["name"] as? String {
+            friendButton.hidden = true;
+        } else {
+            friendButton.hidden = false;
+        }
+        
+        
         var tableViewController = UITableViewController()
         tableViewController.tableView = newsFeedTable
         
@@ -399,13 +408,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
-        
         if (segue.identifier == "requestView") {
             
             var requestPage: FriendRequestViewController = segue.destinationViewController  as FriendRequestViewController
-            requestPage.myUserID = userInfo["username"] as String
+            requestPage.myUserID = user.objectID
         }
-        
     }
 
     

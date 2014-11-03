@@ -36,14 +36,14 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
                 var user = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendID)")[0] as NSDictionary
                 currentFriendNames += [user["name"] as String]
             }
-
-            
         }
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "popToRoot:")
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        
+    func popToRoot(sender:UIBarButtonItem){
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     //MARK: -Tableview methods
