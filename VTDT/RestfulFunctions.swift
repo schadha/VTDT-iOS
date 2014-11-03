@@ -9,7 +9,7 @@
 import Foundation
 
 
-func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) -> Bool {
+func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) {
     var request = NSMutableURLRequest(URL: NSURL(string: url)!)
     var err: NSError?
     
@@ -37,7 +37,6 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) ->
             }
         }
     })
-    return true
 }
 
 func getData (url: String) -> NSArray {
