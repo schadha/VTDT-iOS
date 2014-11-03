@@ -297,7 +297,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var id = userInfo["id"] as? Int
         
         var params:Dictionary<String, AnyObject>
-        var newCheckin:Int
         var barParams:Dictionary<String, AnyObject>
         var admin = userInfo["admin"] as? Int
         var name = userInfo["name"] as? String
@@ -308,8 +307,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var barID: Int = userInfo["checkedInBar"] as Int
         var barInfo: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")[0] as NSDictionary
         
-        newCheckin = barInfo["totalCheckedIn"] as Int - 1
-        barParams = ["address":barInfo["address"] as String, "id":checkedIn!, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String, "totalCheckedIn":newCheckin]
+        barParams = ["address":barInfo["address"] as String, "id":checkedIn!, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String]
         
         sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(checkedIn!)", barParams, "PUT")
         
@@ -359,6 +357,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         friendsLabel.hidden = true;
         newsButton.layer.cornerRadius = 10;
         friendsButton.layer.cornerRadius = 10;
+        checkOutButton.layer.cornerRadius = 10;
         
         var barID: Int = userInfo["checkedInBar"] as Int
         var bar: NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
@@ -371,7 +370,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var barLocation = barDict["name"] as? String
         
         if barLocation != nil {
-            checkedInBar.text = "Currently at \(barLocation!)";
+            checkedInBar.text = "at \(barLocation!)";
         } else {
             checkedInBar.hidden = true
             checkOutButton.hidden = true

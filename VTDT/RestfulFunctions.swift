@@ -27,7 +27,6 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) {
         
         if(err != nil) {
             
-            println("success!!!!")
             let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
         }
         else {
@@ -41,6 +40,43 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) {
             }
         }
     })
+}
+
+func sendDataBool (url:String, params:Dictionary<String, AnyObject>, type:String) -> Bool {
+    var request = NSMutableURLRequest(URL: NSURL(string: url)!)
+    var err: NSError?
+    
+    request.HTTPMethod = type
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.addValue("application/json", forHTTPHeaderField: "Accept")
+    request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
+    
+    
+    NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        
+        var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+        var err: NSError?
+        var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+        
+        if(err != nil) {
+            
+            let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
+            
+        }
+        else {
+            
+            println("fail.....")
+            if let parseJSON = json {
+                var success = parseJSON["success"] as? Int
+            }
+            else {
+                let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
+            }
+            
+        }
+    })
+    
+    return true
 }
 
 func getData (url: String) -> NSArray {

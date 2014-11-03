@@ -97,6 +97,8 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func parseBarInfo(jsonResult:NSArray) {
+        
+        println(jsonResult)
         for item in jsonResult {
             var dict:NSDictionary = item as NSDictionary
             self.barDict.append(dict)

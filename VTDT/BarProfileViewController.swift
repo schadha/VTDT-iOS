@@ -39,6 +39,9 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     var barInfo = NSDictionary()
     var userInfo = NSDictionary()
     
+    private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -305,31 +308,48 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     @IBAction func checkInClicked(sender: AnyObject){
+        
+        var userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
         var checkedIn = userInfo["checkedInBar"] as? Int
         var id = userInfo["id"] as? Int
-        var barID = barInfo["id"] as? Int
+        var barID = barInfo["id"] as Int
         var params:Dictionary<String, AnyObject>
         var barParams:Dictionary<String, AnyObject>
+        var oldBarParams:Dictionary<String, AnyObject> = Dictionary<String, AnyObject> ()
         var newCheckin:Int
         
         if checkedIn == barID {
+            println("checking out")
             params = ["admin":userInfo["admin"] as Int,"id":id!, "checkedInBar":100, "name":user.name, "username":user.objectID]
-            checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
-            
-            newCheckin = (barInfo["totalCheckedIn"] as Int) - 1
-            barParams = ["address":barInfo["address"] as String, "id":barID!, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String, "totalCheckedIn":newCheckin]
-            
-        } else {
-            params = ["admin":userInfo["admin"] as Int,"id":id!, "checkedInBar":barID!, "name":user.name, "username":user.objectID]
             checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
             
-            newCheckin = barInfo["totalCheckedIn"] as Int + 1
-            barParams = ["id":barID!, "address":barInfo["address"] as String, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String, "totalCheckedIn":newCheckin]
+            barParams = ["address":barInfo["address"] as String, "id":barID, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String]
+            
+        } else {
+            
+            checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
+
+            params = ["admin":userInfo["admin"] as Int,"id":id!, "checkedInBar":barID, "name":user.name, "username":user.objectID]
+            
+            barParams = ["id":barID, "address":barInfo["address"] as String, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String]
         }
         
-        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
-        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID!)", barParams, "PUT")
-        setUpScreen()
+        dispatch_async(queue) {
+            let complete:Bool = sendDataBool("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
+            let complete2:Bool = sendDataBool("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)", barParams, "PUT")
+            println("done")
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                var barID = self.barInfo["id"] as Int
+               println(barID)
+                var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(barID)")
+                
+                self.totalCheckedIn.text = String(users.count)
+
+            }
+            
+        }
+//        setUpScreen()
         
     }
     
@@ -349,10 +369,15 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func setUpScreen () {
+        
         userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
         
         var barName:String = self.barInfo["name"] as String
         barInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/findByName/\(barName)")[0] as NSDictionary
+        var barID = barInfo["id"] as Int
+        var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(barID)")
+        
+        println(users)
         
         barImage.layer.cornerRadius = barImage.frame.size.width / 2;
         barImage.clipsToBounds = true;
@@ -362,7 +387,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         barImage.image = UIImage(named: (barName as String)+".png")
         
         
-        totalCheckedIn.text = String(barInfo["totalCheckedIn"] as Int)
+        totalCheckedIn.text = String(users.count)
         
         //set bar labels
         barAddress.text = barInfo["address"] as? String
@@ -380,8 +405,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         newsFeedTable.dataSource = self;
         newsFeedTable.layer.cornerRadius = 10;
         
-        var checkedIn = userInfo["checkedInBar"] as? Int
-        var barID = barInfo["id"] as? Int
+        var checkedIn = userInfo["checkedInBar"] as Int
         
         if checkedIn == barID {
             checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
