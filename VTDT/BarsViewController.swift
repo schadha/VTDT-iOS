@@ -11,7 +11,7 @@ import UIKit
 class BarsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var user: FBGraphUser!
-
+    
     @IBOutlet var barTable: UITableView!
     var barDict = [NSDictionary]()
     var currBar = NSDictionary()
@@ -36,7 +36,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         barTable.layer.cornerRadius = 10;
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -70,11 +70,11 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
-       var barPage: BarProfileViewController = segue.destinationViewController  as BarProfileViewController
+        var barPage: BarProfileViewController = segue.destinationViewController  as BarProfileViewController
         barPage.barInfo = currBar
         barPage.user = self.user
     }
@@ -83,7 +83,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.popViewControllerAnimated(true)
         self.navigationController?.navigationBarHidden = true
     }
-
+    
     func startFetchBars () {
         
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars"
@@ -97,34 +97,15 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func parseBarInfo(jsonResult:NSArray) {
-                    
-        if (jsonResult.count == 0) {
-            //handle json error here
-            var alert = UIAlertController(title: "Oops!", message: "We had trouble fetching your data.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-            self.barTable.reloadData()
-        }
-        else {
-                        
-            //do this on main application thread
-
-            for item in jsonResult {
-                            
-            //need to make sure that we are only appending new items--
-            //would it be worth it??
-                var dict:NSDictionary = item as NSDictionary
-                self.barDict.append(dict)
-            }
-                        
-            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-            //will not populate until all news feed items have been fetched.
-            //tableview methods will be called initially (when screen is loaded) but since method
-            //is asynchronious, global newFeedItems array will still be empty
-            self.barTable.reloadData()
-                        
+        for item in jsonResult {
+            var dict:NSDictionary = item as NSDictionary
+            self.barDict.append(dict)
         }
         
+        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+        //will not populate until all news feed items have been fetched.
+        //tableview methods will be called initially (when screen is loaded) but since method
+        //is asynchronious, global newFeedItems array will still be empty
+        self.barTable.reloadData()
     }
-
 }

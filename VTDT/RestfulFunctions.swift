@@ -21,33 +21,21 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) ->
     
     NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
         
-        println("Response: \(response)")
         var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-        //            println("Body: \(strData)")
         var err: NSError?
         var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
         
-        // Did the JSONObjectWithData constructor return an error? If so, log the error to the console
         if(err != nil) {
-            println(err!.localizedDescription)
             let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-            //                println("Error could not parse JSON: '\(jsonStr)'")
         }
         else {
-            // The JSONObjectWithData constructor didn't return an error. But, we should still
-            // check and make sure that json has a value using optional binding.
             if let parseJSON = json {
-                // Okay, the parsedJSON is here, let's get the value for 'success' out of it
                 var success = parseJSON["success"] as? Int
-                println("Succes: \(success)")
             }
             else {
-                // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
                 let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println("Error could not parse JSON: \(jsonStr)")
             }
         }
-        //        }
     })
     return true
 }
@@ -56,7 +44,7 @@ func getData (url: String) -> NSArray {
 
     var jsonResult:NSArray = NSArray()
     var requestUrl = NSURL(string: url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)!
-    //        var request:NSURLRequest = NSURLRequest(URL: url)
+    
     var jsonError:NSError?
     
     let jsonData:NSData? = NSData(contentsOfURL: requestUrl, options:NSDataReadingOptions.DataReadingMapped, error: &jsonError)
@@ -66,9 +54,6 @@ func getData (url: String) -> NSArray {
         if (jsonDataFromDB.length == 0) {
             return NSArray()
         }
-        //parse json into array
-        //            jsonResult = NSJSONSerialization.JSONObjectWithData(jsonDataFromDB,
-        //                options:NSJSONReadingOptions.MutableContainers, error: nil) as NSArray
         
         let jsonResult: AnyObject = NSJSONSerialization.JSONObjectWithData(jsonDataFromDB, options: NSJSONReadingOptions.MutableContainers, error: nil)!
         

@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet var newsLabel: UILabel!
     @IBOutlet var friendsLabel: UILabel!
-
+    
     @IBOutlet var checkOutButton: UIButton!
     var switchTab = false
     
@@ -55,9 +55,17 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         if !switchTab {
-            return newsFeedItems.count
+            if newsFeedItems.count == 0 {
+                return 1;
+            } else {
+                return newsFeedItems.count
+            }
         }else {
-            return friendsItems.count
+            if friendsItems.count == 0 {
+                return 1;
+            } else {
+                return friendsItems.count
+            }
         }
     }
     
@@ -73,8 +81,17 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             
             customCell.messageText.hidden = false
             customCell.barLocation.hidden = false
+            var newsFeedRow:NSDictionary = NSDictionary()
             
-            var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
+            if newsFeedItems.count != 0 {
+                newsFeedRow = newsFeedItems[indexPath.row]
+            } else {
+                customCell.userName.text = "No News Feed Items"
+                customCell.userProfPic.hidden = true
+                customCell.messageText.hidden = true
+                customCell.barLocation.hidden = true
+                return customCell
+            }
             
             customCell.messageText.text = newsFeedRow["message"] as? String
             
@@ -102,8 +119,19 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             customCell.atLabel.hidden = false
             customCell.friendLocation.hidden = false
             
+            var friendRow:NSDictionary = NSDictionary()
             
-            var friendRow:NSDictionary = friendsItems[indexPath.row]
+            if friendsItems.count != 0 {
+                friendRow = friendsItems[indexPath.row]
+            } else {
+                customCell.userName.text = "No Friends"
+                customCell.userProfPic.hidden = true
+                customCell.atLabel.hidden = true
+                customCell.friendLocation.hidden = true
+                customCell.userInteractionEnabled = false;
+                return customCell
+            }
+            
             
             //profile pic of user based on user id
             var friendUserID = friendRow["friend"] as? String
@@ -122,7 +150,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             if (bar.count != 0) {
                 barLocation = (bar[0] as NSDictionary)["name"] as String
             }
-
+            
             if barLocation != "" {
                 customCell.friendLocation.text = barLocation
             } else {
@@ -148,36 +176,24 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func parseNewsFeed (jsonResult: NSArray) -> () {
-        
-        if (jsonResult.count == 0) {
+        var x = 0
+        for item in jsonResult {
             
-            //show error pop up
-            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this user.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-            
-        }
-        else {
-            
-            var x = 0
-            for item in jsonResult {
-                
-                if x < 25 {
-                    var dict:NSDictionary = item as NSDictionary
-                    self.newsFeedItems += [dict]
-                }
-                else {
-                    break
-                }
-                x++
+            if x < 25 {
+                var dict:NSDictionary = item as NSDictionary
+                self.newsFeedItems += [dict]
             }
-            
-            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-            //will not populate until all news feed items have been fetched.
-            //tableview methods will be called initially (when screen is loaded) but since method
-            //is asynchronious, global newFeedItems array will still be empty
-            self.newsFeedTable.reloadData()
+            else {
+                break
+            }
+            x++
         }
+        
+        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+        //will not populate until all news feed items have been fetched.
+        //tableview methods will be called initially (when screen is loaded) but since method
+        //is asynchronious, global newFeedItems array will still be empty
+        self.newsFeedTable.reloadData()
     }
     
     func startFetchNews () {
@@ -197,26 +213,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func parseFriends(jsonResult:NSArray) {
-        
-        if (jsonResult.count == 0) {
-            //handle json error here
-//            var alert = UIAlertController(title: "Oops!", message: "We had trouble fetching your friends.", preferredStyle: UIAlertControllerStyle.Alert)
-//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else {
+        for item in jsonResult {
             
-            //do this on main application thread
-            
-            for item in jsonResult {
-                
-                //need to make sure that we are only appending new items--
-                //would it be worth it??
-                var dict:NSDictionary = item as NSDictionary
-                self.friendsItems.append(dict)
-            }
+            //need to make sure that we are only appending new items--
+            //would it be worth it??
+            var dict:NSDictionary = item as NSDictionary
+            self.friendsItems.append(dict)
         }
-        
         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
         //will not populate until all news feed items have been fetched.
         //tableview methods will be called initially (when screen is loaded) but since method
@@ -283,33 +286,30 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         //check out
         var checkedIn = userInfo["checkedInBar"] as? Int
         var id = userInfo["id"] as? Int
-//        var barID = barInfo["id"] as? Int
+        
         var params:Dictionary<String, AnyObject>
         var newCheckin:Int
         var barParams:Dictionary<String, AnyObject>
         var admin = userInfo["admin"] as? Int
-        if admin == nil {
-            admin = 0
-        }
-        var name = userInfo["name"] as String
-        var username = userInfo["username"] as String
+        var name = userInfo["name"] as? String
+        var username = userInfo["username"] as? String
         
         checkOutButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
         
-        //get bar data for checkout
-        var barInfo:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(checkedIn!)")[0] as NSDictionary
+        var barID: Int = userInfo["checkedInBar"] as Int
+        var barInfo: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")[0] as NSDictionary
+        
         newCheckin = barInfo["totalCheckedIn"] as Int - 1
-        barParams = ["address":barInfo["address"] as String, "id":checkedIn!, "latitude":barInfo["latitude"] as String, "longitude":barInfo["longitude"] as String, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["webSite"] as String, "totalCheckedIn":newCheckin]
+        barParams = ["address":barInfo["address"] as String, "id":checkedIn!, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String, "totalCheckedIn":newCheckin]
         
         sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(checkedIn!)", barParams, "PUT")
         
-        params = ["admin":admin!,"id":id!, "checkedInBar":100, "name":name, "username":username]
+        params = ["admin":admin!,"id":id!, "checkedInBar":100, "name":name!, "username":username!]
         
         sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
         
         checkOutButton.hidden = true
         checkedInBar.hidden = true
-        
     }
     
     
@@ -321,17 +321,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         refresh()
     }
     
-    //    // MARK: - Navigation
-    //
-    //    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    //    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-    //        // Get the new view controller using segue.destinationViewController.
-    //        // Pass the selected object to the new view controller.
-    //    }
-    
     func setUpScreen () {
         var userID = userInfo["username"] as String
-        println(userID)
         
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         profileImage.clipsToBounds = true

@@ -195,8 +195,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vZD-WQ-NSA">
+                                <rect key="frame" x="16" y="216" width="170" height="21"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbg-SH-I4n">
+                                <rect key="frame" x="189" y="216" width="170" height="21"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="G7G-8T-77o">
-                                <rect key="frame" x="16" y="229" width="343" height="415"/>
+                                <rect key="frame" x="16" y="230" width="343" height="415"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -211,7 +225,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GA9-ed-LVD">
-                                                    <rect key="frame" x="77" y="2" width="250" height="18"/>
+                                                    <rect key="frame" x="77" y="8" width="250" height="18"/>
                                                     <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -257,20 +271,6 @@
                                     <outlet property="delegate" destination="YTw-u9-lBk" id="zna-2n-upM"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vZD-WQ-NSA">
-                                <rect key="frame" x="16" y="216" width="170" height="21"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbg-SH-I4n">
-                                <rect key="frame" x="189" y="216" width="170" height="21"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0dM-gg-ZyB">
                                 <rect key="frame" x="189" y="205" width="170" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -583,6 +583,7 @@
                         <outlet property="postButton" destination="cBG-D1-Rkc" id="IBs-Vk-0yc"/>
                         <outlet property="specialsButton" destination="qWk-VQ-emb" id="Cnr-ys-a0d"/>
                         <outlet property="specialsLabel" destination="63c-3c-gf6" id="jry-pC-fZC"/>
+                        <outlet property="totalCheckedIn" destination="XLO-6E-APg" id="2vO-R3-R9D"/>
                         <segue destination="zEe-Rj-q3c" kind="show" identifier="postPage" id="Md8-8p-DTF"/>
                     </connections>
                 </viewController>
@@ -702,6 +703,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="atLabel" destination="u2N-IB-zp3" id="KPL-Tk-42X"/>
                                             <outlet property="barLocation" destination="CFX-gb-Xu0" id="PJr-JZ-dJa"/>
                                             <outlet property="userName" destination="hpL-ZU-6yN" id="C4b-6X-QZo"/>
                                             <outlet property="userProfPic" destination="1Gx-cB-gsR" id="yOL-8y-iO1"/>
@@ -734,7 +736,7 @@
         <image name="disclosure" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Szm-ky-gUR"/>
         <segue reference="ery-YO-Jcx"/>
-        <segue reference="Vbj-hx-uFi"/>
     </inferredMetricsTieBreakers>
 </document>
