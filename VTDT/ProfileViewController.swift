@@ -237,9 +237,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         if (result.count == 0) {
             
             //show error pop up
-            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any data for this user.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+//            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any data for this user.", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
             
         }
         else {
@@ -275,14 +275,14 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         newsLabel.hidden = false;
         friendsLabel.hidden = true;
         switchTab = false
-        newsFeedTable.reloadData()
+        self.newsFeedTable.reloadData()
     }
-    @IBAction func specialsClicked(sender: AnyObject) {
+    @IBAction func friendsClicked(sender: AnyObject) {
         
         newsLabel.hidden = true;
         friendsLabel.hidden = false;
         switchTab = true
-        newsFeedTable.reloadData()
+        self.newsFeedTable.reloadData()
     }
     
     func popToRoot(sender:UIBarButtonItem){
@@ -401,7 +401,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         if (segue.identifier == "requestView") {
             
-            println("here")
             var requestPage: FriendRequestViewController = segue.destinationViewController  as FriendRequestViewController
             requestPage.myUserID = userInfo["username"] as String
         }

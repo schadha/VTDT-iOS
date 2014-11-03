@@ -45,6 +45,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         setUpScreen()
         
         startFetchNews()
+        startFetchSpecials()
         
     }
     
@@ -198,9 +199,9 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         if (jsonResult.count == 0) {
             
             //show error pop up
-            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+//            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any news feed data for this bar.", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
             
         }
         else {
@@ -227,13 +228,13 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func parseSpecials (jsonResult: NSArray) -> () {
+
         var dateFormatter:NSDateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "E"
         let today:String = dateFormatter.stringFromDate(NSDate())
         
         for item in jsonResult {
             var dict:NSDictionary = item as NSDictionary
-            
             var days: String = dict["days"] as String
             
             if (days.rangeOfString(today) != nil) {
@@ -245,7 +246,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         //will not populate until all news feed items have been fetched.
         //tableview methods will be called initially (when screen is loaded) but since method
         //is asynchronious, global newFeedItems array will still be empty
-        self.newsFeedTable.reloadData()
+//        self.newsFeedTable.reloadData()
     }
     
     func startFetchNews () {
@@ -272,19 +273,17 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func refresh(viaPullToRefresh: Bool = false) {
-        
-        //reload news feed data
-        if !switchTab {
+            
+            //reset newsfeeditems
             newsFeedItems = [NSDictionary]()
+//            specialItems = [NSDictionary]()
+            //reload news feed data
             startFetchNews()
-        } else {
-            specialItems = [NSDictionary]()
-            startFetchSpecials()
-        }
+//            startFetchSpecials()
         
-        if (viaPullToRefresh) {
-            self.refreshControl?.endRefreshing()
-        }
+            if (viaPullToRefresh) {
+                self.refreshControl?.endRefreshing()
+            }
     }
     @IBAction func newsClicked(sender: AnyObject) {
         
@@ -292,13 +291,15 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         specialsLabel.hidden = true;
         switchTab = false
         refresh()
+        
     }
     @IBAction func specialsClicked(sender: AnyObject) {
         
         newsLabel.hidden = true;
         specialsLabel.hidden = false;
         switchTab = true
-        refresh()
+//        startFetchSpecials()
+        self.newsFeedTable.reloadData()
     }
     @IBAction func postClicked(sender: AnyObject) {
         var checkedIn = userInfo["checkedInBar"] as? Int
