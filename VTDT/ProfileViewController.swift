@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var name: String = ""
+    var user: FBGraphUser!
 //    var userID:String = ""
     
     var refreshControl:UIRefreshControl!
@@ -369,7 +370,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         var barLocation = barDict["name"] as? String
         
-        if barLocation != nil {
+        if barLocation != nil && user.name == userInfo["name"] as? String {
             checkedInBar.text = "at \(barLocation!)";
         } else {
             checkedInBar.hidden = true

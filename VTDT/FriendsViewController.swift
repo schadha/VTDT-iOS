@@ -98,6 +98,11 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         //                    customCell.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
         var newsFeedRow:NSDictionary = NSDictionary()
         
+        customCell.userProfPic.hidden = false
+        customCell.barLocation.hidden = false
+        customCell.atLabel.hidden = false
+        customCell.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
+        
         if newsFeedItems.count != 0 {
             newsFeedRow = newsFeedItems[indexPath.row]
         } else {
@@ -125,7 +130,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         var barDict: NSDictionary = NSDictionary()
         
         if bar.count != 0 {
-            var barDict: NSDictionary = bar.firstObject as NSDictionary
+            barDict = bar[0] as NSDictionary
         }
         var barLocation = barDict["name"] as? String
         
@@ -216,6 +221,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         if segue.identifier == "profileView" {
             var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
             profilePage.name = currFriend["name"] as String;
+            profilePage.user = user;
         }
         else if segue.identifier == "barView" {
             var barPage: BarProfileViewController = segue.destinationViewController  as BarProfileViewController
