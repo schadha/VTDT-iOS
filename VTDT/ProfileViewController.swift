@@ -238,15 +238,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByName/\(name)"
         let result: NSArray = getData(jupiter) as NSArray
         
-        if (result.count == 0) {
-            
-            //show error pop up
-//            var alert = UIAlertController(title: "Oops!", message: "We couldn't find any data for this user.", preferredStyle: UIAlertControllerStyle.Alert)
-//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
-            
-        }
-        else {
+        if (result.count != 0) {
             self.userInfo = result[0] as NSDictionary
         }
     }
