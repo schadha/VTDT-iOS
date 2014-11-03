@@ -38,6 +38,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     var specialItems = [NSDictionary]()
     var barInfo = NSDictionary()
     var userInfo = NSDictionary()
+    var barID:Int = -1
     
     private let queue = dispatch_queue_create("serial-worker", DISPATCH_QUEUE_SERIAL)
 
@@ -45,6 +46,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        barID = barInfo["id"] as Int
         setUpScreen()
         
         startFetchNews()
@@ -226,6 +228,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             //will not populate until all news feed items have been fetched.
             //tableview methods will be called initially (when screen is loaded) but since method
             //is asynchronious, global newFeedItems array will still be empty
+            println("reloading news feed data")
             self.newsFeedTable.reloadData()
         }
     }
@@ -249,17 +252,17 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func startFetchNews () {
         
-        let barId = barInfo["id"] as Int
+//        let barId = barInfo["id"] as Int
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barId)"
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barID)"
         let result = getData(jupiter)
         self.parseNewsFeed(result)
     }
     
     func startFetchSpecials () {
-        let barId = barInfo["id"] as Int
+//        let barId = barInfo["id"] as Int
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.specials/findByBar/\(barId)"
+        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.specials/findByBar/\(barID)"
         
         let result = getData(jupiter)
         self.parseSpecials(result)
@@ -319,7 +322,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         var newCheckin:Int
         
         if checkedIn == barID {
-            println("checking out")
             params = ["admin":userInfo["admin"] as Int,"id":id!, "checkedInBar":100, "name":user.name, "username":user.objectID]
             checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
             
@@ -335,21 +337,17 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         dispatch_async(queue) {
-            let complete:Bool = sendDataBool("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
-            let complete2:Bool = sendDataBool("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)", barParams, "PUT")
-            println("done")
+            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
+            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(self.barID)", barParams, "PUT")
+            
             dispatch_async(dispatch_get_main_queue()) {
                 
-                var barID = self.barInfo["id"] as Int
-               println(barID)
-                var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(barID)")
-                
+                var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(self.barID)")
+        
                 self.totalCheckedIn.text = String(users.count)
-
             }
             
         }
-//        setUpScreen()
         
     }
     
@@ -376,8 +374,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         barInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/findByName/\(barName)")[0] as NSDictionary
         var barID = barInfo["id"] as Int
         var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(barID)")
-        
-        println(users)
         
         barImage.layer.cornerRadius = barImage.frame.size.width / 2;
         barImage.clipsToBounds = true;
