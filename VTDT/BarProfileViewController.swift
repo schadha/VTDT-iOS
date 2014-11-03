@@ -242,11 +242,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
         
-        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-        //will not populate until all news feed items have been fetched.
-        //tableview methods will be called initially (when screen is loaded) but since method
-        //is asynchronious, global newFeedItems array will still be empty
-//        self.newsFeedTable.reloadData()
     }
     
     func startFetchNews () {
@@ -276,10 +271,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             
             //reset newsfeeditems
             newsFeedItems = [NSDictionary]()
-//            specialItems = [NSDictionary]()
-            //reload news feed data
             startFetchNews()
-//            startFetchSpecials()
         
             if (viaPullToRefresh) {
                 self.refreshControl?.endRefreshing()
