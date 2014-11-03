@@ -193,7 +193,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         currBar = bars[indexPath.row]
-        performSegueWithIdentifier("barView", sender: self)
+        if currBar.count != 0 {
+            performSegueWithIdentifier("barView", sender: self)
+        }
     }
     
     /*
