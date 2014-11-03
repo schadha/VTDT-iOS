@@ -10,7 +10,7 @@ import UIKit
 
 
 class LoginViewController: UIViewController, FBLoginViewDelegate {
-
+    
     
     @IBOutlet var loginView: FBLoginView!
     var user: FBGraphUser!
@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -45,8 +45,6 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
         
-        //when logged in call to segue to profile screen
-//        performSegueWithIdentifier("newsFeedCell", sender: self)
         
     }
     
@@ -56,21 +54,20 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         
     }
     
-
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
         if (segue.identifier == "initialPage") {
             var homePage: InitialViewController = segue.destinationViewController as InitialViewController
             
-            var input:Dictionary<String, AnyObject> = ["checkedInBar":0, "name":user.name, "username":user.objectID]
+            var input:Dictionary<String, AnyObject> = ["checkedInBar":100, "name":user.name, "username":user.objectID]
             sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users", input, "POST")
             
             homePage.user = self.user;
         }
-
     }
-
+    
 }

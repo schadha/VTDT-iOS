@@ -13,6 +13,8 @@ class FriendTableViewCell: UITableViewCell {
     @IBOutlet var userProfPic: FBProfilePictureView!
     @IBOutlet var barLocation: UILabel!
     @IBOutlet var userName: UILabel!
+    @IBOutlet var atLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

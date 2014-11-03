@@ -62,10 +62,8 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         for userDict in unfilteredFriends {
             
             var friendName:String = userDict["name"] as String
-            println(friendName)
             
             if friendName.lowercaseString.rangeOfString(searchText) != nil {
-                println(searchText)
                 filteredFriends += [friendName]
                 
             }

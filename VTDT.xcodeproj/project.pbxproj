@@ -123,7 +123,6 @@
 				83C9F72119F41C81002CFA8A /* Images.xcassets */,
 				83C9F72319F41C81002CFA8A /* LaunchScreen.xib */,
 				83C9F71819F41C81002CFA8A /* Supporting Files */,
-				83DD03241A04B72C007D57B0 /* MyPlayground.playground */,
 			);
 			path = VTDT;
 			sourceTree = "<group>";

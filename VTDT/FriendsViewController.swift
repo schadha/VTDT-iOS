@@ -85,14 +85,29 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return newsFeedItems.count
+        if newsFeedItems.count == 0 {
+            return 1;
+        } else {
+            return newsFeedItems.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var customCell:FriendTableViewCell = friendsTableview.dequeueReusableCellWithIdentifier("friendFeedCell", forIndexPath: indexPath) as FriendTableViewCell
+        //                    customCell.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
+        var newsFeedRow:NSDictionary = NSDictionary()
         
-        var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
+        if newsFeedItems.count != 0 {
+            newsFeedRow = newsFeedItems[indexPath.row]
+        } else {
+            customCell.userName.text = "No Online Friends"
+            customCell.userProfPic.hidden = true
+            customCell.barLocation.hidden = true
+            customCell.atLabel.hidden = true
+            customCell.accessoryType = UITableViewCellAccessoryType.None
+            return customCell
+        }
         
         //profile pic of user based on user id
         var friendUserID = newsFeedRow["friend"] as? String
@@ -157,24 +172,14 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func parseOnlineFriends(jsonResult:NSArray) {
+        //do this on main application thread
         
-        if (jsonResult.count == 0) {
-            //handle json error here
-            var alert = UIAlertController(title: "Oops!", message: "We had trouble fetching your data.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else {
+        for item in jsonResult {
             
-            //do this on main application thread
-            
-            for item in jsonResult {
-                
-                //need to make sure that we are only appending new items--
-                //would it be worth it??
-                var dict:NSDictionary = item as NSDictionary
-                self.newsFeedItems.append(dict)
-            }
+            //need to make sure that we are only appending new items--
+            //would it be worth it??
+            var dict:NSDictionary = item as NSDictionary
+            self.newsFeedItems.append(dict)
         }
         
         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
@@ -193,7 +198,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         currBar = bars[indexPath.row]
-        performSegueWithIdentifier("barView", sender: self)
+        if currBar.count != 0 {
+            performSegueWithIdentifier("barView", sender: self)
+        }
     }
     
     /*

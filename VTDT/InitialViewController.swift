@@ -12,7 +12,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var profileName: UILabel!
-
+    
     @IBOutlet var whoToDoButton: UIButton!
     @IBOutlet var whatToDoButton: UIButton!
     
@@ -41,7 +41,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         FBSession.activeSession().closeAndClearTokenInformation()
         self.navigationController?.popViewControllerAnimated(true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -54,15 +54,29 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Return the number of rows in the section.
-        return newsFeedItems.count
+        if newsFeedItems.count == 0 {
+            return 1;
+        } else {
+            return newsFeedItems.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var customCell:NewsFeedTableViewCell = newsTableview.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as NewsFeedTableViewCell
         
-        var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
+        var newsFeedRow:NSDictionary = NSDictionary()
+        
+        if newsFeedItems.count != 0 {
+            newsFeedRow = newsFeedItems[indexPath.row]
+        } else {
+            customCell.userName.text = "No News Feed Items"
+            customCell.messageText.hidden = true
+            customCell.barLocation.hidden = true
+            customCell.userProfPic.hidden = true
+            
+            return customCell
+        }
         
         var userID = newsFeedRow["username"] as? String
         var userArray:NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")
@@ -83,17 +97,17 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             var timeElement = newsFeedRow["timePosted"] as String
             customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
-
+            
             
         }
-
+        
         
         return customCell
     }
     
-        
+    
     @IBAction func detailClicked(sender: AnyObject) {
-
+        
         performSegueWithIdentifier("profileView", sender: self)
     }
     @IBAction func whatClicked(sender: AnyObject) {
@@ -126,47 +140,34 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     // # RESTFUL CALLS ===========================================================
     
     func parseNewsFeed (jsonResult: NSArray) -> () {
-        
-        if (jsonResult.count == 0) {
-            //handle json error here
-            print ("error parsing json file \n")
-        }
-        else {
+        var x = 0
+        for item in jsonResult {
             
-            var x = 0
-            for item in jsonResult {
-                
-                if x < 25 {
-                    var dict:NSDictionary = item as NSDictionary
-                    self.newsFeedItems += [dict]
-                }
-                else {
-                    break
-                }
-                x++
+            if x < 25 {
+                var dict:NSDictionary = item as NSDictionary
+                self.newsFeedItems += [dict]
             }
-            
-            //populate tableview here with newFeeditems that get set asynchroniously above ^^^
-            //will not populate until all news feed items have been fetched.
-            //tableview methods will be called initially (when screen is loaded) but since method
-            //is asynchronious, global newFeedItems array will still be empty
-            self.newsTableview.reloadData()
+            else {
+                break
+            }
+            x++
         }
+        
+        //populate tableview here with newFeeditems that get set asynchroniously above ^^^
+        //will not populate until all news feed items have been fetched.
+        //tableview methods will be called initially (when screen is loaded) but since method
+        //is asynchronious, global newFeedItems array will still be empty
+        self.newsTableview.reloadData()
     }
     
     func startFetchNews () {
         
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/sorted"
         
-//        dispatch_async(queue) {
-            let result = getData(jupiter)
-//            dispatch_async(dispatch_get_main_queue()) {
-                self.parseNewsFeed(result)
-//            }
-        
-//        }
+        let result = getData(jupiter)
+        self.parseNewsFeed(result)
     }
-
+    
     
     //get request to get user first and last name based on userid
     
@@ -233,7 +234,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             
         }
     }
-
+    
 }
 
 
