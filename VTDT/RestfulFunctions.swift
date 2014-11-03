@@ -53,7 +53,7 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) ->
 }
 
 func getData (url: String) -> NSArray {
-    
+
     var jsonResult:NSArray = NSArray()
     var requestUrl = NSURL(string: url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)!
     //        var request:NSURLRequest = NSURLRequest(URL: url)

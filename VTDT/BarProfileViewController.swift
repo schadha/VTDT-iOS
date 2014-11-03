@@ -307,6 +307,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         var id = userInfo["id"] as? Int
         var barID = barInfo["id"] as? Int
         var params:Dictionary<String, AnyObject>
+        var barParams:Dictionary<String, AnyObject>
+        var newCheckin:Int
         var admin = userInfo["admin"] as? Int
         if admin == nil {
             admin = 0
@@ -315,24 +317,21 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         if checkedIn == barID {
             params = ["admin":admin!,"id":id!, "checkedInBar":100, "name":user.name, "username":user.objectID]
             checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
+            
+            newCheckin = barInfo["totalCheckedIn"] as Int - 1
+            barParams = ["address":barInfo["address"] as String, "id":barID!, "latitude":barInfo["latitude"] as String, "longitude":barInfo["longitude"] as String, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["webSite"] as String, "totalCheckedIn":newCheckin]
+            
         } else {
             params = ["admin":admin!,"id":id!, "checkedInBar":barID!, "name":user.name, "username":user.objectID]
             checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
+            
+            newCheckin = barInfo["totalCheckedIn"] as Int + 1
+            barParams = ["address":barInfo["address"] as String, "id":barID!, "latitude":barInfo["latitude"] as String, "longitude":barInfo["longitude"] as String, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["webSite"] as String, "totalCheckedIn":newCheckin]
         }
-        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
         
-//        if checkInButton.titleLabel!.text == "CHECK IN" {
-//            //add the bar to user check in value and check text lable to check out
-//            //json post to user table with new check in value
-//            checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
-//            
-//        }
-//        else {
-//            
-//            //remove the bar from user check in value and change text to check in
-//            //json post to user table with null check out value
-//            checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
-//        }
+        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
+        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID!)", barParams, "PUT")
+
     }
     
     // MARK: - Navigation
@@ -350,6 +349,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    func getTotalCheckin() {
+        
+    }
+    
     func setUpScreen () {
         barImage.layer.cornerRadius = barImage.frame.size.width / 2;
         barImage.clipsToBounds = true;
@@ -358,6 +361,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         barImage.image = UIImage(named: (barInfo["name"] as String)+".png")
         
+        println(barInfo)
         //set bar labels
         barAddress.text = barInfo["address"] as? String
         

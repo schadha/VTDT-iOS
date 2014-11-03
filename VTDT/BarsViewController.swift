@@ -93,7 +93,6 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
             dispatch_async(dispatch_get_main_queue()) {
                 self.parseBarInfo(result)
             }
-            
         }
     }
     

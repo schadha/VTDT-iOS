@@ -285,12 +285,23 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var id = userInfo["id"] as? Int
 //        var barID = barInfo["id"] as? Int
         var params:Dictionary<String, AnyObject>
+        var newCheckin:Int
+        var barParams:Dictionary<String, AnyObject>
         var admin = userInfo["admin"] as? Int
         if admin == nil {
             admin = 0
         }
         var name = userInfo["name"] as String
         var username = userInfo["username"] as String
+        
+        checkOutButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
+        
+        //get bar data for checkout
+        var barInfo:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(checkedIn!)")[0] as NSDictionary
+        newCheckin = barInfo["totalCheckedIn"] as Int - 1
+        barParams = ["address":barInfo["address"] as String, "id":checkedIn!, "latitude":barInfo["latitude"] as String, "longitude":barInfo["longitude"] as String, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["webSite"] as String, "totalCheckedIn":newCheckin]
+        
+        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(checkedIn!)", barParams, "PUT")
         
         params = ["admin":admin!,"id":id!, "checkedInBar":100, "name":name, "username":username]
         

@@ -65,21 +65,27 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         var newsFeedRow:NSDictionary = newsFeedItems[indexPath.row]
         
         var userID = newsFeedRow["username"] as? String
-        var user:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")[0] as NSDictionary
-        
-        customCell.userName.text = user["name"] as? String
-        
-        customCell.messageText.text = newsFeedRow["message"] as? String
-        customCell.userProfPic.profileID = newsFeedRow["username"] as? String
-        customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
-        customCell.userProfPic.clipsToBounds = true;
-        
-        var barID: Int = newsFeedRow["bar"] as Int
-        var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
-        var barLocation = bar["name"] as? String
-        
-        var timeElement = newsFeedRow["timePosted"] as String
-        customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
+        var userArray:NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")
+        if userArray.count > 0 {
+            
+            var user = userArray[0] as NSDictionary
+            
+            customCell.userName.text = user["name"] as? String
+            
+            customCell.messageText.text = newsFeedRow["message"] as? String
+            customCell.userProfPic.profileID = newsFeedRow["username"] as? String
+            customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
+            customCell.userProfPic.clipsToBounds = true;
+            
+            var barID: Int = newsFeedRow["bar"] as Int
+            var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
+            var barLocation = bar["name"] as? String
+            
+            var timeElement = newsFeedRow["timePosted"] as String
+            customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
+
+            
+        }
 
         
         return customCell

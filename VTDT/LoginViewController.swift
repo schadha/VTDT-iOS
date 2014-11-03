@@ -32,7 +32,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        counter = 0;
+        counter = 0
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
