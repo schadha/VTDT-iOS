@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var newsButton: UIButton!
     @IBOutlet var friendsButton: UIButton!
     
+    @IBOutlet var friendButton: UIButton!
     @IBOutlet var newsLabel: UILabel!
     @IBOutlet var friendsLabel: UILabel!
 
@@ -259,6 +260,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             self.refreshControl?.endRefreshing()
         }
     }
+    
+    @IBAction func friendButtonClicked(sender: AnyObject) {
+        
+        performSegueWithIdentifier("requestView", sender: self)
+    }
+    
     @IBAction func newsClicked(sender: AnyObject) {
         
         newsLabel.hidden = false;
@@ -321,14 +328,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         refresh()
     }
     
-    //    // MARK: - Navigation
-    //
-    //    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    //    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-    //        // Get the new view controller using segue.destinationViewController.
-    //        // Pass the selected object to the new view controller.
-    //    }
-    
     func setUpScreen () {
         var userID = userInfo["username"] as String
         println(userID)
@@ -343,7 +342,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         //set as delegate
         newsFeedTable.delegate = self;
         newsFeedTable.dataSource = self;
-        newsFeedTable.layer.cornerRadius = 10;
+        newsFeedTable.layer.cornerRadius = 10
+        
+        friendButton.layer.cornerRadius = 10
         
         var tableViewController = UITableViewController()
         tableViewController.tableView = newsFeedTable

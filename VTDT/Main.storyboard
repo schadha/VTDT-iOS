@@ -196,7 +196,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="G7G-8T-77o">
-                                <rect key="frame" x="16" y="229" width="343" height="415"/>
+                                <rect key="frame" x="16" y="229" width="343" height="390"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -316,6 +316,18 @@
                                     <action selector="checkOutClicked:" destination="YTw-u9-lBk" eventType="touchUpInside" id="AY2-um-8IZ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZq-JZ-uMV">
+                                <rect key="frame" x="137" y="628" width="100" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="18"/>
+                                <state key="normal" title="Add Friend">
+                                    <color key="titleColor" red="0.94747792119999996" green="0.44835899969999998" blue="0.070879195069999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="friendButtonClicked:" destination="YTw-u9-lBk" eventType="touchUpInside" id="ywe-1q-OvG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -323,17 +335,83 @@
                     <connections>
                         <outlet property="checkOutButton" destination="K7q-Ta-NV8" id="nhC-Ru-pvP"/>
                         <outlet property="checkedInBar" destination="T37-9z-cVe" id="u2e-6x-yKx"/>
+                        <outlet property="friendButton" destination="qZq-JZ-uMV" id="v26-c1-WJL"/>
                         <outlet property="friendsButton" destination="0dM-gg-ZyB" id="8ho-14-2kM"/>
                         <outlet property="friendsLabel" destination="zbg-SH-I4n" id="Uyx-e7-pwH"/>
                         <outlet property="newsButton" destination="SBE-vk-mQG" id="zt6-3N-pbG"/>
                         <outlet property="newsFeedTable" destination="G7G-8T-77o" id="1cX-VS-rfx"/>
                         <outlet property="newsLabel" destination="vZD-WQ-NSA" id="Ha8-Wh-x2R"/>
                         <outlet property="profileImage" destination="otN-c4-vYq" id="ydA-35-vlg"/>
+                        <segue destination="sKi-Di-1SZ" kind="show" identifier="requestView" id="t4i-d5-seW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gmi-0Y-WNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1757.5" y="404.5"/>
+        </scene>
+        <!--Friend Request View Controller-->
+        <scene sceneID="Cxd-jt-Wfo">
+            <objects>
+                <viewController id="sKi-Di-1SZ" customClass="FriendRequestViewController" customModule="VTDT" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dmr-R9-mMw"/>
+                        <viewControllerLayoutGuide type="bottom" id="rbM-IE-Moj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xqf-0W-8O4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="j6r-dx-Idb">
+                                <rect key="frame" x="0.0" y="106" width="375" height="561"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendRequestCell" id="fyL-D3-wvH">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fyL-D3-wvH" id="xvS-jZ-gXI">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="sKi-Di-1SZ" id="Y7X-o8-O26"/>
+                                    <outlet property="delegate" destination="sKi-Di-1SZ" id="gxV-td-58d"/>
+                                </connections>
+                            </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ljY-1i-3g8">
+                                <rect key="frame" x="0.0" y="62" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="sKi-Di-1SZ" id="SRr-qS-hPf"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" red="0.40000000000000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="requestTableView" destination="j6r-dx-Idb" id="1F6-fv-77I"/>
+                        <outlet property="searchDisplayController" destination="Rd2-Li-W1F" id="LAA-9e-JIU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IlY-TS-TJM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="1Jc-5P-TaQ">
+                    <connections>
+                        <outlet property="delegate" destination="sKi-Di-1SZ" id="asL-Wi-Taq"/>
+                        <outlet property="searchContentsController" destination="sKi-Di-1SZ" id="hNz-BF-yZi"/>
+                        <outlet property="searchResultsDataSource" destination="sKi-Di-1SZ" id="YVE-Md-uMg"/>
+                        <outlet property="searchResultsDelegate" destination="sKi-Di-1SZ" id="O1I-Gc-t89"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="Rd2-Li-W1F">
+                    <connections>
+                        <outlet property="delegate" destination="sKi-Di-1SZ" id="W0A-jc-WR2"/>
+                        <outlet property="searchContentsController" destination="sKi-Di-1SZ" id="2Rk-Fd-VSW"/>
+                        <outlet property="searchResultsDataSource" destination="sKi-Di-1SZ" id="fck-yO-K1V"/>
+                        <outlet property="searchResultsDelegate" destination="sKi-Di-1SZ" id="eeI-5H-DJk"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="2314.5" y="465.5"/>
         </scene>
         <!--Bars View Controller-->
         <scene sceneID="by3-tu-q6C">
