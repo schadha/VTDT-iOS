@@ -26,9 +26,13 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) {
         var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
         
         if(err != nil) {
+            
+            println("success!!!!")
             let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
         }
         else {
+            
+            println("fail.....")
             if let parseJSON = json {
                 var success = parseJSON["success"] as? Int
             }

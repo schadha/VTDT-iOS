@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var name: String = ""
+//    var userID:String = ""
     
     var refreshControl:UIRefreshControl!
     
@@ -395,6 +396,18 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)!]
         self.navigationController?.navigationBar.titleTextAttributes = titleDict;
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
+        
+        if (segue.identifier == "requestView") {
+            
+            println("here")
+            var requestPage: FriendRequestViewController = segue.destinationViewController  as FriendRequestViewController
+            requestPage.myUserID = userInfo["username"] as String
+        }
+        
+    }
+
     
     
 }

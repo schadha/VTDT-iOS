@@ -26,11 +26,17 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         
         unfilteredFriends = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users")
         currentFriendsArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findByUser/\(myUserID)")
-        for dict in currentFriendsArray {
-            var friendID = dict["friend"] as String
-            var user:NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsename/\(friendID)")
-//            var friendName:String = user[0][
-            currentFriendNames += [user[0]["name"] as String]
+        
+        if currentFriendsArray.count > 0 {
+                        
+            for dict in currentFriendsArray {
+                var friendDict = dict as NSDictionary
+                var friendID = friendDict["friend"] as String
+                var user = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendID)")[0] as NSDictionary
+                currentFriendNames += [user["name"] as String]
+            }
+
+            
         }
         
     }
@@ -69,7 +75,13 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         params = ["user":self.myUserID, "friend":username]
         var friendName = filteredFriends[indexPath.row]["name"] as String
         var alert = UIAlertController(title: "Send friend request?", message: "Are you sure you would like to add \(friendName) as a friend?", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) in sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends", params, "POST") }))
+        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) in
+            
+//            println("calling handler\n")
+          sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends", params, "POST")
+        
+        }))
+        
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
