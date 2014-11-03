@@ -279,8 +279,7 @@
                                     <color key="titleShadowColor" red="0.94901960784313721" green="0.44705882352941179" blue="0.070588235294117646" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="specialsClicked:" destination="YTw-u9-lBk" eventType="touchUpInside" id="Zy7-Hd-96g"/>
-                                    <action selector="specialsClicked:" destination="Ald-7k-5d1" eventType="touchUpInside" id="bh2-ei-sqB"/>
+                                    <action selector="friendsClicked:" destination="YTw-u9-lBk" eventType="touchUpInside" id="Qus-H6-zkP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SBE-vk-mQG">
@@ -398,6 +397,7 @@
                     </view>
                     <connections>
                         <outlet property="requestTableView" destination="j6r-dx-Idb" id="1F6-fv-77I"/>
+                        <outlet property="searchBar" destination="ljY-1i-3g8" id="3Tf-es-CWr"/>
                         <outlet property="searchDisplayController" destination="Rd2-Li-W1F" id="LAA-9e-JIU"/>
                     </connections>
                 </viewController>

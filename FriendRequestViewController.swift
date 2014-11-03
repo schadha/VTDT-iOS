@@ -9,6 +9,7 @@
 import UIKit
 
 class FriendRequestViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet var searchBar: UISearchBar!
     
     var myUserID:String = ""
     var filteredFriends = [NSDictionary]()
@@ -77,8 +78,10 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         var alert = UIAlertController(title: "Send friend request?", message: "Are you sure you would like to add \(friendName) as a friend?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) in
             
-//            println("calling handler\n")
           sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends", params, "POST")
+            self.searchBar.text = ""
+            self.filteredFriends = [NSDictionary]()
+            self.requestTableView.reloadData()
         
         }))
         

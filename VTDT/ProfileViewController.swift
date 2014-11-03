@@ -114,7 +114,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         else {
             customCell.userInteractionEnabled = true;
             //hide unused cells
-            //configure specials cell
             customCell.messageText.hidden = true
             customCell.barLocation.hidden = true
             
@@ -158,7 +157,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             } else {
                 customCell.friendLocation.text = "Home"
             }
-            //get specials data here
         }
         
         return customCell
@@ -178,12 +176,15 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func parseNewsFeed (jsonResult: NSArray) -> () {
+        
+        println("here")
         var x = 0
         for item in jsonResult {
             
             if x < 25 {
                 var dict:NSDictionary = item as NSDictionary
                 self.newsFeedItems += [dict]
+                println(self.newsFeedItems)
             }
             else {
                 break
