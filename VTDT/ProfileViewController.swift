@@ -18,6 +18,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var newsFeedTable: UITableView!
     @IBOutlet var profileImage: FBProfilePictureView!
     @IBOutlet var checkedInBar: UILabel!
+    @IBOutlet var atLabel: UILabel!
     
     @IBOutlet var newsButton: UIButton!
     @IBOutlet var friendsButton: UIButton!
@@ -114,7 +115,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
         }
         else {
-            customCell.userInteractionEnabled = true;
+            
             //hide unused cells
             customCell.messageText.hidden = true
             customCell.barLocation.hidden = true
@@ -140,6 +141,14 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             //profile pic of user based on user id
             var friendUserID = friendRow["friend"] as? String
             var friend:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendUserID!)").firstObject as NSDictionary
+            
+            if user.name == userInfo["name"] as String || user.name == friend["name"] as String {
+                
+                customCell.userInteractionEnabled = true;
+            }
+            else {
+                customCell.userInteractionEnabled = false;
+            }
             
             customCell.userProfPic.profileID = friend["username"] as? String
             customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
@@ -320,6 +329,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         name = cell.userName.text!;
         self.viewDidLoad()
         newsButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+        
         refresh()
     }
     
@@ -372,9 +382,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         var barLocation = barDict["name"] as? String
         
         if barLocation != nil && user.name == userInfo["name"] as? String {
-            checkedInBar.text = "at \(barLocation!)";
+            checkedInBar.text = "\(barLocation!)";
         } else {
             checkedInBar.hidden = true
+            atLabel.hidden = true
             checkOutButton.hidden = true
         }
         

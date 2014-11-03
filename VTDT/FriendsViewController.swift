@@ -106,7 +106,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         if newsFeedItems.count != 0 {
             newsFeedRow = newsFeedItems[indexPath.row]
         } else {
-            customCell.userName.text = "No Online Friends"
+            customCell.userName.text = "No Friends Are Checked In"
             customCell.userProfPic.hidden = true
             customCell.barLocation.hidden = true
             customCell.atLabel.hidden = true

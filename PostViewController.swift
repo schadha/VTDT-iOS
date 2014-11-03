@@ -51,6 +51,11 @@ class PostViewController: UIViewController, UITextViewDelegate {
             self.presentViewController(alert, animated: true, completion: nil)
 
         }
+        else if countElements(postMessage) < 1 {
+            var alert = UIAlertController(title: "Oops!", message: "You don't have any input text.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
         else {
             //post data
            var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
