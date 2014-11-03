@@ -11,9 +11,7 @@ import UIKit
 class FriendRequestViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var myUserID:String = ""
-    var filteredFriends:[NSDictionary] = [NSDictionary]()
-//    var params:Dictionary<String, AnyObject> = 
-    
+    var filteredFriends = [NSDictionary]()
     var unfilteredFriends:NSArray = NSArray()
     
     @IBOutlet var requestTableView: UITableView!
@@ -73,15 +71,15 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         textDidChange searchText: String)
     {
         
-        filteredFriends = [NSDictionary]()
+        self.filteredFriends = [NSDictionary]()
         //fast enumerations
         for userDict in unfilteredFriends {
             
-            println(userDict)
-            var friendName:String = userDict["name"] as String
+            var userInfo = userDict as NSDictionary
+            var friendName:String = userInfo["name"] as String
             
             if friendName.lowercaseString.rangeOfString(searchText) != nil {
-//                filteredFriends += [userDict]
+                self.filteredFriends += [userInfo]
                 
             }
             
