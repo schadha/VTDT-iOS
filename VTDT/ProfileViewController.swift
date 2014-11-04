@@ -112,7 +112,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             var barLocation = bar["name"] as? String
             
             var timeElement = newsFeedRow["timePosted"] as String
-            customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
+            var postTime = getPostTimeAndLocation(timeElement, barLocation!)
+            if isToday(timeElement) {
+                customCell.barLocation.text = "\(postTime)"
+            }
+            else {
+                customCell.barLocation.text = "\(postTime) yesterday"
+            }
         }
         else {
             
@@ -172,19 +178,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         return customCell
-    }
-    
-    func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
-        var dateFormatter:NSDateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "HH:mm:ss"
-        
-        var timeArray:[String] = timeElement.componentsSeparatedByString("T")
-        var time = dateFormatter.dateFromString(timeArray[1])
-        
-        dateFormatter.dateFormat = "h:mm a"
-        var timePosted = dateFormatter.stringFromDate(time!)
-        
-        return "at \(barLocation) around \(timePosted)"
     }
     
     func parseNewsFeed (jsonResult: NSArray) -> () {

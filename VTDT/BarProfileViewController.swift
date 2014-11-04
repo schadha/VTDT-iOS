@@ -127,7 +127,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             var barLocation = barInfo["name"] as? String
             
             var timeElement = newsFeedRow["timePosted"] as String
-            customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
+            var postTime = getPostTimeAndLocation(timeElement, barLocation!)
+            if isToday(timeElement) {
+                customCell.barLocation.text = "\(postTime)"
+            }
+            else {
+                customCell.barLocation.text = "\(postTime) yesterday"
+            }
+            
             
         }
             
@@ -148,7 +155,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             
             if specialItems.count != 0 {
                 specialsRow = specialItems[indexPath.row]
-            } else {
+            }
+            else {
                 customCell.specialName.text = "No Specials Today"
                 customCell.specialDetails.hidden = true
                 customCell.specialDuration.hidden = true
@@ -169,19 +177,6 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         
         return customCell
-    }
-    
-    func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
-        var dateFormatter:NSDateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "HH:mm:ss"
-        
-        var timeArray:[String] = timeElement.componentsSeparatedByString("T")
-        var time = dateFormatter.dateFromString(timeArray[1])
-        
-        dateFormatter.dateFormat = "h:mm a"
-        var timePosted = dateFormatter.stringFromDate(time!)
-        
-        return "at \(barLocation) around \(timePosted)"
     }
     
     func getTime(time:String) -> String {
@@ -240,15 +235,12 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func startFetchNews () {
         
-//        let barId = barInfo["id"] as Int
-        
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barID)"
         let result = getData(jupiter)
         self.parseNewsFeed(result)
     }
     
     func startFetchSpecials () {
-//        let barId = barInfo["id"] as Int
         
         var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.specials/findByBar/\(barID)"
         
@@ -290,6 +282,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         self.newsFeedTable.reloadData()
     }
     @IBAction func postClicked(sender: AnyObject) {
+        var userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
         var checkedIn = userInfo["checkedInBar"] as? Int
         var barID = barInfo["id"] as? Int
         if checkedIn == barID {
@@ -334,7 +327,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
                 
                 var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(self.barID)")
         
-                self.totalCheckedIn.text = String(users.count)
+                self.totalCheckedIn.text = users.count == 1 ? "\(users.count) person is currently here" : "\(users.count) people are currently here"
             }
             
         }
@@ -371,9 +364,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         barImage.layer.borderWidth = width
         barImage.layer.borderColor = UIColor.whiteColor().CGColor
         barImage.image = UIImage(named: (barName as String)+".png")
-        
-        
-        totalCheckedIn.text = String(users.count)
+
+        totalCheckedIn.text = users.count == 1 ? "\(users.count) person is currently here" : "\(users.count) people are currently here"
         
         //set bar labels
         barAddress.text = barInfo["address"] as? String

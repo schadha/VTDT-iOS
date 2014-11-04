@@ -96,9 +96,14 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             var barLocation = bar["name"] as? String
             
             var timeElement = newsFeedRow["timePosted"] as String
-            customCell.barLocation.text = getPostTimeAndLocation(timeElement, barLocation:barLocation!)
-            
-            
+//            var timeNSDate = newsFeedRow["timePosted"] as NSDate
+            var postTime:String = getPostTimeAndLocation(timeElement, barLocation!)
+            if isToday(timeElement) {
+                customCell.barLocation.text = "\(postTime)"
+            }
+            else {
+                customCell.barLocation.text = "\(postTime) yesterday"
+            }
         }
         
         
@@ -166,25 +171,6 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let result = getData(jupiter)
         self.parseNewsFeed(result)
-    }
-    
-    
-    //get request to get user first and last name based on userid
-    
-    
-    //GET TIME FUNCTION
-    
-    func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
-        var dateFormatter:NSDateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "HH:mm:ss"
-        
-        var timeArray:[String] = timeElement.componentsSeparatedByString("T")
-        var time = dateFormatter.dateFromString(timeArray[1])
-        
-        dateFormatter.dateFormat = "h:mm a"
-        var timePosted = dateFormatter.stringFromDate(time!)
-        
-        return "at \(barLocation) around \(timePosted)"
     }
     
     func setUpScreen() {
