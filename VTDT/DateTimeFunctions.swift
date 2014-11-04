@@ -24,7 +24,14 @@ func isToday(date:String) -> String {
     }
 
     let daysAgo = calendar.components(.CalendarUnitDay, fromDate: yesterday, toDate: today, options: nil)
-    let printDay = daysAgo.day == 1 ? "- \(daysAgo.day) day ago" : "- \(daysAgo.day) days ago"
+    
+    var printDay:String = ""
+    if daysAgo.day == 0 {
+       printDay = "- yesterday"
+    }
+    else {
+        printDay = daysAgo.day == 1 ? "- yesterday" : "- \(daysAgo.day) days ago"
+    }
     
     return printDay
 }
