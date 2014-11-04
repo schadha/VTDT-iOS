@@ -96,14 +96,8 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             var barLocation = bar["name"] as? String
             
             var timeElement = newsFeedRow["timePosted"] as String
-//            var timeNSDate = newsFeedRow["timePosted"] as NSDate
             var postTime:String = getPostTimeAndLocation(timeElement, barLocation!)
-            if isToday(timeElement) {
-                customCell.barLocation.text = "\(postTime)"
-            }
-            else {
-                customCell.barLocation.text = "\(postTime) yesterday"
-            }
+            customCell.barLocation.text = "\(postTime) \(isToday(timeElement))"
         }
         
         

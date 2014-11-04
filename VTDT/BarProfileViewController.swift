@@ -128,12 +128,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             
             var timeElement = newsFeedRow["timePosted"] as String
             var postTime = getPostTimeAndLocation(timeElement, barLocation!)
-            if isToday(timeElement) {
-                customCell.barLocation.text = "\(postTime)"
-            }
-            else {
-                customCell.barLocation.text = "\(postTime) yesterday"
-            }
+
+            customCell.barLocation.text = "\(postTime) \(isToday(timeElement))"
             
             
         }

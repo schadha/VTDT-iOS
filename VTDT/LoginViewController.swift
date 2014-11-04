@@ -43,16 +43,16 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         counter++;
     }
     
-    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-        
-        
-    }
-    
-    func loginView(loginView: FBLoginView!, handleError error: NSError!) {
-        
-        //if error display message and ask user to log in again
-        
-    }
+//    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
+//        
+//        
+//    }
+//    
+//    func loginView(loginView: FBLoginView!, handleError error: NSError!) {
+//        
+//        //if error display message and ask user to log in again
+//        
+//    }
     
     
     // MARK: - Navigation

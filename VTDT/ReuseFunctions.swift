@@ -8,20 +8,26 @@
 
 import Foundation
     
-func isToday(date:String) -> Bool {
+func isToday(date:String) -> String {
     
     var dateFormatter:NSDateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-    var yesterday = dateFormatter.dateFromString(date)!
+    var yesterday:NSDate = dateFormatter.dateFromString(date)!
     
     var today = NSDate()
-    println(yesterday)
-    if today.compare(yesterday) == NSComparisonResult.OrderedDescending {
-        
-        return true
-        
+    
+    let calendar = NSCalendar.currentCalendar()
+    let todayComponents = calendar.components(.CalendarUnitMonth | .CalendarUnitDay, fromDate: NSDate())
+    let yesterdayComponents = calendar.components(.CalendarUnitMonth | .CalendarUnitDay, fromDate: yesterday)
+
+    if todayComponents.month <= yesterdayComponents.month && todayComponents.day <= yesterdayComponents.day {
+        return "- today"
     }
-    return false
+
+    let daysAgo = calendar.components(.CalendarUnitDay, fromDate: yesterday, toDate: today, options: nil)
+    let printDay = daysAgo.day == 1 ? "- \(daysAgo.day) day ago" : "- \(daysAgo.day) days ago"
+    
+    return printDay
 }
 
 func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
