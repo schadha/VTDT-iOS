@@ -38,7 +38,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refreshInvoked", forControlEvents: UIControlEvents.ValueChanged)
         tableViewController.refreshControl = self.refreshControl
-        
+                
         setupNavBar()
         
         startFetchOnlineFriends(self.user.objectID)
@@ -192,6 +192,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.friendsTableview.reloadData()
         
     }
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         currFriend = friends[indexPath.row]

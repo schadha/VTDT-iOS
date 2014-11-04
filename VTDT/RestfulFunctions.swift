@@ -40,14 +40,14 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) {
     })
 }
 
-func sendDataBool (url:String, params:Dictionary<String, AnyObject>, type:String) -> Bool {
+func deleteData (url:String, type:String) {
     var request = NSMutableURLRequest(URL: NSURL(string: url)!)
     var err: NSError?
     
     request.HTTPMethod = type
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.addValue("application/json", forHTTPHeaderField: "Accept")
-    request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
+//    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//    request.addValue("application/json", forHTTPHeaderField: "Accept")
+//    request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
     
     
     NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
@@ -59,7 +59,6 @@ func sendDataBool (url:String, params:Dictionary<String, AnyObject>, type:String
         if(err != nil) {
             
             let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-            
         }
         else {
             
@@ -69,12 +68,11 @@ func sendDataBool (url:String, params:Dictionary<String, AnyObject>, type:String
             else {
                 let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
             }
-            
         }
     })
-    
-    return true
 }
+
+
 
 func getData (url: String) -> NSArray {
 

@@ -256,7 +256,36 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBAction func friendButtonClicked(sender: AnyObject) {
         
-        performSegueWithIdentifier("requestView", sender: self)
+        if friendButton.titleLabel?.text == "Add Friend" {
+            
+            performSegueWithIdentifier("requestView", sender: self)
+            
+        }
+        else {
+            
+            var friendName = userInfo["name"] as String
+            var alert = UIAlertController(title: "Remove Friend?", message: "Clicking okay will remove \(friendName) from your friends list.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) in
+                var removeFriend = self.userInfo["username"] as String
+                println(removeFriend)
+               var friendData = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findByUser/\(self.user.objectID)")
+                for item in friendData {
+                    if item["friend"] as String == removeFriend {
+                        var id = item["id"] as Int
+                        deleteData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/\(id)", "DELETE")
+                        break
+                    }
+                }
+
+                self.newsFeedTable.reloadData()
+                
+            }))
+            
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
     }
     
     @IBAction func newsClicked(sender: AnyObject) {
@@ -336,9 +365,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         friendButton.layer.cornerRadius = 10
         
         if user.name != userInfo["name"] as? String {
-            friendButton.hidden = true;
+            friendButton.setTitle("Remove Friend", forState: UIControlState.Normal)
         } else {
-            friendButton.hidden = false;
+            friendButton.setTitle("Add Friend", forState: UIControlState.Normal)
         }
         
         
