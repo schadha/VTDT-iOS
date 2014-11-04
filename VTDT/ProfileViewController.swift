@@ -308,6 +308,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         checkOutButton.hidden = true
         checkedInBar.hidden = true
+        atLabel.hidden = true
     }
     
     
