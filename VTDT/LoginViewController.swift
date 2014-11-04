@@ -2,8 +2,7 @@
 //  LoginViewController.swift
 //  VTDT
 //
-//  Created by Sanchit Chadha on 10/19/14.
-//  Copyright (c) 2014 Sanchit Chadha. All rights reserved.
+//  Copyright (c) 2014 Sanchit Chadha and Ragan Walker. All rights reserved.
 //
 
 import UIKit
@@ -43,21 +42,8 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         counter++;
     }
     
-//    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
-//        
-//        
-//    }
-//    
-//    func loginView(loginView: FBLoginView!, handleError error: NSError!) {
-//        
-//        //if error display message and ask user to log in again
-//        
-//    }
-    
-    
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
         if (segue.identifier == "initialPage") {
