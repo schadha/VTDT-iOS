@@ -28,7 +28,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         friendsTableview.delegate = self;
         friendsTableview.dataSource = self;
         friendsTableview.layer.cornerRadius = 10;

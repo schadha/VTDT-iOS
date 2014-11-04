@@ -11,7 +11,6 @@ import UIKit
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var name: String = ""
     var user: FBGraphUser!
-//    var userID:String = ""
     
     var refreshControl:UIRefreshControl!
     
