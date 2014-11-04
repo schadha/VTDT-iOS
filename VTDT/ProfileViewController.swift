@@ -176,14 +176,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func parseNewsFeed (jsonResult: NSArray) -> () {
         
-        println("here")
         var x = 0
         for item in jsonResult {
             
             if x < 25 {
                 var dict:NSDictionary = item as NSDictionary
                 self.newsFeedItems += [dict]
-                println(self.newsFeedItems)
             }
             else {
                 break

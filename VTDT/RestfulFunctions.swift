@@ -31,7 +31,6 @@ func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) {
         }
         else {
             
-            println("fail.....")
             if let parseJSON = json {
                 var success = parseJSON["success"] as? Int
             }
@@ -65,7 +64,6 @@ func sendDataBool (url:String, params:Dictionary<String, AnyObject>, type:String
         }
         else {
             
-            println("fail.....")
             if let parseJSON = json {
                 var success = parseJSON["success"] as? Int
             }
