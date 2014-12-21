@@ -48,7 +48,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         
         if (segue.identifier == "initialPage") {
             var homePage: InitialViewController = segue.destinationViewController as InitialViewController
-            
+            print(user.objectID)
             var input:Dictionary<String, AnyObject> = ["checkedInBar":100, "name":user.name, "username":user.objectID, "admin":0]
             sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users", input, "POST")
             

@@ -10,7 +10,7 @@ import Foundation
 func isToday(date:String) -> String {
     
     var dateFormatter:NSDateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
     var yesterday:NSDate = dateFormatter.dateFromString(date)!
     
     var today = NSDate()
@@ -38,7 +38,7 @@ func isToday(date:String) -> String {
 
 func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
     var dateFormatter:NSDateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = "HH:mm:ss"
+    dateFormatter.dateFormat = "HH:mm:ssZZZ"
     
     var timeArray:[String] = timeElement.componentsSeparatedByString("T")
     var time = dateFormatter.dateFromString(timeArray[1])

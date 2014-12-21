@@ -63,7 +63,7 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         
         var requestName:String = filteredFriends[indexPath.row]["name"] as String
         
-        cell.textLabel.text = requestName
+        cell.textLabel?.text = requestName
         
         return cell
     }
