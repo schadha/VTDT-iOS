@@ -9,21 +9,21 @@ import Foundation
     
 func isToday(date:String) -> String {
     
-    var dateFormatter:NSDateFormatter = NSDateFormatter()
+    let dateFormatter:NSDateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-    var yesterday:NSDate = dateFormatter.dateFromString(date)!
+    let yesterday:NSDate = dateFormatter.dateFromString(date)!
     
-    var today = NSDate()
+    let today = NSDate()
     
     let calendar = NSCalendar.currentCalendar()
-    let todayComponents = calendar.components(.CalendarUnitMonth | .CalendarUnitDay, fromDate: NSDate())
-    let yesterdayComponents = calendar.components(.CalendarUnitMonth | .CalendarUnitDay, fromDate: yesterday)
+    let todayComponents = calendar.components([.Month, .Day], fromDate: NSDate())
+    let yesterdayComponents = calendar.components([.Month, .Day], fromDate: yesterday)
 
     if todayComponents.month <= yesterdayComponents.month && todayComponents.day <= yesterdayComponents.day {
         return "- today"
     }
 
-    let daysAgo = calendar.components(.CalendarUnitDay, fromDate: yesterday, toDate: today, options: nil)
+    let daysAgo = calendar.components(.Day, fromDate: yesterday, toDate: today, options: [])
     
     var printDay:String = ""
     if daysAgo.day == 0 {
@@ -37,14 +37,14 @@ func isToday(date:String) -> String {
 }
 
 func getPostTimeAndLocation(timeElement:String, barLocation:String) -> String {
-    var dateFormatter:NSDateFormatter = NSDateFormatter()
+    let dateFormatter:NSDateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "HH:mm:ssZZZ"
     
     var timeArray:[String] = timeElement.componentsSeparatedByString("T")
-    var time = dateFormatter.dateFromString(timeArray[1])
+    let time = dateFormatter.dateFromString(timeArray[1])
     
     dateFormatter.dateFormat = "h:mm a"
-    var timePosted = dateFormatter.stringFromDate(time!)
+    let timePosted = dateFormatter.stringFromDate(time!)
     
     return "at \(barLocation) around \(timePosted)"
 }

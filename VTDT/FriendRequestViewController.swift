@@ -30,10 +30,10 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         if currentFriendsArray.count > 0 {
                         
             for dict in currentFriendsArray {
-                var friendDict = dict as NSDictionary
-                var friendID = friendDict["friend"] as String
-                var user = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendID)")[0] as NSDictionary
-                currentFriendNames += [user["name"] as String]
+                let friendDict = dict as! NSDictionary
+                let friendID = friendDict["friend"] as! String
+                let user = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendID)")[0] as! NSDictionary
+                currentFriendNames += [user["name"] as! String]
             }
         }
         
@@ -59,9 +59,9 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell:UITableViewCell = requestTableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
+        let cell:UITableViewCell = requestTableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
         
-        var requestName:String = filteredFriends[indexPath.row]["name"] as String
+        let requestName:String = filteredFriends[indexPath.row]["name"] as! String
         
         cell.textLabel?.text = requestName
         
@@ -71,13 +71,13 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         var params:Dictionary<String, AnyObject>
-        var username:String = self.filteredFriends[indexPath.row]["username"] as String
+        let username:String = self.filteredFriends[indexPath.row]["username"] as! String
         params = ["user":self.myUserID, "friend":username]
-        var friendName = filteredFriends[indexPath.row]["name"] as String
-        var alert = UIAlertController(title: "Send friend request?", message: "Are you sure you would like to add \(friendName) as a friend?", preferredStyle: UIAlertControllerStyle.Alert)
+        let friendName = filteredFriends[indexPath.row]["name"] as! String
+        let alert = UIAlertController(title: "Send friend request?", message: "Are you sure you would like to add \(friendName) as a friend?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) in
             
-          sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends", params, "POST")
+          sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends", params: params, type: "POST")
             self.searchBar.text = ""
             self.filteredFriends = [NSDictionary]()
             self.requestTableView.reloadData()
@@ -98,10 +98,10 @@ class FriendRequestViewController: UIViewController, UITableViewDataSource, UITa
         //fast enumerations
         for userDict in unfilteredFriends {
             
-            var userInfo = userDict as NSDictionary
-            var friendName:String = userInfo["name"] as String
+            let userInfo = userDict as! NSDictionary
+            let friendName:String = userInfo["name"] as! String
             
-            if friendName.lowercaseString.rangeOfString(searchText) != nil && !contains(currentFriendNames, friendName) {
+            if friendName.lowercaseString.rangeOfString(searchText) != nil && !currentFriendNames.contains(friendName) {
                 self.filteredFriends += [userInfo]
                 
             }

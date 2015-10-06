@@ -9,105 +9,86 @@ import Foundation
 
 
 func sendData (url:String, params:Dictionary<String, AnyObject>, type:String) {
-    var request = NSMutableURLRequest(URL: NSURL(string: url)!)
-    var err: NSError?
-    
-    request.HTTPMethod = type
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.addValue("application/json", forHTTPHeaderField: "Accept")
-    request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
-    
-    
-    NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-        
-        var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-        var err: NSError?
-        var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-        
-        if(err != nil) {
-            
-            let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-        }
-        else {
-            
-            if let parseJSON = json {
-                var success = parseJSON["success"] as? Int
-            }
-            else {
-                let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-            }
-        }
-    })
+	let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+	
+	request.HTTPMethod = type
+	request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+	request.addValue("application/json", forHTTPHeaderField: "Accept")
+	do {
+		request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params, options: [])
+	}catch {
+		request.HTTPBody = nil
+	}
+	
+	NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {
+		response, data, error in
+		
+		do {
+			try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)
+		} catch {
+		}
+	}
 }
 
 func deleteData (url:String, type:String) {
-    var request = NSMutableURLRequest(URL: NSURL(string: url)!)
-    var err: NSError?
-    
-    request.HTTPMethod = type
-//    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//    request.addValue("application/json", forHTTPHeaderField: "Accept")
-//    request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
-    
-    
-    NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-        
-        var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-        var err: NSError?
-        var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-        
-        if(err != nil) {
-            
-            let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-        }
-        else {
-            
-            if let parseJSON = json {
-                var success = parseJSON["success"] as? Int
-            }
-            else {
-                let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-            }
-        }
-    })
+	let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+	
+	request.HTTPMethod = type
+	request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+	request.addValue("application/json", forHTTPHeaderField: "Accept")
+	//    request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
+	
+	
+	NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {
+		response, data, error in
+		
+		//        let strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
+		do {
+			try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)
+		} catch {
+		}
+	}
 }
 
 
 
 func getData (url: String) -> NSArray {
-
-    var jsonResult:NSArray = NSArray()
-    var requestUrl = NSURL(string: url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)!
-    
-    var jsonError:NSError?
-    
-    let jsonData:NSData? = NSData(contentsOfURL: requestUrl, options:NSDataReadingOptions.DataReadingMapped, error: &jsonError)
-    
-    if let jsonDataFromDB = jsonData {
-        
-        if (jsonDataFromDB.length == 0) {
-            return NSArray()
-        }
-        
-        let jsonResult: AnyObject = NSJSONSerialization.JSONObjectWithData(jsonDataFromDB, options: NSJSONReadingOptions.MutableContainers, error: nil)!
-        
-        if let nsDictionaryObject = jsonResult as? NSDictionary {
-            if (nsDictionaryObject.count == 0) {
-                return NSArray()
-            }
-            else {
-                return [nsDictionaryObject] as NSArray;
-            }
-        }
-        else if let nsArrayObject = jsonResult as? NSArray {
-            if (nsArrayObject.count == 0) {
-                return NSArray()
-            }
-            else {
-                return nsArrayObject as NSArray;
-            }
-        }
-        
-    }
-    return NSArray()
+	
+	//    var jsonResult:NSArray = NSArray()
+	let requestUrl = NSURL(string: url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())!)!
+	
+	let jsonData:NSData?
+	do {
+		jsonData = try NSData(contentsOfURL: requestUrl, options:NSDataReadingOptions.DataReadingMapped)
+	} catch {
+		jsonData = nil
+	}
+	
+	if let jsonDataFromDB = jsonData {
+		
+		if (jsonDataFromDB.length == 0) {
+			return NSArray()
+		}
+		
+		let jsonResult: AnyObject = try! NSJSONSerialization.JSONObjectWithData(jsonDataFromDB, options: NSJSONReadingOptions.MutableContainers)
+		
+		if let nsDictionaryObject = jsonResult as? NSDictionary {
+			if (nsDictionaryObject.count == 0) {
+				return NSArray()
+			}
+			else {
+				return [nsDictionaryObject] as NSArray;
+			}
+		}
+		else if let nsArrayObject = jsonResult as? NSArray {
+			if (nsArrayObject.count == 0) {
+				return NSArray()
+			}
+			else {
+				return nsArrayObject as NSArray;
+			}
+		}
+		
+	}
+	return NSArray()
 }

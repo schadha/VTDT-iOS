@@ -53,10 +53,10 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell:UITableViewCell = barTable.dequeueReusableCellWithIdentifier("barCell", forIndexPath: indexPath) as UITableViewCell
-        var barItem = barDict[indexPath.row]
+        let cell:UITableViewCell = barTable.dequeueReusableCellWithIdentifier("barCell", forIndexPath: indexPath) as UITableViewCell
+        let barItem = barDict[indexPath.row]
         cell.textLabel?.text = barItem["name"] as? String
-        cell.imageView?.image = UIImage(named: (barItem["name"] as String)+".png")
+        cell.imageView?.image = UIImage(named: (barItem["name"] as! String)+".png")
 //        cell.imageView?.layer.cornerRadius = cell.imageView?.frame.width/2
         cell.imageView?.clipsToBounds = true
         
@@ -73,7 +73,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
-        var barPage: BarProfileViewController = segue.destinationViewController  as BarProfileViewController
+        let barPage: BarProfileViewController = segue.destinationViewController  as! BarProfileViewController
         barPage.barInfo = currBar
         barPage.user = self.user
     }
@@ -85,7 +85,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func startFetchBars () {
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars"
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars"
         
         dispatch_async(queue) {
             let result = getData(jupiter)
@@ -98,7 +98,7 @@ class BarsViewController: UIViewController, UITableViewDelegate, UITableViewData
     func parseBarInfo(jsonResult:NSArray) {
         
         for item in jsonResult {
-            var dict:NSDictionary = item as NSDictionary
+            let dict:NSDictionary = item as! NSDictionary
             self.barDict.append(dict)
         }
         

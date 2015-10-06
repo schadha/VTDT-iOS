@@ -62,7 +62,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var customCell:NewsFeedTableViewCell = newsTableview.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as NewsFeedTableViewCell
+        let customCell:NewsFeedTableViewCell = newsTableview.dequeueReusableCellWithIdentifier("newsFeedCell", forIndexPath: indexPath) as! NewsFeedTableViewCell
         
         var newsFeedRow:NSDictionary = NSDictionary()
         
@@ -77,11 +77,11 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             return customCell
         }
         
-        var userID = newsFeedRow["username"] as? String
-        var userArray:NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")
+        let userID = newsFeedRow["username"] as? String
+        let userArray:NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")
         if userArray.count > 0 {
             
-            var user = userArray[0] as NSDictionary
+            let user = userArray[0] as! NSDictionary
             
             customCell.userName.text = user["name"] as? String
             
@@ -90,12 +90,12 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
             customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
             customCell.userProfPic.clipsToBounds = true;
             
-            var barID: Int = newsFeedRow["bar"] as Int
-            var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
-            var barLocation = bar["name"] as? String
+            let barID: Int = newsFeedRow["bar"] as! Int
+            let bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as! NSDictionary
+            let barLocation = bar["name"] as? String
             
-            var timeElement = newsFeedRow["timePosted"] as String
-            var postTime:String = getPostTimeAndLocation(timeElement, barLocation!)
+            let timeElement = newsFeedRow["timePosted"] as! String
+            let postTime:String = getPostTimeAndLocation(timeElement, barLocation: barLocation!)
             customCell.barLocation.text = "\(postTime) \(isToday(timeElement))"
         }
         
@@ -120,7 +120,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func refreshInvoked() {
         
-        refresh(viaPullToRefresh: true)
+        refresh(true)
     }
     
     func refresh(viaPullToRefresh: Bool = false) {
@@ -142,7 +142,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         for item in jsonResult {
             
             if x < 25 {
-                var dict:NSDictionary = item as NSDictionary
+                let dict:NSDictionary = item as! NSDictionary
                 self.newsFeedItems += [dict]
             }
             else {
@@ -160,7 +160,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func startFetchNews () {
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/sorted"
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/sorted"
         
         let result = getData(jupiter)
         self.parseNewsFeed(result)
@@ -185,7 +185,7 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
         newsTableview.layer.cornerRadius = 10;
         
         //set up refresh controller
-        var tableViewController = UITableViewController()
+        let tableViewController = UITableViewController()
         tableViewController.tableView = newsTableview
         
         refreshControl = UIRefreshControl()
@@ -200,16 +200,16 @@ class InitialViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
         
         if (segue.identifier == "profileView") {
-            var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
+            let profilePage: ProfileViewController = segue.destinationViewController  as! ProfileViewController
             profilePage.name = self.user.name
             profilePage.user = self.user
         }
         else if segue.identifier == "whatView" {
-            var barsPage: BarsViewController = segue.destinationViewController as BarsViewController
+            let barsPage: BarsViewController = segue.destinationViewController as! BarsViewController
             barsPage.user = self.user
         }
         else if segue.identifier == "whoView" {
-            var friendsPage: FriendsViewController = segue.destinationViewController as FriendsViewController
+            let friendsPage: FriendsViewController = segue.destinationViewController as! FriendsViewController
             friendsPage.user = self.user
             
         }

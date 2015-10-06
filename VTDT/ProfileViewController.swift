@@ -73,7 +73,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var customCell:UserProfileCell = newsFeedTable.dequeueReusableCellWithIdentifier("barProfileCell", forIndexPath: indexPath) as UserProfileCell
+        let customCell:UserProfileCell = newsFeedTable.dequeueReusableCellWithIdentifier("barProfileCell", forIndexPath: indexPath) as! UserProfileCell
         
         if !switchTab {
             customCell.userInteractionEnabled = false;
@@ -105,12 +105,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
             customCell.userProfPic.clipsToBounds = true;
             
-            var barID: Int = newsFeedRow["bar"] as Int
-            var bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as NSDictionary
-            var barLocation = bar["name"] as? String
+            let barID: Int = newsFeedRow["bar"] as! Int
+            let bar: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)").firstObject as! NSDictionary
+            let barLocation = bar["name"] as? String
             
-            var timeElement = newsFeedRow["timePosted"] as String
-            var postTime = getPostTimeAndLocation(timeElement, barLocation!)
+            let timeElement = newsFeedRow["timePosted"] as! String
+            let postTime = getPostTimeAndLocation(timeElement, barLocation: barLocation!)
             customCell.barLocation.text = "\(postTime) \(isToday(timeElement))"
         }
         else {
@@ -138,10 +138,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             
             
             //profile pic of user based on user id
-            var friendUserID = friendRow["friend"] as? String
-            var friend:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendUserID!)").firstObject as NSDictionary
+            let friendUserID = friendRow["friend"] as? String
+            let friend:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendUserID!)").firstObject as! NSDictionary
             
-            if user.name == userInfo["name"] as String || user.name == friend["name"] as String {
+            if user.name == userInfo["name"] as! String || user.name == friend["name"] as! String {
                 
                 customCell.userInteractionEnabled = true;
             }
@@ -155,12 +155,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             
             customCell.userName.text = friend["name"] as? String;
             
-            var barID: Int = friend["checkedInBar"] as Int
-            var bar: [NSDictionary] = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)") as [NSDictionary]
+            let barID: Int = friend["checkedInBar"] as! Int
+            var bar: [NSDictionary] = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)") as! [NSDictionary]
             
             var barLocation = ""
             if (bar.count != 0) {
-                barLocation = (bar[0] as NSDictionary)["name"] as String
+                barLocation = (bar[0] as NSDictionary)["name"] as! String
             }
             
             if barLocation != "" {
@@ -179,7 +179,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         for item in jsonResult {
             
             if x < 25 {
-                var dict:NSDictionary = item as NSDictionary
+                let dict:NSDictionary = item as! NSDictionary
                 self.newsFeedItems += [dict]
             }
             else {
@@ -196,16 +196,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func startFetchNews () {
-        var userID =  userInfo["username"] as? String
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByUsername/\(userID!)"
+        let userID =  userInfo["username"] as? String
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByUsername/\(userID!)"
         
         let result = getData(jupiter)
         self.parseNewsFeed(result)
     }
     
     func startFetchFriends(){
-        var userID =  userInfo["username"] as? String
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findByUser/\(userID!)"
+        let userID =  userInfo["username"] as? String
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findByUser/\(userID!)"
         
         let result = getData(jupiter)
         self.parseFriends(result)
@@ -216,7 +216,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             
             //need to make sure that we are only appending new items--
             //would it be worth it??
-            var dict:NSDictionary = item as NSDictionary
+            let dict:NSDictionary = item as! NSDictionary
             self.friendsItems.append(dict)
         }
         //populate tableview here with newFeeditems that get set asynchroniously above ^^^
@@ -227,17 +227,17 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
     }
     
-    func fetchUserInfo () {
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByName/\(name)"
+    func fetchUserInfo() {
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByName/\(name)"
         let result: NSArray = getData(jupiter) as NSArray
         
         if (result.count != 0) {
-            self.userInfo = result[0] as NSDictionary
+            self.userInfo = result[0] as! NSDictionary
         }
     }
     
     func refreshInvoked() {
-        refresh(viaPullToRefresh: true)
+        refresh(true)
     }
     
     func refresh(viaPullToRefresh: Bool = false) {
@@ -263,16 +263,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else {
             
-            var friendName = userInfo["name"] as String
-            var alert = UIAlertController(title: "Remove Friend?", message: "Clicking okay will remove \(friendName) from your friends list.", preferredStyle: UIAlertControllerStyle.Alert)
+            let friendName = userInfo["name"] as! String
+            let alert = UIAlertController(title: "Remove Friend?", message: "Clicking okay will remove \(friendName) from your friends list.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction!) in
-                var removeFriend = self.userInfo["username"] as String
-                println(removeFriend)
-               var friendData = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findByUser/\(self.user.objectID)")
+                let removeFriend = self.userInfo["username"] as! String
+                print(removeFriend)
+               let friendData = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findByUser/\(self.user.objectID)")
                 for item in friendData {
-                    if item["friend"] as String == removeFriend {
-                        var id = item["id"] as Int
-                        deleteData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/\(id)", "DELETE")
+                    if item["friend"] as! String == removeFriend {
+                        let id = item["id"] as! Int
+                        deleteData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/\(id)",type:  "DELETE")
                         break
                     }
                 }
@@ -310,27 +310,27 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBAction func checkOutClicked(sender: AnyObject) {
         
         //check out
-        var checkedIn = userInfo["checkedInBar"] as? Int
-        var id = userInfo["id"] as? Int
+        let checkedIn = userInfo["checkedInBar"] as? Int
+        let id = userInfo["id"] as? Int
         
         var params:Dictionary<String, AnyObject>
         var barParams:Dictionary<String, AnyObject>
-        var admin = userInfo["admin"] as? Int
-        var name = userInfo["name"] as? String
-        var username = userInfo["username"] as? String
+        let admin = userInfo["admin"] as? Int
+        let name = userInfo["name"] as? String
+        let username = userInfo["username"] as? String
         
         checkOutButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
         
-        var barID: Int = userInfo["checkedInBar"] as Int
-        var barInfo: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")[0] as NSDictionary
+        let barID: Int = userInfo["checkedInBar"] as! Int
+        let barInfo: NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")[0] as! NSDictionary
         
-        barParams = ["address":barInfo["address"] as String, "id":checkedIn!, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String]
+        barParams = ["address":barInfo["address"] as! String, "id":checkedIn!, "latitude":barInfo["latitude"] as! Double, "longitude":barInfo["longitude"] as! Double, "name":barInfo["name"] as! String, "phoneNumber":barInfo["phoneNumber"] as! String, "website":barInfo["website"] as! String]
         
-        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(checkedIn!)", barParams, "PUT")
+        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(checkedIn!)", params: barParams, type: "PUT")
         
         params = ["admin":admin!,"id":id!, "checkedInBar":100, "name":name!, "username":username!]
         
-        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
+        sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params: params, type: "PUT")
         
         checkOutButton.hidden = true
         checkedInBar.hidden = true
@@ -339,7 +339,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var cell: UserProfileCell = tableView.cellForRowAtIndexPath(indexPath) as UserProfileCell
+        let cell: UserProfileCell = tableView.cellForRowAtIndexPath(indexPath) as! UserProfileCell
         name = cell.userName.text!;
         self.viewDidLoad()
         newsButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
@@ -348,7 +348,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func setUpScreen () {
-        var userID = userInfo["username"] as String
+        let userID = userInfo["username"] as! String
         
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         profileImage.clipsToBounds = true
@@ -371,7 +371,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         
-        var tableViewController = UITableViewController()
+        let tableViewController = UITableViewController()
         tableViewController.tableView = newsFeedTable
         
         refreshControl = UIRefreshControl()
@@ -385,15 +385,15 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         friendsButton.layer.cornerRadius = 10;
         checkOutButton.layer.cornerRadius = 10;
         
-        var barID: Int = userInfo["checkedInBar"] as Int
-        var bar: NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
+        let barID: Int = userInfo["checkedInBar"] as! Int
+        let bar: NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
         
         var barDict: NSDictionary = NSDictionary()
         
         if bar.count != 0 {
-            barDict = bar.firstObject as NSDictionary
+            barDict = bar.firstObject as! NSDictionary
         }
-        var barLocation = barDict["name"] as? String
+        let barLocation = barDict["name"] as? String
         
         if barLocation != nil && user.name == userInfo["name"] as? String {
             checkedInBar.text = "\(barLocation!)";
@@ -421,13 +421,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)!]
-        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+        self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject];
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
         if (segue.identifier == "requestView") {
             
-            var requestPage: FriendRequestViewController = segue.destinationViewController  as FriendRequestViewController
+            let requestPage: FriendRequestViewController = segue.destinationViewController  as! FriendRequestViewController
             requestPage.myUserID = user.objectID
         }
     }

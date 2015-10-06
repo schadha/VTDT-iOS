@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8331C5C119F9687400D0F303 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8331C5C019F9687400D0F303 /* Main.storyboard */; };
+		838A27391BC3CB3E004A37C2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838A27381BC3CB3E004A37C2 /* FacebookSDK.framework */; };
 		83A48DA41A0318A3008DC5AB /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A48DA31A0318A3008DC5AB /* FriendsViewController.swift */; };
 		83A48DA61A0318AF008DC5AB /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A48DA51A0318AF008DC5AB /* FriendTableViewCell.swift */; };
 		83C1724D1A058DB8000847A2 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C1724C1A058DB8000847A2 /* UserProfileCell.swift */; };
@@ -25,7 +26,6 @@
 		9B2CA79419F93C6B00602726 /* RestfulFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CA79319F93C6B00602726 /* RestfulFunctions.swift */; };
 		9B2CA79619F9E00400602726 /* BarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CA79519F9E00400602726 /* BarsViewController.swift */; };
 		9B326F041A026B8100A143AC /* BarProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B326F031A026B8100A143AC /* BarProfileCell.swift */; };
-		9B4525191A03319D007AE580 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A48DA71A031E9C008DC5AB /* FacebookSDK.framework */; };
 		9B76469C1A0024C600FA7966 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B76469B1A0024C600FA7966 /* PostViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,9 +41,9 @@
 
 /* Begin PBXFileReference section */
 		8331C5C019F9687400D0F303 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		838A27381BC3CB3E004A37C2 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		83A48DA31A0318A3008DC5AB /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		83A48DA51A0318AF008DC5AB /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
-		83A48DA71A031E9C008DC5AB /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		83C1724C1A058DB8000847A2 /* UserProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
 		83C9F71519F41C81002CFA8A /* VTDT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VTDT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83C9F71919F41C81002CFA8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B4525191A03319D007AE580 /* FacebookSDK.framework in Frameworks */,
+				838A27391BC3CB3E004A37C2 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 		83C9F70C19F41C81002CFA8A = {
 			isa = PBXGroup;
 			children = (
-				83A48DA71A031E9C008DC5AB /* FacebookSDK.framework */,
+				838A27381BC3CB3E004A37C2 /* FacebookSDK.framework */,
 				83C9F71719F41C81002CFA8A /* VTDT */,
 				83C9F72D19F41C81002CFA8A /* VTDTTests */,
 				83C9F71619F41C81002CFA8A /* Products */,
@@ -209,7 +209,9 @@
 		83C9F70D19F41C81002CFA8A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Sanchit Chadha";
 				TargetAttributes = {
 					83C9F71419F41C81002CFA8A = {
@@ -334,6 +336,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -399,10 +402,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/sanchit/Documents/FacebookSDK,
-					/Users/aragawalker/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = VTDT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.group2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = VTDT/Header.h;
 			};
@@ -416,10 +419,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/sanchit/Documents/FacebookSDK,
-					/Users/aragawalker/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = VTDT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.group2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = VTDT/Header.h;
 			};
@@ -439,6 +442,7 @@
 				);
 				INFOPLIST_FILE = VTDTTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.group2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VTDT.app/VTDT";
 			};
@@ -454,6 +458,7 @@
 				);
 				INFOPLIST_FILE = VTDTTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.group2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VTDT.app/VTDT";
 			};

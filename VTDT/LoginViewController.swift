@@ -47,10 +47,10 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
         if (segue.identifier == "initialPage") {
-            var homePage: InitialViewController = segue.destinationViewController as InitialViewController
-            print(user.objectID)
-            var input:Dictionary<String, AnyObject> = ["checkedInBar":100, "name":user.name, "username":user.objectID, "admin":0]
-            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users", input, "POST")
+            let homePage: InitialViewController = segue.destinationViewController as! InitialViewController
+            print(user.objectID, terminator: "")
+            let input:Dictionary<String, AnyObject> = ["checkedInBar":100, "name":user.name, "username":user.objectID, "admin":0]
+            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users", params: input, type: "POST")
             
             homePage.user = self.user;
         }

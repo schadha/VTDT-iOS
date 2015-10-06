@@ -45,7 +45,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        barID = barInfo["id"] as Int
+        barID = barInfo["id"] as! Int
         setUpScreen()
         
         startFetchNews()
@@ -83,7 +83,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var customCell:BarProfileCell = newsFeedTable.dequeueReusableCellWithIdentifier("barProfileCell", forIndexPath: indexPath) as BarProfileCell
+        let customCell:BarProfileCell = newsFeedTable.dequeueReusableCellWithIdentifier("barProfileCell", forIndexPath: indexPath) as! BarProfileCell
         
         if !switchTab {
             
@@ -111,8 +111,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
                 return customCell
             }
             
-            var userID = newsFeedRow["username"] as? String
-            var user:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")[0] as NSDictionary
+            let userID = newsFeedRow["username"] as? String
+            let user:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(userID!)")[0] as! NSDictionary
             
             customCell.userName.text = user["name"] as? String
             
@@ -123,10 +123,10 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
             customCell.userProfPic.clipsToBounds = true;
             
-            var barLocation = barInfo["name"] as? String
+            let barLocation = barInfo["name"] as? String
             
-            var timeElement = newsFeedRow["timePosted"] as String
-            var postTime = getPostTimeAndLocation(timeElement, barLocation!)
+            let timeElement = newsFeedRow["timePosted"] as! String
+            let postTime = getPostTimeAndLocation(timeElement, barLocation: barLocation!)
 
             customCell.barLocation.text = "\(postTime) \(isToday(timeElement))"
             
@@ -159,14 +159,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
                 return customCell
             }
             
-            var price = specialsRow["price"] as Double
-            var priceString = NSString(format: "Price:  $%1.2f", price) as String
+            let price = specialsRow["price"] as! Double
+            let priceString = NSString(format: "Price:  $%1.2f", price) as String
             
             
             customCell.specialName.text = specialsRow["menuItem"] as? String
             customCell.specialDetails.text = priceString
-            var startTime = getTime(specialsRow["startTime"] as String)
-            var endTime = getTime(specialsRow["endTime"] as String)
+            let startTime = getTime(specialsRow["startTime"] as! String)
+            let endTime = getTime(specialsRow["endTime"] as! String)
             
             customCell.specialDuration.text = "from \(startTime) to \(endTime) today"
         }
@@ -177,7 +177,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     func getTime(time:String) -> String {
         var timeArray:[String] = time.componentsSeparatedByString("T")[1].componentsSeparatedByString(":")
         
-        let intTime = timeArray[0].toInt()
+        let intTime = Int(timeArray[0])
         if intTime > 12 {
             let newTime:Int = intTime! - 12
             return "\(newTime):\(timeArray[1]) pm"
@@ -195,7 +195,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
             for item in jsonResult {
                 
                 if x < 25 {
-                    var dict:NSDictionary = item as NSDictionary
+                    let dict:NSDictionary = item as! NSDictionary
                     self.newsFeedItems += [dict]
                 }
                 else {
@@ -213,13 +213,13 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func parseSpecials (jsonResult: NSArray) -> () {
 
-        var dateFormatter:NSDateFormatter = NSDateFormatter()
+        let dateFormatter:NSDateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "E"
         let today:String = dateFormatter.stringFromDate(NSDate())
         
         for item in jsonResult {
-            var dict:NSDictionary = item as NSDictionary
-            var days: String = dict["days"] as String
+            let dict:NSDictionary = item as! NSDictionary
+            let days: String = dict["days"] as! String
             
             if (days.rangeOfString(today) != nil) {
                 self.specialItems += [dict]
@@ -230,14 +230,14 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func startFetchNews () {
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barID)"
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed/findByBar/\(barID)"
         let result = getData(jupiter)
         self.parseNewsFeed(result)
     }
     
     func startFetchSpecials () {
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.specials/findByBar/\(barID)"
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.specials/findByBar/\(barID)"
         
         let result = getData(jupiter)
         self.parseSpecials(result)
@@ -245,7 +245,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func refreshInvoked() {
         
-        refresh(viaPullToRefresh: true)
+        refresh(true)
     }
     
     func refresh(viaPullToRefresh: Bool = false) {
@@ -277,50 +277,50 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         self.newsFeedTable.reloadData()
     }
     @IBAction func postClicked(sender: AnyObject) {
-        var userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
-        var checkedIn = userInfo["checkedInBar"] as? Int
-        var barID = barInfo["id"] as? Int
+        let userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as! NSDictionary
+        let checkedIn = userInfo["checkedInBar"] as? Int
+        let barID = barInfo["id"] as? Int
         if checkedIn == barID {
             performSegueWithIdentifier("postPage", sender: self)
         } else {
-            var alert = UIAlertController(title: "Oops!", message: "You need to be checked in to this bar to post!", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Oops!", message: "You need to be checked in to this bar to post!", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     @IBAction func checkInClicked(sender: AnyObject){
         
-        var userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
-        var checkedIn = userInfo["checkedInBar"] as? Int
-        var id = userInfo["id"] as? Int
-        var barID = barInfo["id"] as Int
-        var params:Dictionary<String, AnyObject>
-        var barParams:Dictionary<String, AnyObject>
-        var oldBarParams:Dictionary<String, AnyObject> = Dictionary<String, AnyObject> ()
-        var newCheckin:Int
-        
+        let userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as! NSDictionary
+        let checkedIn = userInfo["checkedInBar"] as? Int
+        let id = userInfo["id"] as? Int
+        let barID = barInfo["id"] as! Int
+        let params:Dictionary<String, AnyObject>
+        let barParams:Dictionary<String, AnyObject>
+//        let oldBarParams:Dictionary<String, AnyObject> = Dictionary<String, AnyObject> ()
+//        let newCheckin:Int
+		
         if checkedIn == barID {
-            params = ["admin":userInfo["admin"] as Int,"id":id!, "checkedInBar":100, "name":user.name, "username":user.objectID]
+            params = ["admin":userInfo["admin"] as! Int,"id":id!, "checkedInBar":100, "name":user.name, "username":user.objectID]
             checkInButton.setTitle("CHECK IN", forState: UIControlState.Normal)
             
-            barParams = ["address":barInfo["address"] as String, "id":barID, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String]
+            barParams = ["address":barInfo["address"] as! String, "id":barID, "latitude":barInfo["latitude"] as! Double, "longitude":barInfo["longitude"] as! Double, "name":barInfo["name"] as! String, "phoneNumber":barInfo["phoneNumber"] as! String, "website":barInfo["website"] as! String]
             
         } else {
             
             checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
 
-            params = ["admin":userInfo["admin"] as Int,"id":id!, "checkedInBar":barID, "name":user.name, "username":user.objectID]
+            params = ["admin":userInfo["admin"] as! Int,"id":id!, "checkedInBar":barID, "name":user.name, "username":user.objectID]
             
-            barParams = ["id":barID, "address":barInfo["address"] as String, "latitude":barInfo["latitude"] as Double, "longitude":barInfo["longitude"] as Double, "name":barInfo["name"] as String, "phoneNumber":barInfo["phoneNumber"] as String, "website":barInfo["website"] as String]
+            barParams = ["id":barID, "address":barInfo["address"] as! String, "latitude":barInfo["latitude"] as! Double, "longitude":barInfo["longitude"] as! Double, "name":barInfo["name"] as! String, "phoneNumber":barInfo["phoneNumber"] as! String, "website":barInfo["website"] as! String]
         }
         
         dispatch_async(queue) {
-            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params, "PUT")
-            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(self.barID)", barParams, "PUT")
+            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/\(id!)", params: params, type: "PUT")
+            sendData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(self.barID)", params: barParams, type: "PUT")
             
             dispatch_async(dispatch_get_main_queue()) {
                 
-                var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(self.barID)")
+                let users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(self.barID)")
         
                 self.totalCheckedIn.text = users.count == 1 ? "\(users.count) person is currently here" : "\(users.count) people are currently here"
             }
@@ -334,7 +334,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
-        var postPage: PostViewController = segue.destinationViewController  as PostViewController
+        let postPage: PostViewController = segue.destinationViewController  as! PostViewController
         postPage.barInfo = self.barInfo
         postPage.user = self.user
         
@@ -346,12 +346,12 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func setUpScreen () {
         
-        userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as NSDictionary
+        userInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(user.objectID!)")[0] as! NSDictionary
         
-        var barName:String = self.barInfo["name"] as String
-        barInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/findByName/\(barName)")[0] as NSDictionary
-        var barID = barInfo["id"] as Int
-        var users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(barID)")
+        let barName:String = self.barInfo["name"] as! String
+        barInfo = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/findByName/\(barName)")[0] as! NSDictionary
+        let barID = barInfo["id"] as! Int
+        let users = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByCheckedInBar/\(barID)")
         
         barImage.layer.cornerRadius = barImage.frame.size.width / 2;
         barImage.clipsToBounds = true;
@@ -366,8 +366,8 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         barAddress.text = barInfo["address"] as? String
         
         //check to make sure they exist**
-        let web:String = barInfo["website"] as String
-        let phone:String = barInfo["phoneNumber"] as String
+        let web:String = barInfo["website"] as! String
+        let phone:String = barInfo["phoneNumber"] as! String
         
         //make website be a link that loads in a new web browser
         barWebsite.text = "\(web)"
@@ -378,7 +378,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         newsFeedTable.dataSource = self;
         newsFeedTable.layer.cornerRadius = 10;
         
-        var checkedIn = userInfo["checkedInBar"] as Int
+        let checkedIn = userInfo["checkedInBar"] as! Int
         
         if checkedIn == barID {
             checkInButton.setTitle("CHECK OUT", forState: UIControlState.Normal)
@@ -389,7 +389,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         checkInButton.layer.cornerRadius = 10;
         postButton.layer.cornerRadius = 10;
         
-        var tableViewController = UITableViewController()
+        let tableViewController = UITableViewController()
         tableViewController.tableView = newsFeedTable
         
         refreshControl = UIRefreshControl()
@@ -406,7 +406,7 @@ class BarProfileViewController: UIViewController, UITableViewDelegate, UITableVi
         //set up navigation controller
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)!]
-        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+        self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject];
         
         self.title = barName
         

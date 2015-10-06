@@ -32,7 +32,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         friendsTableview.layer.cornerRadius = 10;
         
         
-        var tableViewController = UITableViewController()
+        let tableViewController = UITableViewController()
         tableViewController.tableView = friendsTableview
         
         refreshControl = UIRefreshControl()
@@ -71,7 +71,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.title = "Who To Do"
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "GillSans-Bold", size: 25)!]
-        self.navigationController?.navigationBar.titleTextAttributes = titleDict;
+        self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject];
     }
     
     //MARK: -Tableview methods
@@ -92,7 +92,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var customCell:FriendTableViewCell = friendsTableview.dequeueReusableCellWithIdentifier("friendFeedCell", forIndexPath: indexPath) as FriendTableViewCell
+        let customCell:FriendTableViewCell = friendsTableview.dequeueReusableCellWithIdentifier("friendFeedCell", forIndexPath: indexPath) as! FriendTableViewCell
         //                    customCell.accessoryType = UITableViewCellAccessoryType.DetailDisclosureButton
         var newsFeedRow:NSDictionary = NSDictionary()
         
@@ -113,8 +113,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         //profile pic of user based on user id
-        var friendUserID = newsFeedRow["friend"] as? String
-        var friend:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendUserID!)").firstObject as NSDictionary
+        let friendUserID = newsFeedRow["friend"] as? String
+        let friend:NSDictionary = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.users/findByUsername/\(friendUserID!)").firstObject as! NSDictionary
         
         customCell.userProfPic.profileID = friend["username"] as? String
         customCell.userProfPic.layer.cornerRadius = customCell.userProfPic.frame.size.width / 2;
@@ -122,15 +122,15 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         customCell.userName.text = friend["name"] as? String;
         
-        var barID: Int = friend["checkedInBar"] as Int
-        var bar: NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
+        let barID: Int = friend["checkedInBar"] as! Int
+        let bar: NSArray = getData("http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.bars/\(barID)")
         
         var barDict: NSDictionary = NSDictionary()
         
         if bar.count != 0 {
-            barDict = bar[0] as NSDictionary
+            barDict = bar[0] as! NSDictionary
         }
-        var barLocation = barDict["name"] as? String
+        let barLocation = barDict["name"] as? String
         
         if barLocation != nil {
             customCell.barLocation.text = barLocation
@@ -146,7 +146,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func refreshInvoked() {
         
-        refresh(viaPullToRefresh: true)
+        refresh(true)
     }
     
     func refresh(viaPullToRefresh: Bool = false) {
@@ -163,7 +163,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func startFetchOnlineFriends (userID: String){
         
-        var jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findOnline/\(userID)"
+        let jupiter:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.friends/findOnline/\(userID)"
         
         dispatch_async(queue) {
             let result = getData(jupiter)
@@ -181,7 +181,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             //need to make sure that we are only appending new items--
             //would it be worth it??
-            var dict:NSDictionary = item as NSDictionary
+            let dict:NSDictionary = item as! NSDictionary
             self.newsFeedItems.append(dict)
         }
         
@@ -218,12 +218,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "profileView" {
-            var profilePage: ProfileViewController = segue.destinationViewController  as ProfileViewController
-            profilePage.name = currFriend["name"] as String;
+            let profilePage: ProfileViewController = segue.destinationViewController  as! ProfileViewController
+            profilePage.name = currFriend["name"] as! String;
             profilePage.user = user;
         }
         else if segue.identifier == "barView" {
-            var barPage: BarProfileViewController = segue.destinationViewController  as BarProfileViewController
+            let barPage: BarProfileViewController = segue.destinationViewController  as! BarProfileViewController
             barPage.barInfo = currBar
             barPage.user = user
         }

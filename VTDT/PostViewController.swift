@@ -41,32 +41,32 @@ class PostViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func postClicked(sender: AnyObject) {
         
-        var postMessage:String = postField.text
-        if countElements(postMessage) > 140 {
+        let postMessage:String = postField.text
+        if postMessage.characters.count > 140 {
             //launch action sheet with error message
-            var alert = UIAlertController(title: "Oops!", message: "Your message must be less than 140 characters.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Oops!", message: "Your message must be less than 140 characters.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
 
         }
-        else if countElements(postMessage) < 1 {
-            var alert = UIAlertController(title: "Oops!", message: "You don't have any input text.", preferredStyle: UIAlertControllerStyle.Alert)
+        else if postMessage.characters.count < 1 {
+            let alert = UIAlertController(title: "Oops!", message: "You don't have any input text.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
         else {
             //post data
-           var url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
-            let barID:Int = barInfo["id"] as Int
+           let url:String = "http://jupiter.cs.vt.edu/VTDT-1.0/webresources/com.group2.vtdt.newsfeed"
+            let barID:Int = barInfo["id"] as! Int
             
-            var dateFormatter:NSDateFormatter = NSDateFormatter()
+            let dateFormatter:NSDateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss"
-            var timePosted:String = dateFormatter.stringFromDate(NSDate())
+            let timePosted:String = dateFormatter.stringFromDate(NSDate())
             
 
-        var input:Dictionary<String, AnyObject> = ["username":user.objectID, "message":postMessage, "bar":barID, "id":1, "timePosted":timePosted]
+        let input:Dictionary<String, AnyObject> = ["username":user.objectID, "message":postMessage, "bar":barID, "id":1, "timePosted":timePosted]
 
-            sendData(url, input, "POST")
+            sendData(url, params: input, type: "POST")
             
             self.navigationController?.popViewControllerAnimated(true)
 
